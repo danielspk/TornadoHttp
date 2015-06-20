@@ -1,0 +1,36 @@
+{
+    "name": "danielspk/tornadohttp",
+    "description": "Contenedor Middleware PSR-7",
+    "type": "library",
+    "keywords": [
+        "tornado http", "http", "middleware", "container", "psr-7", "psr7",
+        "rest", "php", "dms", "danielspk"
+    ],
+    "homepage": "http://tornado-php.com/",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Daniel M. Spiridione",
+            "email": "info@daniel-spiridione.com.ar",
+            "homepage": "http://daniel-spiridione.com.ar/",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "email": "info@daniel-spiridione.com.ar",
+        "issues": "https://github.com/danielspk/TornadoHttp/issues",
+        "wiki": "http://tornado-php.com/documentacion/",
+        "source": "https://github.com/danielspk/TornadoHttp"
+    },
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "DMS\\TornadoHttp\\": "src/"
+        }
+    }
+}
