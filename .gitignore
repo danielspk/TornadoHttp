@@ -2,5 +2,8 @@
 /.idea/
 /nbproject/
 /resources/
+/vendor/
+/composer.lock
 /phpunit.phar
 /phpunit.xml
+/index.php

@@ -23,7 +23,10 @@
         "source": "https://github.com/danielspk/TornadoHttp"
     },
     "require": {
-        "php": ">=5.4.0"
+        "php": ">=5.4.0",
+        "zendframework/zend-diactoros" : "~1.0",
+        "nikic/fast-route" : "0.*",
+        "pimple/pimple" : "~3.0"
     },
     "require-dev": {
         "phpunit/phpunit": "*"
