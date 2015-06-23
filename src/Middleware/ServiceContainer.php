@@ -33,7 +33,8 @@ class ServiceContainer {
      */
     public function __invoke(RequestInterface $pRequest, ResponseInterface $pResponse, callable $pNext)
     {
-        $pNext->createAttribute('service', new Container());
+        /** @var \DMS\TornadoHttp\TornadoHttp $pNext */
+        $pNext->setDI(new Container());
 
         foreach ($this->files as $file) {
 

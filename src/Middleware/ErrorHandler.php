@@ -18,6 +18,8 @@ class ErrorHandler {
      */
     public function __invoke(RequestInterface $pRequest, ResponseInterface $pResponse, callable $pNext)
     {
+        /** @var \DMS\TornadoHttp\TornadoHttp $pNext */
+
         try{
 
             $response = $pNext($pRequest, $pResponse);
@@ -25,9 +27,11 @@ class ErrorHandler {
         } catch (\Exception $e) {
 
             // se determina si el usuario registro un middleware de errores personalizado ...
-            if (isset($pNext->error)) {
+            if ($pNext->getExceptionHandler()) {
 
-                $response = call_user_func_array($pNext->error, [$pRequest, $pResponse, $pNext, $e]);
+                //$response = call_user_func_array($pNext->getExceptionHandler(), [$pRequest, $pResponse, $pNext, $e]); // ANALIZAR USO SIN call_user_func_array
+                $handler = $pNext->getExceptionHandler();
+                $response = $handler($pRequest, $pResponse, $pNext, $e);
 
             } else {
 

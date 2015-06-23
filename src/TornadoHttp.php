@@ -5,7 +5,7 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
- * Clase principal contenedora de la aplicación y los middlewares
+ * Clase principal contenedora de la aplicación
  *
  * @package TORNADO-HTTP-PHP
  * @author Daniel M. Spiridione <info@daniel-spiridione.com.ar>
@@ -16,9 +16,24 @@ use Psr\Http\Message\ResponseInterface;
 final class TornadoHttp {
 
     /**
-     * @var \SplQueue
+     * @var \SplQueue Cola de middlewares
      */
-    private $queue;
+    private $middlewares;
+
+    /**
+     * @var \ArrayAccess
+     */
+    private $configuration;
+
+    /**
+     * @var object Contenedor de dependencias
+     */
+    private $containerDI;
+
+    /**
+     * @var callable Handler de excepción personalizada
+     */
+    private $exceptionHandler;
 
     /**
      * Constructor del contenedor de aplicación
@@ -27,21 +42,14 @@ final class TornadoHttp {
      */
     public function __construct(array $pMiddlewares = [])
     {
-        $this->queue = new \SplQueue();
+        $this->middlewares      = new \SplQueue();
+        $this->configuration    = null;
+        $this->containerDI      = null;
+        $this->exceptionHandler = null;
 
         foreach ($pMiddlewares as $middleware) {
-            $this->queue->enqueue($middleware);
+            $this->middlewares->enqueue($middleware);
         }
-    }
-
-    /**
-     * Registro de nuevo middleware
-     *
-     * @param callable $pMiddleware
-     */
-    public function add(callable $pMiddleware)
-    {
-        $this->queue->enqueue($pMiddleware);
     }
 
     /**
@@ -53,32 +61,111 @@ final class TornadoHttp {
      */
     public function __invoke(RequestInterface $pRequest, ResponseInterface $pResponse)
     {
-        if (!$this->queue->isEmpty()) {
-            $middleware = $this->queue->dequeue();
+        if (!$this->middlewares->isEmpty()) {
+            $middleware = $this->middlewares->dequeue();
         } else {
             $middleware = function(RequestInterface $pRequest, ResponseInterface $pResponse, callable $pNext) {
                 return $pResponse;
             };
         }
 
-        if (is_string($middleware)) {
-            $middleware = new $middleware;
-        } else if (is_array($middleware)) {
-            $class = new \ReflectionClass($middleware[0]);
-            $middleware = $class->newInstanceArgs($middleware[1]);
-        }
+        $call = $this->resolveCallable($middleware);
 
-        return $middleware($pRequest, $pResponse, $this);
+        return $call($pRequest, $pResponse, $this);
     }
 
     /**
-     * Creación dinámica de atributo
+     * Registro de nuevo middleware
      *
-     * @param $pName Nombre de atributo
-     * @param $pValue Valor de atributo
+     * @param callable $pMiddleware
      */
-    public function createAttribute($pName, $pValue) {
-        $this->$pName = $pValue;
+    public function add(callable $pMiddleware)
+    {
+        $this->middlewares->enqueue($pMiddleware);
+    }
+
+    /**
+     * Asignación de configuración de aplicación
+     *
+     * @param \ArrayAccess $pConfig
+     */
+    public function setConfig($pConfig)
+    {
+        $this->configuration = $pConfig;
+    }
+
+    /**
+     * Recupero de configuración de aplicación
+     *
+     * @return \ArrayAccess Configuración de aplicación
+     */
+    public function getConfig()
+    {
+        return $this->configuration;
+    }
+
+    /**
+     * Asignación de contenedor de dependencias
+     *
+     * @param object $pContainer
+     */
+    public function setDI($pContainer)
+    {
+        $this->containerDI = $pContainer;
+    }
+
+    /**
+     * Recupero de contenedor de dependencias
+     *
+     * @return object Contenedor de dependencias
+     */
+    public function getDI()
+    {
+        return $this->containerDI;
+    }
+
+    /**
+     * Asignación de handler de excepciones personalizado
+     *
+     * @param callable|string $pHandler Handler de excepción
+     */
+    public function setExceptionHandler($pHandler)
+    {
+        $this->exceptionHandler = $this->resolveCallable($pHandler);
+    }
+
+    /**
+     * Recupero de handler personalizado de excepciones
+     *
+     * @return callable
+     */
+    public function getExceptionHandler()
+    {
+        return $this->exceptionHandler;
+    }
+
+    /**
+     * Resuelve si debe crear el objeto invocable
+     *
+     * @param callable|string $pCallable Solicitud callable
+     * @return callable
+     */
+    public function resolveCallable($pCallable)
+    {
+        $callable = $pCallable;
+
+        if (is_string($pCallable)) {
+
+            $callable = new $pCallable;
+
+        } else if (is_array($pCallable)) {
+
+            $class = new \ReflectionClass($pCallable[0]);
+            $callable = $class->newInstanceArgs($pCallable[1]);
+
+        }
+
+        return $callable;
     }
 
 }

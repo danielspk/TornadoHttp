@@ -34,13 +34,18 @@ class RouteContainer {
      */
     public function __invoke(RequestInterface $pRequest, ResponseInterface $pResponse, callable $pNext)
     {
-
         $dispatcher = FastRoute\simpleDispatcher(function(RouteCollector $r) {
 
             foreach ($this->files as $file) {
 
                 if (file_exists($file)) {
-                    require $file;
+
+                    $routes = require $file;
+
+                    foreach($routes as $route) {
+                        $r->addRoute($route[0], $route[1], $route[2]);
+                    }
+
                 }
 
             }
@@ -70,15 +75,17 @@ class RouteContainer {
     }
 
     /**
-     * SIN COMENTAR - EN CONSTRUCCION
+     * Ejecuta los middlewares de la ruta mapeada
      *
-     * @param $pHandler
-     * @param $pRequest
-     * @param $pResponse
-     * @return mixed
+     * @param array $pHandler
+     * @param RequestInterface $pRequest
+     * @param ResponseInterface $pResponse
+     * @return ResponseInterface
      */
     public function executeRoute($pHandler, $pRequest, $pResponse)
     {
+        // PENDIENTE!!!!!!
+
         return $pResponse;
     }
 

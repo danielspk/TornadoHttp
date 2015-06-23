@@ -3,6 +3,7 @@ namespace DMS\TornadoHttp\Middleware;
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use DMS\TornadoHttp\Helper\Config;
 
 class ConfigLoader {
 
@@ -31,15 +32,18 @@ class ConfigLoader {
      */
     public function __invoke(RequestInterface $pRequest, ResponseInterface $pResponse, callable $pNext)
     {
-        $pNext->createAttribute('config', []);
+        $config = new Config();
 
         foreach ($this->files as $file) {
 
             if (file_exists($file)) {
-                $pNext->config = array_merge($pNext->config, require $file);
+                $config->set(require $file);
             }
 
         }
+
+        /** @var \DMS\TornadoHttp\TornadoHttp $pNext */
+        $pNext->setConfig($config);
 
         return $pNext($pRequest, $pResponse);
     }
