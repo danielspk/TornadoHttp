@@ -11,7 +11,7 @@ use Psr\Http\Message\ResponseInterface;
  * @author Daniel M. Spiridione <info@daniel-spiridione.com.ar>
  * @link http://tornado-php.com
  * @license http://tornado-php.com/licencia/ MIT License
- * @version 0.1.0
+ * @version 0.2.1
  */
 final class TornadoHttp {
 
