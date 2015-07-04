@@ -77,19 +77,29 @@ final class TornadoHttp {
     /**
      * Registro de nuevo middleware
      *
-     * @param callable $pMiddleware
+     * @param callable|string $pMiddleware
      */
-    public function add(callable $pMiddleware)
+    public function add($pMiddleware)
     {
         $this->middlewares->enqueue($pMiddleware);
     }
 
     /**
+     * Retorna la cola de middlewares
+     *
+     * @return \SplQueue
+     */
+    public function getMiddlewares()
+    {
+        return $this->middlewares;
+    }
+    
+    /**
      * Asignación de configuración de aplicación
      *
      * @param \ArrayAccess $pConfig
      */
-    public function setConfig($pConfig)
+    public function setConfig(\ArrayAccess $pConfig)
     {
         $this->configuration = $pConfig;
     }
@@ -107,9 +117,9 @@ final class TornadoHttp {
     /**
      * Asignación de contenedor de dependencias
      *
-     * @param object $pContainer
+     * @param \ArrayAccess $pContainer
      */
-    public function setDI($pContainer)
+    public function setDI(\ArrayAccess $pContainer)
     {
         $this->containerDI = $pContainer;
     }
@@ -117,7 +127,7 @@ final class TornadoHttp {
     /**
      * Recupero de contenedor de dependencias
      *
-     * @return object Contenedor de dependencias
+     * @return \ArrayAccess Contenedor de dependencias
      */
     public function getDI()
     {
