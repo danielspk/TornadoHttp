@@ -12,6 +12,11 @@ TORNADO HTTP es un contenedor middleware PSR-7
 
 ESTE PROYECTO SE ENCUENTRA EN CONSTRUCCIÓN!!
 
+## Inspiracion:
+
+- Relay - http://relayphp.com/
+- Zend Stratigility - https://github.com/zendframework/zend-stratigility
+
 ## Licencia:
 
 El proyecto se distribuye bajo la licencia MIT.

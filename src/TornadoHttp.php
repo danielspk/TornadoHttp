@@ -11,7 +11,7 @@ use Psr\Http\Message\ResponseInterface;
  * @author Daniel M. Spiridione <info@daniel-spiridione.com.ar>
  * @link http://tornado-php.com
  * @license http://tornado-php.com/licencia/ MIT License
- * @version 0.1.0
+ * @version 0.3.0
  */
 final class TornadoHttp {
 
@@ -21,14 +21,14 @@ final class TornadoHttp {
     private $middlewares;
 
     /**
-     * @var \ArrayAccess
-     */
-    private $configuration;
-
-    /**
      * @var object Contenedor de dependencias
      */
     private $containerDI;
+
+    /**
+     * @var \ArrayAccess
+     */
+    private $configuration;
 
     /**
      * @var callable Handler de excepción personalizada
@@ -39,17 +39,23 @@ final class TornadoHttp {
      * Constructor del contenedor de aplicación
      *
      * @param array $pMiddlewares Middlewares
+     * @param \ArrayAccess $pContainer Contenedor de dependencias
+     * @param \ArrayAccess $pConfig Gestor de configuraciones
+     * @param callable|string $pHandler Handler de excepción
      */
-    public function __construct(array $pMiddlewares = [])
+    public function __construct(
+        array $pMiddlewares = [],
+        \ArrayAccess $pContainer = null,
+        \ArrayAccess $pConfig = null,
+        $pHandler = null
+    )
     {
         $this->middlewares      = new \SplQueue();
-        $this->configuration    = null;
-        $this->containerDI      = null;
-        $this->exceptionHandler = null;
+        $this->containerDI      = $pContainer;
+        $this->configuration    = $pConfig;
+        $this->exceptionHandler = $pHandler;
 
-        foreach ($pMiddlewares as $middleware) {
-            $this->middlewares->enqueue($middleware);
-        }
+        $this->registerMiddlewareArray($pMiddlewares);
     }
 
     /**
@@ -77,11 +83,15 @@ final class TornadoHttp {
     /**
      * Registro de nuevo middleware
      *
-     * @param callable|string $pMiddleware
+     * @param callable|string|array $pMiddleware
      */
     public function add($pMiddleware)
     {
-        $this->middlewares->enqueue($pMiddleware);
+        if (is_array($pMiddleware)) {
+            $this->registerMiddlewareArray($pMiddleware);
+        } else {
+            $this->middlewares->enqueue($pMiddleware);
+        }
     }
 
     /**
@@ -93,31 +103,11 @@ final class TornadoHttp {
     {
         return $this->middlewares;
     }
-    
-    /**
-     * Asignación de configuración de aplicación
-     *
-     * @param \ArrayAccess $pConfig
-     */
-    public function setConfig(\ArrayAccess $pConfig)
-    {
-        $this->configuration = $pConfig;
-    }
-
-    /**
-     * Recupero de configuración de aplicación
-     *
-     * @return \ArrayAccess Configuración de aplicación
-     */
-    public function getConfig()
-    {
-        return $this->configuration;
-    }
 
     /**
      * Asignación de contenedor de dependencias
      *
-     * @param \ArrayAccess $pContainer
+     * @param \ArrayAccess $pContainer Contenedor de dependencias
      */
     public function setDI(\ArrayAccess $pContainer)
     {
@@ -132,6 +122,26 @@ final class TornadoHttp {
     public function getDI()
     {
         return $this->containerDI;
+    }
+
+    /**
+     * Asignación de configuración de aplicación
+     *
+     * @param \ArrayAccess $pConfig Gestor de configuraciones
+     */
+    public function setConfig(\ArrayAccess $pConfig)
+    {
+        $this->configuration = $pConfig;
+    }
+
+    /**
+     * Recupero de configuración de aplicación
+     *
+     * @return \ArrayAccess Configuración de aplicación
+     */
+    public function getConfig()
+    {
+        return $this->configuration;
     }
 
     /**
@@ -176,6 +186,18 @@ final class TornadoHttp {
         }
 
         return $callable;
+    }
+
+    /**
+     * Registra un array de middlewares en la cola
+     *
+     * @param array $pMiddlewares Middlewares
+     */
+    private function registerMiddlewareArray(array $pMiddlewares)
+    {
+        foreach ($pMiddlewares as $middleware) {
+            $this->middlewares->enqueue($middleware);
+        }
     }
 
 }
