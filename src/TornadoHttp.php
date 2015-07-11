@@ -21,17 +21,17 @@ final class TornadoHttp {
     private $middlewares;
 
     /**
-     * @var object Contenedor de dependencias
+     * @var \ArrayAccess Contenedor de dependencias
      */
     private $containerDI;
 
     /**
-     * @var \ArrayAccess
+     * @var \ArrayAccess Contenedor de configuraciones
      */
     private $configuration;
 
     /**
-     * @var callable Handler de excepción personalizada
+     * @var callable Handler de errores y excepciones
      */
     private $exceptionHandler;
 
@@ -40,8 +40,8 @@ final class TornadoHttp {
      *
      * @param array $pMiddlewares Middlewares
      * @param \ArrayAccess $pContainer Contenedor de dependencias
-     * @param \ArrayAccess $pConfig Gestor de configuraciones
-     * @param callable|string $pHandler Handler de excepción
+     * @param \ArrayAccess $pConfig Contenedor de configuraciones
+     * @param callable|string $pHandler Handler de excepciones
      */
     public function __construct(
         array $pMiddlewares = [],
@@ -59,11 +59,11 @@ final class TornadoHttp {
     }
 
     /**
-     * Invocación de petición/respuesta de inicio de aplicación
+     * Invoca la petición/respuesta de inicio de aplicación
      *
      * @param RequestInterface $pRequest Peticion
      * @param ResponseInterface $pResponse Respuesta
-     * @return callable
+     * @return ResponseInterface
      */
     public function __invoke(RequestInterface $pRequest, ResponseInterface $pResponse)
     {
@@ -81,7 +81,7 @@ final class TornadoHttp {
     }
 
     /**
-     * Registro de nuevo middleware
+     * Registra middlewares
      *
      * @param callable|string|array $pMiddleware
      */
@@ -105,7 +105,7 @@ final class TornadoHttp {
     }
 
     /**
-     * Asignación de contenedor de dependencias
+     * Asigna el contenedor de dependencias
      *
      * @param \ArrayAccess $pContainer Contenedor de dependencias
      */
@@ -115,7 +115,7 @@ final class TornadoHttp {
     }
 
     /**
-     * Recupero de contenedor de dependencias
+     * Retorna el contenedor de dependencias
      *
      * @return \ArrayAccess Contenedor de dependencias
      */
@@ -125,9 +125,9 @@ final class TornadoHttp {
     }
 
     /**
-     * Asignación de configuración de aplicación
+     * Asigna el contenedor de la configuración de la aplicación
      *
-     * @param \ArrayAccess $pConfig Gestor de configuraciones
+     * @param \ArrayAccess $pConfig Contenedor de configuraciones
      */
     public function setConfig(\ArrayAccess $pConfig)
     {
@@ -135,9 +135,9 @@ final class TornadoHttp {
     }
 
     /**
-     * Recupero de configuración de aplicación
+     * Retorna el contenedor de configuración de la aplicación
      *
-     * @return \ArrayAccess Configuración de aplicación
+     * @return \ArrayAccess Contenedor de configuraciones
      */
     public function getConfig()
     {
@@ -145,9 +145,9 @@ final class TornadoHttp {
     }
 
     /**
-     * Asignación de handler de excepciones personalizado
+     * Asigna el handler de gestión de excepciones personalizado
      *
-     * @param callable|string $pHandler Handler de excepción
+     * @param callable|string $pHandler Handler de excepciones
      */
     public function setExceptionHandler($pHandler)
     {
@@ -155,9 +155,9 @@ final class TornadoHttp {
     }
 
     /**
-     * Recupero de handler personalizado de excepciones
+     * Retorna el handler de gestión de excepciones personalizado
      *
-     * @return callable
+     * @return callable Handler de excepciones
      */
     public function getExceptionHandler()
     {
@@ -165,10 +165,10 @@ final class TornadoHttp {
     }
 
     /**
-     * Resuelve si debe crear el objeto invocable
+     * Resuelve y/o retorna un callable o instancia de clase
      *
-     * @param callable|string $pCallable Solicitud callable
-     * @return callable
+     * @param callable|string $pCallable Solicitud a resolver
+     * @return callable Callable o instancia de clase
      */
     public function resolveCallable($pCallable)
     {
@@ -189,7 +189,7 @@ final class TornadoHttp {
     }
 
     /**
-     * Registra un array de middlewares en la cola
+     * Registra middlewares a partir de un array
      *
      * @param array $pMiddlewares Middlewares
      */
