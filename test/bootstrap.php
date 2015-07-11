@@ -1,4 +1,3 @@
 <?php
 
-require 'src/TornadoHttp.php';
-
+require 'vendor/autoload.php';
