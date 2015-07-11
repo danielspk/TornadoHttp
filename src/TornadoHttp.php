@@ -68,16 +68,14 @@ final class TornadoHttp {
     public function __invoke(RequestInterface $pRequest, ResponseInterface $pResponse)
     {
         if (!$this->middlewares->isEmpty()) {
-            $middleware = $this->middlewares->dequeue();
+            $next = $this->resolveCallable($this->middlewares->dequeue());
         } else {
-            $middleware = function(RequestInterface $pRequest, ResponseInterface $pResponse, callable $pNext) {
+            $next = function(RequestInterface $pRequest, ResponseInterface $pResponse, callable $pNext) {
                 return $pResponse;
             };
         }
 
-        $call = $this->resolveCallable($middleware);
-
-        return $call($pRequest, $pResponse, $this);
+        return $next($pRequest, $pResponse, $this);
     }
 
     /**
@@ -167,7 +165,7 @@ final class TornadoHttp {
     /**
      * Resuelve y/o retorna un callable o instancia de clase
      *
-     * @param callable|string $pCallable Solicitud a resolver
+     * @param callable|string|array $pCallable Solicitud a resolver
      * @return callable Callable o instancia de clase
      */
     public function resolveCallable($pCallable)
@@ -175,14 +173,10 @@ final class TornadoHttp {
         $callable = $pCallable;
 
         if (is_string($pCallable)) {
-
             $callable = new $pCallable;
-
         } else if (is_array($pCallable)) {
-
             $class = new \ReflectionClass($pCallable[0]);
             $callable = $class->newInstanceArgs($pCallable[1]);
-
         }
 
         return $callable;
