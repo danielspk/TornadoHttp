@@ -3,6 +3,7 @@ namespace DMS\TornadoHttp;
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Interop\Container\ContainerInterface;
 
 /**
  * Clase principal contenedora de la aplicación
@@ -11,7 +12,7 @@ use Psr\Http\Message\ResponseInterface;
  * @author Daniel M. Spiridione <info@daniel-spiridione.com.ar>
  * @link http://tornado-php.com
  * @license http://tornado-php.com/licencia/ MIT License
- * @version 0.3.0
+ * @version 1.0.0
  */
 final class TornadoHttp {
 
@@ -21,39 +22,23 @@ final class TornadoHttp {
     private $middlewares;
 
     /**
-     * @var \ArrayAccess Contenedor de dependencias
+     * @var ContainerInterface Contenedor de dependencias
      */
     private $containerDI;
-
-    /**
-     * @var \ArrayAccess Contenedor de configuraciones
-     */
-    private $configuration;
-
-    /**
-     * @var callable Handler de errores y excepciones
-     */
-    private $exceptionHandler;
 
     /**
      * Constructor del contenedor de aplicación
      *
      * @param array $pMiddlewares Middlewares
-     * @param \ArrayAccess $pContainer Contenedor de dependencias
-     * @param \ArrayAccess $pConfig Contenedor de configuraciones
-     * @param callable|string $pHandler Handler de excepciones
+     * @param ContainerInterface $pContainer Contenedor de dependencias
      */
     public function __construct(
         array $pMiddlewares = [],
-        \ArrayAccess $pContainer = null,
-        \ArrayAccess $pConfig = null,
-        $pHandler = null
+        ContainerInterface $pContainer = null
     )
     {
         $this->middlewares      = new \SplQueue();
         $this->containerDI      = $pContainer;
-        $this->configuration    = $pConfig;
-        $this->exceptionHandler = $pHandler;
 
         $this->registerMiddlewareArray($pMiddlewares);
     }
@@ -105,9 +90,9 @@ final class TornadoHttp {
     /**
      * Asigna el contenedor de dependencias
      *
-     * @param \ArrayAccess $pContainer Contenedor de dependencias
+     * @param ContainerInterface $pContainer Contenedor de dependencias
      */
-    public function setDI(\ArrayAccess $pContainer)
+    public function setDI(ContainerInterface $pContainer)
     {
         $this->containerDI = $pContainer;
     }
@@ -115,51 +100,11 @@ final class TornadoHttp {
     /**
      * Retorna el contenedor de dependencias
      *
-     * @return \ArrayAccess Contenedor de dependencias
+     * @return ContainerInterface Contenedor de dependencias
      */
     public function getDI()
     {
         return $this->containerDI;
-    }
-
-    /**
-     * Asigna el contenedor de la configuración de la aplicación
-     *
-     * @param \ArrayAccess $pConfig Contenedor de configuraciones
-     */
-    public function setConfig(\ArrayAccess $pConfig)
-    {
-        $this->configuration = $pConfig;
-    }
-
-    /**
-     * Retorna el contenedor de configuración de la aplicación
-     *
-     * @return \ArrayAccess Contenedor de configuraciones
-     */
-    public function getConfig()
-    {
-        return $this->configuration;
-    }
-
-    /**
-     * Asigna el handler de gestión de excepciones personalizado
-     *
-     * @param callable|string $pHandler Handler de excepciones
-     */
-    public function setExceptionHandler($pHandler)
-    {
-        $this->exceptionHandler = $this->resolveCallable($pHandler);
-    }
-
-    /**
-     * Retorna el handler de gestión de excepciones personalizado
-     *
-     * @return callable Handler de excepciones
-     */
-    public function getExceptionHandler()
-    {
-        return $this->exceptionHandler;
     }
 
     /**

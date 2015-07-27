@@ -10,7 +10,64 @@ TORNADO HTTP
 
 TORNADO HTTP es un contenedor middleware PSR-7
 
-ESTE PROYECTO SE ENCUENTRA EN CONSTRUCCIÓN!!
+## Documentación:
+
+La siguiente documentación le enseñará el uso de Tornado HTTP. Si lo desea puede descargar una aplicación esqueleto de 
+ejemplo que le mostrará como puede crear sus propios middlewares y utilizar paquetes de terceros:
+
+https://github.com/danielspk/TornadoHttpSkeletonApplication
+
+### Instalación:
+
+Se recomienda instalar esta librería mediante el uso de Composer de la siguiente forma:
+
+```
+    php composer.phar require danielspk/tornadohttp:~1.0
+```
+
+Esto instalará Tornado HTTP y creará o actualizará el archivo composer.json con la siguiente dependencia:
+
+```
+{
+    "require": {
+        "danielspk/tornadohttp": "~1.0"
+    }
+}
+```
+
+### Crear el contenedor de aplicación:
+
+Tornado HTTP puede construirse de varias formas:
+
+#### Sin parámetros:
+
+```php
+    $app = new DMS\TornadoHttp\TornadoHttp();
+```
+
+#### Con Middlewares
+
+```php
+    $app = new DMS\TornadoHttp\TornadoHttp([
+        $middlewareOne,
+        'App\MiddlewareTwo',
+        ['App\MiddlewareThree', [$paramOne, $paramTwo]]
+    ]);
+```
+
+Nota: Puede ver que hay tres formas de registrar un Middleware: callable, string y array. Más adelante se explicará 
+cada una de estas formas.
+
+#### Con Contenedor de Dependencias
+
+```php
+    $app = new DMS\TornadoHttp\TornadoHttp(
+        [],
+        new Container()
+    );
+```
+
+(En construcción...)
 
 ## Inspiracion:
 
@@ -20,7 +77,6 @@ ESTE PROYECTO SE ENCUENTRA EN CONSTRUCCIÓN!!
 ## Licencia:
 
 El proyecto se distribuye bajo la licencia MIT.
-
 
 ## Sugerencias y colaboración:
 
