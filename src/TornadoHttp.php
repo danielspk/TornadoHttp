@@ -3,6 +3,7 @@ namespace DMS\TornadoHttp;
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Interop\Container\ContainerInterface;
 
 /**
  * Clase principal contenedora de la aplicación
@@ -11,7 +12,7 @@ use Psr\Http\Message\ResponseInterface;
  * @author Daniel M. Spiridione <info@daniel-spiridione.com.ar>
  * @link http://tornado-php.com
  * @license http://tornado-php.com/licencia/ MIT License
- * @version 0.3.0
+ * @version 1.0.0
  */
 final class TornadoHttp {
 
@@ -21,67 +22,49 @@ final class TornadoHttp {
     private $middlewares;
 
     /**
-     * @var object Contenedor de dependencias
+     * @var ContainerInterface Contenedor de dependencias
      */
     private $containerDI;
-
-    /**
-     * @var \ArrayAccess
-     */
-    private $configuration;
-
-    /**
-     * @var callable Handler de excepción personalizada
-     */
-    private $exceptionHandler;
 
     /**
      * Constructor del contenedor de aplicación
      *
      * @param array $pMiddlewares Middlewares
-     * @param \ArrayAccess $pContainer Contenedor de dependencias
-     * @param \ArrayAccess $pConfig Gestor de configuraciones
-     * @param callable|string $pHandler Handler de excepción
+     * @param ContainerInterface $pContainer Contenedor de dependencias
      */
     public function __construct(
         array $pMiddlewares = [],
-        \ArrayAccess $pContainer = null,
-        \ArrayAccess $pConfig = null,
-        $pHandler = null
+        ContainerInterface $pContainer = null
     )
     {
         $this->middlewares      = new \SplQueue();
         $this->containerDI      = $pContainer;
-        $this->configuration    = $pConfig;
-        $this->exceptionHandler = $pHandler;
 
         $this->registerMiddlewareArray($pMiddlewares);
     }
 
     /**
-     * Invocación de petición/respuesta de inicio de aplicación
+     * Invoca la petición/respuesta de inicio de aplicación
      *
      * @param RequestInterface $pRequest Peticion
      * @param ResponseInterface $pResponse Respuesta
-     * @return callable
+     * @return ResponseInterface
      */
     public function __invoke(RequestInterface $pRequest, ResponseInterface $pResponse)
     {
         if (!$this->middlewares->isEmpty()) {
-            $middleware = $this->middlewares->dequeue();
+            $next = $this->resolveCallable($this->middlewares->dequeue());
         } else {
-            $middleware = function(RequestInterface $pRequest, ResponseInterface $pResponse, callable $pNext) {
+            $next = function(RequestInterface $pRequest, ResponseInterface $pResponse, callable $pNext) {
                 return $pResponse;
             };
         }
 
-        $call = $this->resolveCallable($middleware);
-
-        return $call($pRequest, $pResponse, $this);
+        return $next($pRequest, $pResponse, $this);
     }
 
     /**
-     * Registro de nuevo middleware
+     * Registra middlewares
      *
      * @param callable|string|array $pMiddleware
      */
@@ -105,19 +88,19 @@ final class TornadoHttp {
     }
 
     /**
-     * Asignación de contenedor de dependencias
+     * Asigna el contenedor de dependencias
      *
-     * @param \ArrayAccess $pContainer Contenedor de dependencias
+     * @param ContainerInterface $pContainer Contenedor de dependencias
      */
-    public function setDI(\ArrayAccess $pContainer)
+    public function setDI(ContainerInterface $pContainer)
     {
         $this->containerDI = $pContainer;
     }
 
     /**
-     * Recupero de contenedor de dependencias
+     * Retorna el contenedor de dependencias
      *
-     * @return \ArrayAccess Contenedor de dependencias
+     * @return ContainerInterface Contenedor de dependencias
      */
     public function getDI()
     {
@@ -125,71 +108,27 @@ final class TornadoHttp {
     }
 
     /**
-     * Asignación de configuración de aplicación
+     * Resuelve y/o retorna un callable o instancia de clase
      *
-     * @param \ArrayAccess $pConfig Gestor de configuraciones
-     */
-    public function setConfig(\ArrayAccess $pConfig)
-    {
-        $this->configuration = $pConfig;
-    }
-
-    /**
-     * Recupero de configuración de aplicación
-     *
-     * @return \ArrayAccess Configuración de aplicación
-     */
-    public function getConfig()
-    {
-        return $this->configuration;
-    }
-
-    /**
-     * Asignación de handler de excepciones personalizado
-     *
-     * @param callable|string $pHandler Handler de excepción
-     */
-    public function setExceptionHandler($pHandler)
-    {
-        $this->exceptionHandler = $this->resolveCallable($pHandler);
-    }
-
-    /**
-     * Recupero de handler personalizado de excepciones
-     *
-     * @return callable
-     */
-    public function getExceptionHandler()
-    {
-        return $this->exceptionHandler;
-    }
-
-    /**
-     * Resuelve si debe crear el objeto invocable
-     *
-     * @param callable|string $pCallable Solicitud callable
-     * @return callable
+     * @param callable|string|array $pCallable Solicitud a resolver
+     * @return callable Callable o instancia de clase
      */
     public function resolveCallable($pCallable)
     {
         $callable = $pCallable;
 
         if (is_string($pCallable)) {
-
             $callable = new $pCallable;
-
         } else if (is_array($pCallable)) {
-
             $class = new \ReflectionClass($pCallable[0]);
             $callable = $class->newInstanceArgs($pCallable[1]);
-
         }
 
         return $callable;
     }
 
     /**
-     * Registra un array de middlewares en la cola
+     * Registra middlewares a partir de un array
      *
      * @param array $pMiddlewares Middlewares
      */
