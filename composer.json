@@ -27,8 +27,7 @@
         "psr/http-message": "~1.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "*",
-        "zendframework/zend-diactoros" : "*"
+        "phpunit/phpunit": "*"
     },
     "autoload": {
         "psr-4": {

@@ -26,34 +26,18 @@ final class TornadoHttp {
     private $containerDI;
 
     /**
-     * @var \ArrayAccess Contenedor de configuraciones
-     */
-    private $configuration;
-
-    /**
-     * @var callable Handler de errores y excepciones
-     */
-    private $exceptionHandler;
-
-    /**
      * Constructor del contenedor de aplicación
      *
      * @param array $pMiddlewares Middlewares
      * @param \ArrayAccess $pContainer Contenedor de dependencias
-     * @param \ArrayAccess $pConfig Contenedor de configuraciones
-     * @param callable|string $pHandler Handler de excepciones
      */
     public function __construct(
         array $pMiddlewares = [],
-        \ArrayAccess $pContainer = null,
-        \ArrayAccess $pConfig = null,
-        $pHandler = null
+        \ArrayAccess $pContainer = null
     )
     {
         $this->middlewares      = new \SplQueue();
         $this->containerDI      = $pContainer;
-        $this->configuration    = $pConfig;
-        $this->exceptionHandler = $pHandler;
 
         $this->registerMiddlewareArray($pMiddlewares);
     }
@@ -120,46 +104,6 @@ final class TornadoHttp {
     public function getDI()
     {
         return $this->containerDI;
-    }
-
-    /**
-     * Asigna el contenedor de la configuración de la aplicación
-     *
-     * @param \ArrayAccess $pConfig Contenedor de configuraciones
-     */
-    public function setConfig(\ArrayAccess $pConfig)
-    {
-        $this->configuration = $pConfig;
-    }
-
-    /**
-     * Retorna el contenedor de configuración de la aplicación
-     *
-     * @return \ArrayAccess Contenedor de configuraciones
-     */
-    public function getConfig()
-    {
-        return $this->configuration;
-    }
-
-    /**
-     * Asigna el handler de gestión de excepciones personalizado
-     *
-     * @param callable|string $pHandler Handler de excepciones
-     */
-    public function setExceptionHandler($pHandler)
-    {
-        $this->exceptionHandler = $this->resolveCallable($pHandler);
-    }
-
-    /**
-     * Retorna el handler de gestión de excepciones personalizado
-     *
-     * @return callable Handler de excepciones
-     */
-    public function getExceptionHandler()
-    {
-        return $this->exceptionHandler;
     }
 
     /**
