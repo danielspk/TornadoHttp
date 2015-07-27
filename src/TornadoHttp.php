@@ -3,6 +3,7 @@ namespace DMS\TornadoHttp;
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Interop\Container\ContainerInterface;
 
 /**
  * Clase principal contenedora de la aplicación
@@ -21,7 +22,7 @@ final class TornadoHttp {
     private $middlewares;
 
     /**
-     * @var \ArrayAccess Contenedor de dependencias
+     * @var ContainerInterface Contenedor de dependencias
      */
     private $containerDI;
 
@@ -29,11 +30,11 @@ final class TornadoHttp {
      * Constructor del contenedor de aplicación
      *
      * @param array $pMiddlewares Middlewares
-     * @param \ArrayAccess $pContainer Contenedor de dependencias
+     * @param ContainerInterface $pContainer Contenedor de dependencias
      */
     public function __construct(
         array $pMiddlewares = [],
-        \ArrayAccess $pContainer = null
+        ContainerInterface $pContainer = null
     )
     {
         $this->middlewares      = new \SplQueue();
@@ -89,9 +90,9 @@ final class TornadoHttp {
     /**
      * Asigna el contenedor de dependencias
      *
-     * @param \ArrayAccess $pContainer Contenedor de dependencias
+     * @param ContainerInterface $pContainer Contenedor de dependencias
      */
-    public function setDI(\ArrayAccess $pContainer)
+    public function setDI(ContainerInterface $pContainer)
     {
         $this->containerDI = $pContainer;
     }
@@ -99,7 +100,7 @@ final class TornadoHttp {
     /**
      * Retorna el contenedor de dependencias
      *
-     * @return \ArrayAccess Contenedor de dependencias
+     * @return ContainerInterface Contenedor de dependencias
      */
     public function getDI()
     {
