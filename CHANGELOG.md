@@ -1,5 +1,10 @@
 # Change Log
 
+## [1.1.0](https://github.com/danielspk/TornadoHttp/releases/tag/v1.1.0) (2015-10-17)
+
+\* *Cambios en documentación*
+\* *Nuevos Tests*
+
 ## [1.0.1](https://github.com/danielspk/TornadoHttp/releases/tag/v1.0.1) (2015-09-20)
 
 \* *Fix en composer.json sección require-dev*
