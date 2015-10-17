@@ -37,8 +37,8 @@ final class TornadoHttp {
         ContainerInterface $pContainer = null
     )
     {
-        $this->middlewares      = new \SplQueue();
-        $this->containerDI      = $pContainer;
+        $this->middlewares = new \SplQueue();
+        $this->containerDI = $pContainer;
 
         $this->registerMiddlewareArray($pMiddlewares);
     }

@@ -6,7 +6,7 @@ TORNADO HTTP
 [![Total Downloads](https://poser.pugx.org/danielspk/TornadoHttp/downloads.svg)](https://packagist.org/packages/danielspk/TornadoHttp)
 [![License](https://poser.pugx.org/danielspk/TornadoHttp/license.svg)](https://packagist.org/packages/danielspk/TornadoHttp)
 
-![ScreenShot](http://tornado-php.com/wp-content/uploads/2014/08/tornado-php.png)
+![ScreenShot](http://daniel-spiridione.com.ar/images/proyectos/tornado-php.png)
 
 TORNADO HTTP es un contenedor middleware PSR-7
 
@@ -55,8 +55,8 @@ Tornado HTTP puede construirse de varias formas:
     ]);
 ```
 
-Nota: Puede ver que hay tres formas de registrar un Middleware: callable, string y array. Más adelante se explicará 
-cada una de estas formas.
+Nota: Puede ver que hay tres formas de registrar un Middleware: callables, strings y arrays. Más adelante se explicará 
+más en detalle cada una de estas formas.
 
 #### Con Contenedor de Dependencias
 
@@ -67,7 +67,8 @@ cada una de estas formas.
     );
 ```
 
-(En construcción...)
+Nota: El contenedor de dependencias a utilizar debe implementar la interface "Container Interop". Puede obtener más 
+información al respecto en https://github.com/container-interop/container-interop
 
 ## Inspiracion:
 
