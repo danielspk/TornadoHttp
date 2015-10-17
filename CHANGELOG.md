@@ -1,5 +1,9 @@
 # Change Log
 
+## [1.1.1](https://github.com/danielspk/TornadoHttp/releases/tag/v1.1.1) (2015-10-17)
+
+\* *Test no compatibles con PHP 5.4*
+
 ## [1.1.0](https://github.com/danielspk/TornadoHttp/releases/tag/v1.1.0) (2015-10-17)
 
 \* *Cambios en documentación*
