@@ -125,4 +125,24 @@ class TornadoHttpTest extends PHPUnit_Framework_TestCase
 
         $this->assertInternalType('callable', $callable);
     }
+
+    public function testResolveCallableTrait()
+    {
+        $tornadoHttp = new DMS\TornadoHttp\TornadoHttp();
+        $tornadoHttp->setDI(new ServiceManager());
+
+        $callable = $tornadoHttp->resolveCallable('Classes\TestTraitMiddleware');
+
+        $this->assertInstanceOf('\Interop\Container\ContainerInterface', $callable->getContainer());
+    }
+
+    public function testResolveCallableChildTrait()
+    {
+        $tornadoHttp = new DMS\TornadoHttp\TornadoHttp();
+        $tornadoHttp->setDI(new ServiceManager());
+
+        $callable = $tornadoHttp->resolveCallable('Classes\TestChildTraitMiddleware');
+
+        $this->assertInstanceOf('\Interop\Container\ContainerInterface', $callable->getContainer());
+    }
 }
