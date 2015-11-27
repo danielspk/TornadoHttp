@@ -12,7 +12,7 @@ use Interop\Container\ContainerInterface;
  * @author Daniel M. Spiridione <info@daniel-spiridione.com.ar>
  * @link http://tornado-php.com
  * @license http://tornado-php.com/licencia/ MIT License
- * @version 1.1.1
+ * @version 1.2.0
  */
 final class TornadoHttp {
 
@@ -124,7 +124,34 @@ final class TornadoHttp {
             $callable = $class->newInstanceArgs($pCallable[1]);
         }
 
+        $this->setContainerInTrait($callable);
+
         return $callable;
+    }
+
+    /**
+     * Resuelve si en la jerarquía de objetos se usa el ContainerTrait e inyecta el contenedor
+     *
+     * @param object $pObject Objeto a resolver
+     */
+    private function setContainerInTrait($pObject)
+    {
+        $rc = new \ReflectionClass($pObject);
+
+        $recursiveTraits = function ($class) use(&$recursiveTraits, &$pObject) {
+
+            if (in_array('DMS\TornadoHttp\ContainerTrait', $class->getTraitNames())) {
+                $pObject->setContainer($this->containerDI);
+                return;
+            }
+
+            if ($class->getParentClass() != false) {
+                $recursiveTraits($class->getParentClass());
+            }
+
+        };
+
+        $recursiveTraits($rc);
     }
 
     /**
