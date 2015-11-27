@@ -1,5 +1,9 @@
 # Change Log
 
+## [1.2.0](https://github.com/danielspk/TornadoHttp/releases/tag/v1.2.0) (2015-11-27)
+
+\* *Trait para inyectar contenedor de dependencias en middlewares*
+
 ## [1.1.1](https://github.com/danielspk/TornadoHttp/releases/tag/v1.1.1) (2015-10-17)
 
 \* *Test no compatibles con PHP 5.4*
