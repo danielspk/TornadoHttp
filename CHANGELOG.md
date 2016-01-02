@@ -1,5 +1,13 @@
 # Change Log
 
+## [1.3.0](https://github.com/danielspk/TornadoHttp/releases/tag/v1.3.0) (2016-01-02)
+
+\* *Nuevo método addList() para registrar un array de middlewares*
+\* *El método add() ya no soporta un array de middlewares*
+\* *El método add() ahora permite middleware por path y/o methods y definir un índice*
+\* *Nuevo método getMiddlewareIndex() para recuperar el índice actual de la cola de middlewares*
+\* *El método getMiddlewares() fue removido*
+
 ## [1.2.0](https://github.com/danielspk/TornadoHttp/releases/tag/v1.2.0) (2015-11-27)
 
 \* *Trait para inyectar contenedor de dependencias en middlewares*
