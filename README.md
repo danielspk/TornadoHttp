@@ -49,14 +49,14 @@ Tornado HTTP puede construirse de varias formas:
 
 ```php
     $app = new DMS\TornadoHttp\TornadoHttp([
-        $middlewareOne,
-        'App\MiddlewareTwo',
-        ['App\MiddlewareThree', [$paramOne, $paramTwo]]
+        ['middleware' => $middlewareOne],
+        ['middleware' => 'App\MiddlewareTwo', 'path' => '/admin'],
+        ['middleware' => ['App\MiddlewareThree', [$paramOne, $paramTwo]]]
     ]);
 ```
 
 Nota: Puede ver que hay tres formas de registrar un Middleware: callables, strings y arrays. Más adelante se explicará 
-más en detalle cada una de estas formas.
+en detalle cada una de estas formas. @todo: falta mostrar objeto instanciado y servicio string.
 
 #### Con Contenedor de Dependencias
 
