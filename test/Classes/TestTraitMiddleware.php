@@ -1,5 +1,4 @@
 <?php
-
 namespace Classes;
 
 use DMS\TornadoHttp\ContainerTrait;

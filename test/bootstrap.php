@@ -1,9 +1,9 @@
 <?php
 
-// Composer autoload
+// composer autoload
 require 'vendor/autoload.php';
 
-// Test classes load
+// test classes load
 require 'test/Classes/TestMiddleware.php';
 require 'test/Classes/TestParamMiddleware.php';
 require 'test/Classes/TestTraitMiddleware.php';
