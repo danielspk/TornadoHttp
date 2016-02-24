@@ -1,5 +1,14 @@
 # Change Log
 
+## [1.3.2](https://github.com/danielspk/TornadoHttp/releases/tag/v1.3.2) (2016-02-24)
+
+\* *Translated to English*
+\* *New tests*
+
+## [1.3.1](https://github.com/danielspk/TornadoHttp/releases/tag/v1.3.1) (2016-01-02)
+
+\* *Actualización de documentación Readme.md*
+
 ## [1.3.0](https://github.com/danielspk/TornadoHttp/releases/tag/v1.3.0) (2016-01-02)
 
 \* *Nuevo método addList() para registrar un array de middlewares*
