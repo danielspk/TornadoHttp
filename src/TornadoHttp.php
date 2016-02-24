@@ -6,31 +6,31 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
- * Clase principal contenedora de la aplicación
+ * Main class
  *
  * @package TORNADO-HTTP-PHP
  * @author Daniel M. Spiridione <info@daniel-spiridione.com.ar>
  * @link http://tornado-php.com
  * @license http://tornado-php.com/licencia/ MIT License
- * @version 1.3.0
+ * @version 1.3.2
  */
 final class TornadoHttp
 {
     /**
-     * @var \SplQueue Cola de middlewares
+     * @var \SplQueue Middleware queue
      */
     private $middlewares;
 
     /**
-     * @var ContainerInterface Contenedor de dependencias
+     * @var ContainerInterface Service Container
      */
     private $container;
 
     /**
-     * Constructor del contenedor de aplicación
+     * Constructor
      *
      * @param array $middlewares Middlewares
-     * @param ContainerInterface $container Contenedor de dependencias
+     * @param ContainerInterface $container Service Container
      */
     public function __construct(
         array $middlewares = [],
@@ -44,10 +44,10 @@ final class TornadoHttp
     }
 
     /**
-     * Invoca la petición/respuesta de inicio de aplicación
+     * Invocation
      *
-     * @param RequestInterface $request Peticion
-     * @param ResponseInterface $response Respuesta
+     * @param RequestInterface $request Request
+     * @param ResponseInterface $response Response
      * @return ResponseInterface
      */
     public function __invoke(RequestInterface $request, ResponseInterface $response)
@@ -73,12 +73,12 @@ final class TornadoHttp
     }
 
     /**
-     * Registra un middleware
+     * Register one middleware
      *
      * @param callable|string|array $middleware Middleware
      * @param string $path Path
-     * @param array $methods Métodos permitidos
-     * @param integer $index Índice de la cola
+     * @param array $methods Methods allowed
+     * @param integer $index Index of the queue
      */
     public function add($middleware, $path = null, $methods = null, $index = null)
     {
@@ -96,7 +96,7 @@ final class TornadoHttp
     }
 
     /**
-     * Registra middlewares a partir de un array
+     * Register middleware from an array
      *
      * @param array $middlewares Middlewares
      */
@@ -108,7 +108,7 @@ final class TornadoHttp
     }
     
     /**
-     * Retorna el índice actual de la cola de middlewares
+     * Return the current index of the middlewares queue
      *
      * @return integer
      */
@@ -118,9 +118,9 @@ final class TornadoHttp
     }
     
     /**
-     * Asigna el contenedor de dependencias
+     * Set the Service Container
      *
-     * @param ContainerInterface $container Contenedor de dependencias
+     * @param ContainerInterface $container Service Container
      */
     public function setDI(ContainerInterface $container)
     {
@@ -128,9 +128,9 @@ final class TornadoHttp
     }
 
     /**
-     * Retorna el contenedor de dependencias
+     * Get the Service Container
      *
-     * @return ContainerInterface Contenedor de dependencias
+     * @return ContainerInterface Service Container
      */
     public function getDI()
     {
@@ -138,10 +138,10 @@ final class TornadoHttp
     }
 
     /**
-     * Resuelve y/o retorna un callable o instancia de clase
+     * Solve and/or returns an callable or instance class
      *
-     * @param callable|string|array $callable Solicitud a resolver
-     * @return callable Callable o instancia de clase
+     * @param callable|string|array $callable Callable
+     * @return callable Callable or instance class
      */
     public function resolveCallable($callable)
     {
@@ -164,9 +164,9 @@ final class TornadoHttp
     }
 
     /**
-     * Retorna un next vacio
+     * Return an empty next callable
      *
-     * @return callable Next
+     * @return callable Next callable
      */
     private function emptyNext()
     {
@@ -176,9 +176,9 @@ final class TornadoHttp
     }
     
     /**
-     * Retorna un next de finalización
+     * Return an finish next callable
      *
-     * @return callable Next
+     * @return callable Next callable
      */
     private function finishNext()
     {
@@ -188,15 +188,17 @@ final class TornadoHttp
     }
     
     /**
-     * Resuelve si en la jerarquía de objetos se usa el ContainerTrait e inyecta el Contenedor
+     * Resolved if in the object hierarchy used the ContainerTrait and injects the Container
      *
-     * @param object $middleware Objeto middleware
+     * @param object $middleware Middleware object
      */
     private function setContainerInTrait($middleware)
     {
         $rc = new \ReflectionClass($middleware);
 
         $recursiveTraits = function ($class) use(&$recursiveTraits, &$middleware) {
+
+            /* @var $class \ReflectionClass */
 
             if (in_array('DMS\TornadoHttp\ContainerTrait', $class->getTraitNames())) {
                 $middleware->setContainer($this->container);

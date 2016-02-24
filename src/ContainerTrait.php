@@ -4,25 +4,25 @@ namespace DMS\TornadoHttp;
 use Interop\Container\ContainerInterface;
 
 /**
- * Trait general para registrar el Contenedor de Servicios dentro de Middlewares
+ * Trait to register Service Container within Middlewares
  *
  * @package TORNADO-HTTP-PHP
  * @author Daniel M. Spiridione <info@daniel-spiridione.com.ar>
  * @link http://tornado-php.com
  * @license http://tornado-php.com/licencia/ MIT License
- * @version 1.3.0
+ * @version 1.3.2
  */
 trait ContainerTrait
 {
     /**
-     * @var ContainerInterface Contenedor de servicios 
+     * @var ContainerInterface Service Container
      */
     protected $container;
     
     /**
-     * Asigna el contenedor de dependencias
+     * Set the Service Container
      *
-     * @param ContainerInterface $container Contenedor de dependencias
+     * @param ContainerInterface $container Service Container
      */
     public function setContainer(ContainerInterface $container)
     {
@@ -30,9 +30,9 @@ trait ContainerTrait
     }
     
     /**
-     * Retorna el contenedor de dependencias
+     * Get the Service Container
      * 
-     * @return ContainerInterface Contenedor de dependencias
+     * @return ContainerInterface Service Container
      */
     public function getContainer()
     {
