@@ -1,5 +1,13 @@
 # Change Log
 
+## [1.3.4](https://github.com/danielspk/TornadoHttp/releases/tag/v1.3.4) (2016-03-17)
+
+\* *Fix: remove user specific files ide*
+
+## [1.3.3](https://github.com/danielspk/TornadoHttp/releases/tag/v1.3.3) (2016-03-17)
+
+\* *Code optimization*
+
 ## [1.3.2](https://github.com/danielspk/TornadoHttp/releases/tag/v1.3.2) (2016-02-24)
 
 \* *Translated to English*
