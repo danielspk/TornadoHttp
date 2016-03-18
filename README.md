@@ -2,9 +2,11 @@ TORNADO HTTP
 ============
 
 [![Build Status](https://travis-ci.org/danielspk/TornadoHttp.svg)](https://travis-ci.org/danielspk/TornadoHttp)
+[![Coverage Status](https://coveralls.io/repos/github/danielspk/TornadoHttp/badge.svg?branch=master)](https://coveralls.io/github/danielspk/TornadoHttp?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/danielspk/TornadoHttp/v/stable.svg)](https://packagist.org/packages/danielspk/TornadoHttp)
 [![Total Downloads](https://poser.pugx.org/danielspk/TornadoHttp/downloads.svg)](https://packagist.org/packages/danielspk/TornadoHttp)
 [![License](https://poser.pugx.org/danielspk/TornadoHttp/license.svg)](https://packagist.org/packages/danielspk/TornadoHttp)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/3d14197b-406f-4a2d-acae-8372104870a0/mini.png)](https://insight.sensiolabs.com/projects/3d14197b-406f-4a2d-acae-8372104870a0)
 
 ![ScreenShot](http://daniel-spiridione.com.ar/images/proyectos/tornado-php.png)
 
@@ -49,14 +51,14 @@ Tornado HTTP puede construirse de varias formas:
 
 ```php
     $app = new DMS\TornadoHttp\TornadoHttp([
-        $middlewareOne,
-        'App\MiddlewareTwo',
-        ['App\MiddlewareThree', [$paramOne, $paramTwo]]
+        ['middleware' => $middlewareOne],
+        ['middleware' => 'App\MiddlewareTwo', 'path' => '/admin'],
+        ['middleware' => ['App\MiddlewareThree', [$paramOne, $paramTwo]]]
     ]);
 ```
 
 Nota: Puede ver que hay tres formas de registrar un Middleware: callables, strings y arrays. Más adelante se explicará 
-más en detalle cada una de estas formas.
+en detalle cada una de estas formas. @todo: falta mostrar objeto instanciado y servicio string.
 
 #### Con Contenedor de Dependencias
 

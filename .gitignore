@@ -1,8 +1,5 @@
-/.DS_Store
-/.idea/
-/nbproject/
-/resources/
-/vendor/
-/composer.lock
-/phpunit.phar
-/phpunit.xml
+resources/
+vendor/
+composer.lock
+phpunit.phar
+phpunit.xml
