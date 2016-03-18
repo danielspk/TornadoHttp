@@ -196,16 +196,14 @@ final class TornadoHttp
     {
         $rc = new \ReflectionClass($middleware);
 
-        $recursiveTraits = function ($class) use(&$recursiveTraits, &$middleware) {
-
-            /* @var $class \ReflectionClass */
+        $recursiveTraits = function (\ReflectionClass $class) use(&$recursiveTraits, &$middleware) {
 
             if (in_array('DMS\TornadoHttp\ContainerTrait', $class->getTraitNames())) {
                 $middleware->setContainer($this->container);
                 return;
             }
 
-            if ($class->getParentClass() != false) {
+            if ($class->getParentClass() !== false) {
                 $recursiveTraits($class->getParentClass());
             }
 
