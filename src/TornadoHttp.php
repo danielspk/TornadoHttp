@@ -12,7 +12,7 @@ use Psr\Http\Message\ResponseInterface;
  * @author Daniel M. Spiridione <info@daniel-spiridione.com.ar>
  * @link http://tornado-php.com
  * @license http://tornado-php.com/licencia/ MIT License
- * @version 1.3.2
+ * @version 1.3.5
  */
 final class TornadoHttp
 {
@@ -75,7 +75,7 @@ final class TornadoHttp
     /**
      * Register one middleware
      *
-     * @param callable|string|array $middleware Middleware
+     * @param callable|object|string|array $middleware Middleware
      * @param string $path Path
      * @param array $methods Methods allowed
      * @param integer $index Index of the queue
@@ -141,7 +141,7 @@ final class TornadoHttp
      * Solve and/or returns an callable or instance class
      *
      * @param callable|string|array $callable Callable
-     * @return callable Callable or instance class
+     * @return callable|object Callable or instance class
      */
     public function resolveCallable($callable)
     {
