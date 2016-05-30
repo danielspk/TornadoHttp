@@ -1,5 +1,10 @@
 # Change Log
 
+## [1.3.5](https://github.com/danielspk/TornadoHttp/releases/tag/v1.3.5) (2016-05-30)
+
+\* *Source: adds comments*
+\* *Test: adds test*
+
 ## [1.3.4](https://github.com/danielspk/TornadoHttp/releases/tag/v1.3.4) (2016-03-17)
 
 \* *Fix: remove user specific files ide*

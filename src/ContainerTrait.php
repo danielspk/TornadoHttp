@@ -10,7 +10,7 @@ use Interop\Container\ContainerInterface;
  * @author Daniel M. Spiridione <info@daniel-spiridione.com.ar>
  * @link http://tornado-php.com
  * @license http://tornado-php.com/licencia/ MIT License
- * @version 1.3.2
+ * @version 1.3.5
  */
 trait ContainerTrait
 {

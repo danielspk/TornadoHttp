@@ -2,9 +2,9 @@
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\UriInterface;
 use Zend\Diactoros\Response;
 use Zend\Diactoros\ServerRequestFactory;
+use Zend\ServiceManager\Config;
 use Zend\ServiceManager\ServiceManager;
 
 class TornadoHttpTest extends PHPUnit_Framework_TestCase
@@ -189,6 +189,22 @@ class TornadoHttpTest extends PHPUnit_Framework_TestCase
         $tornadoHttp = new DMS\TornadoHttp\TornadoHttp();
 
         $callable = $tornadoHttp->resolveCallable('Classes\TestMiddleware');
+
+        $this->assertInstanceOf('\Classes\TestMiddleware', $callable);
+    }
+
+    public function testResolveCallableStringService()
+    {
+        $tornadoHttp = new DMS\TornadoHttp\TornadoHttp();
+        $tornadoHttp->setDI(new ServiceManager(
+            new Config([
+                'invokables' => [
+                    'TestMiddleware' => '\Classes\TestMiddleware'
+                ]
+            ])
+        ));
+
+        $callable = $tornadoHttp->resolveCallable('@TestMiddleware');
 
         $this->assertInstanceOf('\Classes\TestMiddleware', $callable);
     }
