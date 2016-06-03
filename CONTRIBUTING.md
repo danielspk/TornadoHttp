@@ -11,11 +11,12 @@ una de ellas. Esto permite revisar y liberar nuevas mejoras o características d
 
 ## Guia de Codificación
 
-Todas los pull request deben cumplir con el [estándar PSR-2](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md).
+Todas los pull request deben cumplir con el
+[estándar PSR-2](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md).
 
 ## Test Unitarios
 
-Todas los pull request deben estar acompañados de sus test unitarios y los mismos deben abarcar, por lo menos, el 80%  
-del código completo. TornadoHttp PHP utiliza la librería PHPUnit para sus test.
+Todas los pull request deben estar acompañados de sus test unitarios y los mismos deben abarcar, por lo menos, el
+80% del código completo. TornadoHttp PHP utiliza la librería PHPUnit para sus test.
 
 [Aquí puede encontrar mayor información sobre PHPUnit](https://github.com/sebastianbergmann/phpunit/)

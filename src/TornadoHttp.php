@@ -8,11 +8,11 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * Main class
  *
- * @package TORNADO-HTTP-PHP
+ * @package TORNADO-HTTP
  * @author Daniel M. Spiridione <info@daniel-spiridione.com.ar>
- * @link http://tornado-php.com
- * @license http://tornado-php.com/licencia/ MIT License
- * @version 1.3.5
+ * @link http://tornadohttp.com
+ * @license https://raw.githubusercontent.com/danielspk/TornadoHttp/master/LICENSE.md MIT License
+ * @version 1.3.6
  */
 final class TornadoHttp
 {

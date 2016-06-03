@@ -1,5 +1,10 @@
 # Change Log
 
+## [1.3.6](https://github.com/danielspk/TornadoHttp/releases/tag/v1.3.6) (2016-06-03)
+
+\* *Source: adds new website and license in dockblock*
+\* *License: edit license text*
+
 ## [1.3.5](https://github.com/danielspk/TornadoHttp/releases/tag/v1.3.5) (2016-05-30)
 
 \* *Source: adds comments*
