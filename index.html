@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Tornadohttp by danielspk</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Tornadohttp</h1>
+        <h2>Middleware Container PSR-7 </h2>
+        <a href="https://github.com/danielspk/TornadoHttp" class="button"><small>View project on</small> GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <p><img src="http://daniel-spiridione.com.ar/images/proyectos/tornado-php.png" alt="ScreenShot"></p>
+
+<p>TORNADO HTTP es un contenedor middleware PSR-7</p>
+
+<h2>
+<a id="documentación" class="anchor" href="#documentaci%C3%B3n" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Documentación:</h2>
+
+<p>La siguiente documentación le enseñará el uso de Tornado HTTP. Si lo desea puede descargar una aplicación esqueleto de 
+ejemplo que le mostrará como puede crear sus propios middlewares y utilizar paquetes de terceros:</p>
+
+<p><a href="https://github.com/danielspk/TornadoHttpSkeletonApplication">https://github.com/danielspk/TornadoHttpSkeletonApplication</a></p>
+
+<h3>
+<a id="instalación" class="anchor" href="#instalaci%C3%B3n" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Instalación:</h3>
+
+<p>Se recomienda instalar esta librería mediante el uso de Composer de la siguiente forma:</p>
+
+<pre><code>    php composer.phar require danielspk/tornadohttp:~1.0
+</code></pre>
+
+<p>Esto instalará Tornado HTTP y creará o actualizará el archivo composer.json con la siguiente dependencia:</p>
+
+<pre><code>{
+    "require": {
+        "danielspk/tornadohttp": "~1.0"
+    }
+}
+</code></pre>
+
+<h3>
+<a id="crear-el-contenedor-de-aplicación" class="anchor" href="#crear-el-contenedor-de-aplicaci%C3%B3n" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Crear el contenedor de aplicación:</h3>
+
+<p>Tornado HTTP puede construirse de varias formas:</p>
+
+<h4>
+<a id="sin-parámetros" class="anchor" href="#sin-par%C3%A1metros" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Sin parámetros:</h4>
+
+<div class="highlight highlight-text-html-php"><pre><span class="pl-s1">    <span class="pl-smi">$app</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">DMS\TornadoHttp\</span><span class="pl-c1">TornadoHttp</span>();</span></pre></div>
+
+<h4>
+<a id="con-middlewares" class="anchor" href="#con-middlewares" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Con Middlewares</h4>
+
+<div class="highlight highlight-text-html-php"><pre><span class="pl-s1">    <span class="pl-smi">$app</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">DMS\TornadoHttp\</span><span class="pl-c1">TornadoHttp</span>([</span>
+<span class="pl-s1">        [<span class="pl-s"><span class="pl-pds">'</span>middleware<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-smi">$middlewareOne</span>],</span>
+<span class="pl-s1">        [<span class="pl-s"><span class="pl-pds">'</span>middleware<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>App\MiddlewareTwo<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>path<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>/admin<span class="pl-pds">'</span></span>],</span>
+<span class="pl-s1">        [<span class="pl-s"><span class="pl-pds">'</span>middleware<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> [<span class="pl-s"><span class="pl-pds">'</span>App\MiddlewareThree<span class="pl-pds">'</span></span>, [<span class="pl-smi">$paramOne</span>, <span class="pl-smi">$paramTwo</span>]]]</span>
+<span class="pl-s1">    ]);</span></pre></div>
+
+<p>Nota: Puede ver que hay tres formas de registrar un Middleware: callables, strings y arrays. Más adelante se explicará 
+en detalle cada una de estas formas. <a href="https://github.com/todo" class="user-mention">@todo</a>: falta mostrar objeto instanciado y servicio string.</p>
+
+<h4>
+<a id="con-contenedor-de-dependencias" class="anchor" href="#con-contenedor-de-dependencias" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Con Contenedor de Dependencias</h4>
+
+<div class="highlight highlight-text-html-php"><pre><span class="pl-s1">    <span class="pl-smi">$app</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">DMS\TornadoHttp\</span><span class="pl-c1">TornadoHttp</span>(</span>
+<span class="pl-s1">        [],</span>
+<span class="pl-s1">        <span class="pl-k">new</span> <span class="pl-c1">Container</span>()</span>
+<span class="pl-s1">    );</span></pre></div>
+
+<p>Nota: El contenedor de dependencias a utilizar debe implementar la interface "Container Interop". Puede obtener más 
+información al respecto en <a href="https://github.com/container-interop/container-interop">https://github.com/container-interop/container-interop</a></p>
+
+<h2>
+<a id="inspiracion" class="anchor" href="#inspiracion" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Inspiracion:</h2>
+
+<ul>
+<li>Relay - <a href="http://relayphp.com/">http://relayphp.com/</a>
+</li>
+<li>Zend Stratigility - <a href="https://github.com/zendframework/zend-stratigility">https://github.com/zendframework/zend-stratigility</a>
+</li>
+</ul>
+
+<h2>
+<a id="licencia" class="anchor" href="#licencia" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Licencia:</h2>
+
+<p>El proyecto se distribuye bajo la licencia MIT.</p>
+
+<h2>
+<a id="sugerencias-y-colaboración" class="anchor" href="#sugerencias-y-colaboraci%C3%B3n" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Sugerencias y colaboración:</h2>
+
+<p>Email: <a href="mailto:info@daniel.spiridione.com.ar">info@daniel.spiridione.com.ar</a></p>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/danielspk/TornadoHttp/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/danielspk/TornadoHttp/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/danielspk/TornadoHttp"></a> is maintained by <a href="https://github.com/danielspk">danielspk</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
