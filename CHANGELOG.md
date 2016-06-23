@@ -1,5 +1,10 @@
 # Change Log
 
+## [1.3.7](https://github.com/danielspk/TornadoHttp/releases/tag/v1.3.7) (2016-06-23)
+
+\* *Fix: add middleware in zero index*
+\* *Test: adds test*
+
 ## [1.3.6](https://github.com/danielspk/TornadoHttp/releases/tag/v1.3.6) (2016-06-03)
 
 \* *Source: adds new website and license in dockblock*
