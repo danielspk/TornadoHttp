@@ -101,6 +101,39 @@ class TornadoHttpTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(201, $response->getStatusCode());;
     }
 
+    public function testEmptyMiddlewarePath()
+    {
+        $middleware1 = function(RequestInterface $request,  ResponseInterface $response, callable $next) {
+            $response = $response->withStatus(201);
+            return $next($request, $response);
+        };
+
+        $middleware2 = function(RequestInterface $request, ResponseInterface $response, callable $next) {
+            $response = $response->withStatus(500);
+            return $next($request, $response);
+        };
+
+        $tornadoHttp = new DMS\TornadoHttp\TornadoHttp([
+            [
+                'middleware' => $middleware1,
+                'path'       => '/example/'
+            ],
+            [
+                'middleware' => $middleware2,
+                'path'       => '/error/'
+            ]
+        ]);
+
+        /* @var $response ResponseInterface */
+        $request = ServerRequestFactory::fromGlobals();
+        $uri     = $request->getUri()->withPath('/example');
+        $request = $request->withUri($uri);
+
+        $response = $tornadoHttp($request, new Response());
+
+        $this->assertEquals(201, $response->getStatusCode());;
+    }
+
     public function testMiddlewareMethod()
     {
         $middleware = function(RequestInterface $request,  ResponseInterface $response, callable $next) {
@@ -111,6 +144,38 @@ class TornadoHttpTest extends PHPUnit_Framework_TestCase
         $tornadoHttp = new DMS\TornadoHttp\TornadoHttp([
             [
                 'middleware' => $middleware,
+                'methods'    => ['GET', 'POST']
+            ]
+        ]);
+
+        /* @var $response ResponseInterface */
+        $request = ServerRequestFactory::fromGlobals();
+        $request = $request->withMethod('POST');
+
+        $response = $tornadoHttp($request, new Response());
+
+        $this->assertEquals(201, $response->getStatusCode());;
+    }
+
+    public function testEmptyMiddlewareMethod()
+    {
+        $middleware1 = function(RequestInterface $request,  ResponseInterface $response, callable $next) {
+            $response = $response->withStatus(500);
+            return $next($request, $response);
+        };
+
+        $middleware2 = function(RequestInterface $request, ResponseInterface $response, callable $next) {
+            $response = $response->withStatus(201);
+            return $next($request, $response);
+        };
+
+        $tornadoHttp = new DMS\TornadoHttp\TornadoHttp([
+            [
+                'middleware' => $middleware1,
+                'methods'    => ['GET']
+            ],
+            [
+                'middleware' => $middleware2,
                 'methods'    => ['GET', 'POST']
             ]
         ]);
@@ -163,12 +228,38 @@ class TornadoHttpTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('Hello TornadoHTTP', $response->getBody());
     }
 
+    public function testAddMiddlewareExistIndex()
+    {
+        $middleware0 = function(RequestInterface $request, ResponseInterface $response, callable $next) {
+            $response->getBody()->write('A');
+
+            return $next($request, $response);
+        };
+
+        $middleware1 = function(RequestInterface $request, ResponseInterface $response, callable $next) {
+            $response->getBody()->write('B');
+
+            return $next($request, $response);
+        };
+
+        $tornadoHttp = new DMS\TornadoHttp\TornadoHttp();
+        $tornadoHttp->add($middleware1);
+        $tornadoHttp->add($middleware0, null, null, 0);
+
+        /* @var $response ResponseInterface */
+        $request = ServerRequestFactory::fromGlobals();
+
+        $response = $tornadoHttp($request, new Response());
+
+        $this->assertEquals('AB', (string) $response->getBody());
+    }
+
     public function testGetMiddlewareIndex()
     {
         $tornadoHttp = new DMS\TornadoHttp\TornadoHttp();
         $tornadoHttp->add('Classes\TestMiddleware');
         $tornadoHttp->add('Classes\TestParamMiddleware');
-        
+
         $middlewares = $tornadoHttp->getMiddlewareIndex();
 
         $this->assertEquals(0, $middlewares);

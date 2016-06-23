@@ -88,7 +88,7 @@ final class TornadoHttp
             'methods'    => $methods
         ];
         
-        if ($index && $this->middlewares->offsetExists($index)) {
+        if ($index !== null && $this->middlewares->offsetExists($index)) {
             $this->middlewares->add($index, $mw);
         } else {
             $this->middlewares->enqueue($mw);
