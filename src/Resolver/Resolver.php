@@ -79,16 +79,16 @@ class Resolver implements ResolverInterface
                 in_array('DMS\TornadoHttp\Container\ContainerTrait', $class->getTraitNames()) ||
                 in_array('DMS\TornadoHttp\Container\InjectContainerInterface', $class->getInterfaceNames())
             ) {
-                $middleware->setContainer($this->container);
-                return;
+                return true;
             }
 
             if ($class->getParentClass() !== false) {
-                $recursiveReflection($class->getParentClass());
+                return $recursiveReflection($class->getParentClass());
             }
 
+            return false;
         };
 
-        $recursiveReflection($rc);
+        return $recursiveReflection($rc);
     }
 }
