@@ -1,24 +1,25 @@
 <?php
-namespace DMS\TornadoHttp;
+namespace DMS\TornadoHttp\Middleware;
 
+use DMS\TornadoHttp\Container\InjectContainerInterface;
 use Interop\Container\ContainerInterface;
 
 /**
- * Trait to register Service Container within Middlewares
+ * Middleware abstract class
  *
  * @package TORNADO-HTTP
  * @author Daniel M. Spiridione <info@daniel-spiridione.com.ar>
  * @link http://tornadohttp.com
  * @license https://raw.githubusercontent.com/danielspk/TornadoHttp/master/LICENSE.md MIT License
- * @version 1.3.6
+ * @version 1.4.0
  */
-trait ContainerTrait
+abstract class Middleware implements MiddlewareInterface, InjectContainerInterface
 {
     /**
      * @var ContainerInterface Service Container
      */
     protected $container;
-    
+
     /**
      * Set the Service Container
      *
@@ -28,10 +29,10 @@ trait ContainerTrait
     {
         $this->container = $container;
     }
-    
+
     /**
      * Get the Service Container
-     * 
+     *
      * @return ContainerInterface Service Container
      */
     public function getContainer()
