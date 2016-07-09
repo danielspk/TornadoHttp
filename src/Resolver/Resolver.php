@@ -31,10 +31,10 @@ class Resolver implements ResolverInterface
     }
 
     /**
-     * Solve and/or returns an callable or instance class
+     * Solve and/or returns an callable
      *
-     * @param callable|string|array $middleware Middleware
-     * @return callable|object Callable or instance class
+     * @param callable|object|string|array $middleware Middleware
+     * @return callable Callable
      * @throws MiddlewareException
      */
     public function solve($middleware)

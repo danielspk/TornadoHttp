@@ -1,5 +1,6 @@
 <?php
 
+use Resolver\CustomResolver;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Zend\Diactoros\Response;
@@ -78,6 +79,41 @@ class TornadoHttpTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\DMS\TornadoHttp\TornadoHttp', $tornadoHttp);
     }
 
+    public function testConstructorResolver()
+    {
+        $middleware = function(RequestInterface $request, ResponseInterface $response, callable $next) {
+            return $response;
+        };
+
+        $tornadoHttp = new DMS\TornadoHttp\TornadoHttp(
+            [
+                ['middleware' => $middleware]
+            ],
+            new ServiceManager(),
+            new CustomResolver()
+        );
+
+        $this->assertInstanceOf('\DMS\TornadoHttp\TornadoHttp', $tornadoHttp);
+    }
+
+    public function testConstructorEnvironment()
+    {
+        $middleware = function(RequestInterface $request, ResponseInterface $response, callable $next) {
+            return $response;
+        };
+
+        $tornadoHttp = new DMS\TornadoHttp\TornadoHttp(
+            [
+                ['middleware' => $middleware]
+            ],
+            new ServiceManager(),
+            new CustomResolver(),
+            'development'
+        );
+
+        $this->assertInstanceOf('\DMS\TornadoHttp\TornadoHttp', $tornadoHttp);
+    }
+
     public function testMiddlewarePath()
     {
         $middleware = function(RequestInterface $request,  ResponseInterface $response, callable $next) {
@@ -99,7 +135,7 @@ class TornadoHttpTest extends PHPUnit_Framework_TestCase
 
         $response = $tornadoHttp($request, new Response());
 
-        $this->assertEquals(201, $response->getStatusCode());;
+        $this->assertEquals(201, $response->getStatusCode());
     }
 
     public function testEmptyMiddlewarePath()
@@ -161,23 +197,23 @@ class TornadoHttpTest extends PHPUnit_Framework_TestCase
     public function testEmptyMiddlewareMethod()
     {
         $middleware1 = function(RequestInterface $request,  ResponseInterface $response, callable $next) {
-            $response = $response->withStatus(500);
+            $response = $response->withStatus(201);
             return $next($request, $response);
         };
 
         $middleware2 = function(RequestInterface $request, ResponseInterface $response, callable $next) {
-            $response = $response->withStatus(201);
+            $response = $response->withStatus(500);
             return $next($request, $response);
         };
 
         $tornadoHttp = new DMS\TornadoHttp\TornadoHttp([
             [
                 'middleware' => $middleware1,
-                'methods'    => ['GET']
+                'methods'    => ['GET', 'POST']
             ],
             [
                 'middleware' => $middleware2,
-                'methods'    => ['GET', 'POST']
+                'methods'    => ['GET']
             ]
         ]);
 
@@ -189,13 +225,64 @@ class TornadoHttpTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(201, $response->getStatusCode());;
     }
-    
-// testMiddlewareEnv y testEmptyMiddlewareEnv
-// testCustomResolver
-// testResolveInjectContainerInterface y testResolveChildInjectContainerTrait
-// testMiddlewareException
-// testExtendMiddleware
-    
+
+    public function testMiddlewareEnvironment()
+    {
+        $middleware = function(RequestInterface $request,  ResponseInterface $response, callable $next) {
+            $response = $response->withStatus(201);
+            return $next($request, $response);
+        };
+
+        $tornadoHttp = new DMS\TornadoHttp\TornadoHttp([
+            [
+                'middleware' => $middleware,
+                'env'        => ['local']
+            ]
+        ]);
+        $tornadoHttp->setEnvironment('local');
+
+        /* @var $response ResponseInterface */
+        $request = ServerRequestFactory::fromGlobals();
+        $request = $request->withMethod('POST');
+
+        $response = $tornadoHttp($request, new Response());
+
+        $this->assertEquals(201, $response->getStatusCode());;
+    }
+
+    public function testEmptyMiddlewareEnvironment()
+    {
+        $middleware1 = function(RequestInterface $request,  ResponseInterface $response, callable $next) {
+            $response = $response->withStatus(201);
+            return $next($request, $response);
+        };
+
+        $middleware2 = function(RequestInterface $request, ResponseInterface $response, callable $next) {
+            $response = $response->withStatus(500);
+            return $next($request, $response);
+        };
+
+        $tornadoHttp = new DMS\TornadoHttp\TornadoHttp([
+            [
+                'middleware' => $middleware1,
+                'env'        => ['dev', 'local']
+            ],
+            [
+                'middleware' => $middleware2,
+                'env'        => ['prod']
+            ]
+        ]);
+        $tornadoHttp->setEnvironment('local');
+
+        /* @var $response ResponseInterface */
+        $request = ServerRequestFactory::fromGlobals();
+        $request = $request->withMethod('POST');
+
+        $response = $tornadoHttp($request, new Response());
+
+        $this->assertEquals(201, $response->getStatusCode());;
+    }
+
     public function testResponseMiddleware()
     {
         $middleware1 = function(RequestInterface $request, ResponseInterface $response, callable $next) {
@@ -282,6 +369,39 @@ class TornadoHttpTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\Interop\Container\ContainerInterface', $container);
     }
 
+    public function testSetEnvironment()
+    {
+        $middleware = function(RequestInterface $request,  ResponseInterface $response, callable $next) {
+            $response = $response->withStatus(201);
+            return $next($request, $response);
+        };
+
+        $tornadoHttp = new DMS\TornadoHttp\TornadoHttp([
+            [
+                'middleware' => $middleware,
+                'env'        => ['production']
+            ]
+        ]);
+        $tornadoHttp->setEnvironment('production');
+
+        /* @var $response ResponseInterface */
+        $request = ServerRequestFactory::fromGlobals();
+
+        $response = $tornadoHttp($request, new Response());
+
+        $this->assertEquals(201, $response->getStatusCode());;
+    }
+
+    public function testSetResolver()
+    {
+        $tornadoHttp = new DMS\TornadoHttp\TornadoHttp();
+        $tornadoHttp->setResolver(new CustomResolver());
+
+        $callable = $tornadoHttp->resolveMiddleware('Classes\TestMiddleware');
+
+        $this->assertInstanceOf('\Classes\TestMiddleware', $callable);
+    }
+
     public function testResolveCallableString()
     {
         $tornadoHttp = new DMS\TornadoHttp\TornadoHttp();
@@ -343,5 +463,35 @@ class TornadoHttpTest extends PHPUnit_Framework_TestCase
         $callable = $tornadoHttp->resolveMiddleware('Classes\TestChildTraitMiddleware');
 
         $this->assertInstanceOf('\Interop\Container\ContainerInterface', $callable->getContainer());
+    }
+
+    public function testResolveInjectContainerInterface()
+    {
+        $tornadoHttp = new DMS\TornadoHttp\TornadoHttp();
+        $tornadoHttp->setDI(new ServiceManager());
+
+        $callable = $tornadoHttp->resolveMiddleware('Classes\TestExtendsMiddlewareMiddleware');
+
+        $this->assertInstanceOf('\Interop\Container\ContainerInterface', $callable->getContainer());
+    }
+
+    public function testResolveChildInjectContainerInterface()
+    {
+        $tornadoHttp = new DMS\TornadoHttp\TornadoHttp();
+        $tornadoHttp->setDI(new ServiceManager());
+
+        $callable = $tornadoHttp->resolveMiddleware('Classes\TestChildExtendsMiddlewareMiddleware');
+
+        $this->assertInstanceOf('\Interop\Container\ContainerInterface', $callable->getContainer());
+    }
+
+    /**
+     * @expectedException \DMS\TornadoHttp\Exception\MiddlewareException
+     */
+    public function testMiddlewareException()
+    {
+        $tornadoHttp = new DMS\TornadoHttp\TornadoHttp();
+
+        $tornadoHttp->resolveMiddleware('Classes\TestNotCallableMiddleware');
     }
 }
