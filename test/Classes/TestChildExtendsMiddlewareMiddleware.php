@@ -8,6 +8,6 @@ class TestChildExtendsMiddlewareMiddleware extends TestExtendsMiddlewareMiddlewa
 {
     public function __invoke(RequestInterface $request, ResponseInterface $response, callable $next)
     {
-        return $response;
+        return $next($request, $response);
     }
 }

@@ -495,4 +495,20 @@ class TornadoHttpTest extends \PHPUnit_Framework_TestCase
 
         $tornadoHttp->resolveMiddleware('\Test\Classes\TestNotCallableMiddleware');
     }
+
+    public function testAllTestMiddlewares()
+    {
+        $tornadoHttp = new \DMS\TornadoHttp\TornadoHttp([
+            ['middleware' => 'Test\Classes\TestChildExtendsMiddlewareMiddleware'],
+            ['middleware' => 'Test\Classes\TestChildTraitMiddleware'],
+            ['middleware' => 'Test\Classes\TestExtendsMiddlewareMiddleware'],
+            ['middleware' => 'Test\Classes\TestMiddleware'],
+            ['middleware' => ['Test\Classes\TestParamMiddleware', [1, 2]]],
+            ['middleware' => 'Test\Classes\TestTraitMiddleware']
+        ]);
+
+        $response = $tornadoHttp(ServerRequestFactory::fromGlobals(), new Response());
+
+        $this->assertInstanceOf('\Psr\Http\Message\ResponseInterface', $response);
+    }
 }

@@ -54,7 +54,7 @@ class Resolver implements ResolverInterface
             throw new MiddlewareException('Middleware is not callable');
         }
 
-        if ($this->requireContainer($middleware)) {
+        if ($this->container && $this->requireContainer($middleware)) {
             $middleware->setContainer($this->container);
         }
 
