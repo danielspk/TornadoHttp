@@ -1,5 +1,5 @@
 <?php
-namespace Classes;
+namespace Test\Classes;
 
 use DMS\TornadoHttp\Container\ContainerTrait;
 use Psr\Http\Message\RequestInterface;

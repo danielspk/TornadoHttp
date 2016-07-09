@@ -1,5 +1,5 @@
 <?php
-namespace Classes;
+namespace Test\Classes;
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;

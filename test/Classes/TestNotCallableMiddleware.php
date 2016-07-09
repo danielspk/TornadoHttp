@@ -1,5 +1,5 @@
 <?php
-namespace Classes;
+namespace Test\Classes;
 
 class TestNotCallableMiddleware
 {

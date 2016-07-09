@@ -1,5 +1,5 @@
 <?php
-namespace Resolver;
+namespace Test\Resolver;
 
 use DMS\TornadoHttp\Resolver\ResolverInterface;
 

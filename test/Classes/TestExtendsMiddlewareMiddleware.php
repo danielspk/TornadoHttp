@@ -1,5 +1,5 @@
 <?php
-namespace Classes;
+namespace Test\Classes;
 
 use DMS\TornadoHttp\Middleware\Middleware;
 use Psr\Http\Message\RequestInterface;
