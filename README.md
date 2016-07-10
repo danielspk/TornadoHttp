@@ -53,7 +53,7 @@ Tornado Http puede construirse de varias formas:
     $app = new DMS\TornadoHttp\TornadoHttp([
         ['middleware' => (new MiddlewareClass)],
         ['middleware' => $middlewareOne],
-        ['middleware' => '@MiddlewareTwo'],
+        ['middleware' => 'ServiceMiddlewareTwo'],
         ['middleware' => 'App\MiddlewareThree, 'path' => '/admin'],
         ['middleware' => ['App\MiddlewareFour', [$paramOne, $paramTwo]]]
     ]);
@@ -100,6 +100,7 @@ Pendiente de documentar...
 Cada middleware puede ser registrado con los siguientes filtros de ejecución:
 * Métodos HTTP
 * Path URL
+* Entornos de ejecución
 
 **Ejemplos:**
 
@@ -109,8 +110,8 @@ Pendiente de documentar...
 
 Tornado Http facilita un trait que puede ser utilizado dentro de sus propias clases middleware.
 
-Cuando Tornado Http detecta que un middleware utiliza `ContainerTrait` inyecta automáticamente su contenedor de
-dependencias.
+Cuando Tornado Http detecta que un middleware utiliza `Container\ContainerTrait` inyecta automáticamente su contenedor
+de dependencias.
 
 Podrá acceder al contenedor de dependencias dentro del middleware de la siguiente forma:
 
@@ -126,28 +127,62 @@ Podrá acceder al contenedor de dependencias dentro del middleware de la siguien
     }
 ```
 
-### Resumen de Métodos:
+### Resumen de Interfaces/Traits/Clases y Métodos:
 
 **DMS\TornadoHttp\TornadoHttp**
 
 | Método | Detalle |
 | ------ | ------- |
-| __construct(array = [], ContainerInterface = null) | Crea una instancia de Tornado Http |
+| __construct(array = [], ContainerInterface = null, ResolverInterface = null, string = 'dev') | Crea una instancia de Tornado Http |
 | __invoke(RequestInterface, ResponseInterface) | Invocación |
-| add(callable&#124;object&#124;string&#124;array, string = null, array = null, int = null) | Agrega un Middleware a la cola |
+| add(callable&#124;object&#124;string&#124;array, string = null, array = null, array = null, int = null) | Agrega un Middleware a la cola |
 | addList(array) | Agrega una lista de Middlewares a la cola |
 | getMiddlewareIndex() | Devuelve el índice actual de la cola de Middlewares |
 | setDI(ContainerInterface) | Asigna un contenedor de dependencias |
 | getDI() | Recupera el contenedor de dependencias asignado |
-| resolveCallable(callable&#124;string&#124;array) | Resuelve y ejecuta un Middleware |
+| setResolver(ResolverInterface) | Asigna un resolver de middlewares |
+| setEnvironment(string) | Asigna el entorno de ejecución |
+| resolveMiddleware(callable&#124;string&#124;array) | Resuelve y ejecuta un Middleware |
 
-**DMS\TornadoHttp\ContainerTrait**
+**DMS\TornadoHttp\Container\ContainerTrait**
 
 | Método | Detalle |
 | ------ | ------- |
 | setContainer(ContainerInterface) | Asigna un contenedor de dependencias |
 | getContainer() | Recupera el contenedor de dependencias asignado |
 
+**DMS\TornadoHttp\Container\InjectContainerInterface**
+
+| Método | Detalle |
+| ------ | ------- |
+| setContainer(ContainerInterface) | Asigna un contenedor de dependencias |
+| getContainer() | Recupera el contenedor de dependencias asignado |
+
+**DMS\TornadoHttp\Middleware\Middleware**
+
+| Método | Detalle |
+| ------ | ------- |
+| setContainer(ContainerInterface) | Asigna un contenedor de dependencias |
+| getContainer() | Recupera el contenedor de dependencias asignado |
+
+**DMS\TornadoHttp\Middleware\MiddlewareInterface**
+
+| Método | Detalle |
+| ------ | ------- |
+| __invoke(RequestInterface, ResponseInterface) | Invocación |
+
+**DMS\TornadoHttp\Resolver\Resolver**
+
+| Método | Detalle |
+| ------ | ------- |
+| __construct(ContainerInterface = null) | Crea una instancia del resolver |
+| solve(callable&#124;object&#124;string&#124;array) | Resuelve un middleware |
+
+**DMS\TornadoHttp\Resolver\ResolverInterface**
+
+| Método | Detalle |
+| ------ | ------- |
+| solve(callable&#124;object&#124;string&#124;array) | Resuelve un middleware |
 
 ## Inspiracion:
 

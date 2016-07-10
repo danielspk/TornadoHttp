@@ -1,7 +1,13 @@
 <?php
-namespace Classes;
+namespace Test\Classes;
 
-use Classes\TestTraitMiddleware;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 class TestChildTraitMiddleware extends TestTraitMiddleware
-{}
+{
+    public function __invoke(RequestInterface $request, ResponseInterface $response, callable $next)
+    {
+        return $next($request, $response);
+    }
+}
