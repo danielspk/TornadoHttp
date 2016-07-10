@@ -1,6 +1,6 @@
 # Change Log
 
-## [1.4.0](https://github.com/danielspk/TornadoHttp/releases/tag/v1.4.0) (2016-07-09)
+## [1.4.0](https://github.com/danielspk/TornadoHttp/releases/tag/v1.4.0) (2016-07-10)
 
 * *Core: Add Middleware interface*
 * *Core: Add Middleware abstract class*
