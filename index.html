@@ -75,12 +75,12 @@ ejemplo que le mostrará como puede crear sus propios middlewares y utilizar paq
 <h4>
 <a id="sin-parámetros" class="anchor" href="#sin-par%C3%A1metros" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Sin parámetros:</h4>
 
-<div class="highlight highlight-text-html-php"><pre><span class="pl-s1">    <span class="pl-smi">$app</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">DMS\TornadoHttp\</span><span class="pl-c1">TornadoHttp</span>();</span></pre></div>
+<div class="highlight highlight-text-html-php"><pre><span class="pl-s1">    <span class="pl-smi">$app</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">\DMS\TornadoHttp\</span><span class="pl-c1">TornadoHttp</span>();</span></pre></div>
 
 <h4>
-<a id="con-middlewares" class="anchor" href="#con-middlewares" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Con Middlewares</h4>
+<a id="con-una-lista-de-middlewares" class="anchor" href="#con-una-lista-de-middlewares" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Con una lista de Middlewares</h4>
 
-<div class="highlight highlight-text-html-php"><pre><span class="pl-s1">    <span class="pl-smi">$app</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">DMS\TornadoHttp\</span><span class="pl-c1">TornadoHttp</span>([</span>
+<div class="highlight highlight-text-html-php"><pre><span class="pl-s1">    <span class="pl-smi">$app</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">\DMS\TornadoHttp\</span><span class="pl-c1">TornadoHttp</span>([</span>
 <span class="pl-s1">        [<span class="pl-s"><span class="pl-pds">'</span>middleware<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> (<span class="pl-k">new</span> <span class="pl-c1">MiddlewareClass</span>)],</span>
 <span class="pl-s1">        [<span class="pl-s"><span class="pl-pds">'</span>middleware<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-smi">$middlewareOne</span>],</span>
 <span class="pl-s1">        [<span class="pl-s"><span class="pl-pds">'</span>middleware<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>ServiceMiddlewareTwo<span class="pl-pds">'</span></span>],</span>
@@ -88,11 +88,11 @@ ejemplo que le mostrará como puede crear sus propios middlewares y utilizar paq
 <span class="pl-s1">        [<span class="pl-s"><span class="pl-pds">'</span>middleware<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> [<span class="pl-s"><span class="pl-pds">'</span>App\MiddlewareFour<span class="pl-pds">'</span></span>, [<span class="pl-smi">$paramOne</span>, <span class="pl-smi">$paramTwo</span>]]]</span>
 <span class="pl-s1">    ]);</span></pre></div>
 
-<p>Nota: Puede ver que hay cinco formas de registrar un Middleware: object, callable, referencia a servicio, string y
-array. Más adelante se explicará en detalle cada una de estas formas.</p>
+<p>Nota: Puede ver que hay cinco formas de registrar un Middleware: object, callable, string referencia a servicio, string
+con namespace de clase y array. Más adelante se explicará en detalle cada una de estas formas.</p>
 
 <h4>
-<a id="con-contenedor-de-dependencias" class="anchor" href="#con-contenedor-de-dependencias" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Con Contenedor de Dependencias</h4>
+<a id="con-un-contenedor-de-dependencias" class="anchor" href="#con-un-contenedor-de-dependencias" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Con un Contenedor de Dependencias</h4>
 
 <div class="highlight highlight-text-html-php"><pre><span class="pl-s1">    <span class="pl-smi">$app</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">DMS\TornadoHttp\</span><span class="pl-c1">TornadoHttp</span>(</span>
 <span class="pl-s1">        [],</span>
@@ -101,6 +101,16 @@ array. Más adelante se explicará en detalle cada una de estas formas.</p>
 
 <p>Nota: El contenedor de dependencias a utilizar debe implementar la interface <code>Container Interop</code>. Puede obtener más
 información al respecto en el siguiente <a href="https://github.com/container-interop/container-interop">link</a>.</p>
+
+<h4>
+<a id="con-un-resolver-de-middleware" class="anchor" href="#con-un-resolver-de-middleware" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Con un Resolver de Middleware</h4>
+
+<p>Pendiente de documentar...</p>
+
+<h4>
+<a id="con-un-entorno-de-ejecución" class="anchor" href="#con-un-entorno-de-ejecuci%C3%B3n" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Con un Entorno de Ejecución</h4>
+
+<p>Pendiente de documentar...</p>
 
 <h3>
 <a id="cola-de-middlewares" class="anchor" href="#cola-de-middlewares" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Cola de Middlewares:</h3>
@@ -120,16 +130,16 @@ información al respecto en el siguiente <a href="https://github.com/container-i
 
 <p>Pendiente de documentar...</p>
 
-<p>Tornado Http dispone de un método propio que resuelve automáticamente como ejecutar un middleware registrado.
-Existen cinco formas de registrar middlewares en Tornado Http:</p>
+<p>Tornado Http dispone de una clase propia que resuelve automáticamente como ejecutar un middleware registrado.</p>
+
+<p>Existen cinco formas de registrar middlewares en Tornado Http:</p>
 
 <ul>
 <li>mediante una <code>instancia de clase</code>
 </li>
 <li>mediante un <code>callable</code>
 </li>
-<li>mediante un <code>string</code> que hace referencia a un <code>servicio</code>
-</li>
+<li>mediante un <code>string</code> que hace referencia a un <code>servicio</code> contenido en el Contenedor de Dependencias</li>
 <li>mediante un <code>string</code> que hace referencia a una <code>clase</code>
 </li>
 <li>mediante un <code>array</code>
@@ -143,9 +153,9 @@ Existen cinco formas de registrar middlewares en Tornado Http:</p>
 <p>Cada middleware puede ser registrado con los siguientes filtros de ejecución:</p>
 
 <ul>
-<li>Métodos HTTP</li>
+<li>Métodos HTTP permitidos</li>
 <li>Path URL</li>
-<li>Entornos de ejecución</li>
+<li>Entornos de ejecución permitidos</li>
 </ul>
 
 <p><strong>Ejemplos:</strong></p>
@@ -155,22 +165,32 @@ Existen cinco formas de registrar middlewares en Tornado Http:</p>
 <h3>
 <a id="trait" class="anchor" href="#trait" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Trait:</h3>
 
-<p>Tornado Http facilita un trait que puede ser utilizado dentro de sus propias clases middleware.</p>
+<p>Tornado Http facilita un trait que puede ser utilizado dentro de sus propios middlewares.</p>
 
-<p>Cuando Tornado Http detecta que un middleware utiliza <code>Container\ContainerTrait</code> inyecta automáticamente su contenedor
-de dependencias.</p>
+<p>Cuando Tornado Http detecta que un middleware utiliza <code>Container\ContainerTrait</code> inyecta automáticamente el contenedor
+de dependencias registrado en Tornado Http.</p>
 
-<p>Podrá acceder al contenedor de dependencias dentro del middleware de la siguiente forma:</p>
+<p>Se podrá acceder al contenedor de dependencias, dentro del middleware, de la siguiente forma:</p>
 
 <div class="highlight highlight-text-html-php"><pre><span class="pl-s1">    <span class="pl-k">class</span> <span class="pl-en">ExampleMiddleware</span></span>
 <span class="pl-s1">    {</span>
-<span class="pl-s1">        <span class="pl-k">use</span> <span class="pl-c1">\DMS\TornadoHttp\ContainerTrait</span>;</span>
+<span class="pl-s1">        <span class="pl-k">use</span> <span class="pl-c1">\DMS\TornadoHttp\Container\ContainerTrait</span>;</span>
 <span class="pl-s1"></span>
 <span class="pl-s1">        <span class="pl-k">public</span> <span class="pl-k">function</span> <span class="pl-en">getViewEngine</span>()</span>
 <span class="pl-s1">        {</span>
 <span class="pl-s1">            <span class="pl-k">return</span> <span class="pl-smi">$this</span><span class="pl-k">-&gt;</span><span class="pl-smi">container</span><span class="pl-k">-&gt;</span>get(<span class="pl-s"><span class="pl-pds">'</span>view_engine<span class="pl-pds">'</span></span>);</span>
 <span class="pl-s1">        }</span>
 <span class="pl-s1">    }</span></pre></div>
+
+<h3>
+<a id="middleware-abstracto" class="anchor" href="#middleware-abstracto" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Middleware Abstracto:</h3>
+
+<p>Pendiente de documentar...</p>
+
+<h3>
+<a id="middleware-resolver" class="anchor" href="#middleware-resolver" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Middleware Resolver:</h3>
+
+<p>Pendiente de documentar...</p>
 
 <h3>
 <a id="resumen-de-interfacestraitsclases-y-métodos" class="anchor" href="#resumen-de-interfacestraitsclases-y-m%C3%A9todos" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Resumen de Interfaces/Traits/Clases y Métodos:</h3>
