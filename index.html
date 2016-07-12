@@ -83,7 +83,7 @@ ejemplo que le mostrará como puede crear sus propios middlewares y utilizar paq
 <div class="highlight highlight-text-html-php"><pre><span class="pl-s1">    <span class="pl-smi">$app</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">DMS\TornadoHttp\</span><span class="pl-c1">TornadoHttp</span>([</span>
 <span class="pl-s1">        [<span class="pl-s"><span class="pl-pds">'</span>middleware<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> (<span class="pl-k">new</span> <span class="pl-c1">MiddlewareClass</span>)],</span>
 <span class="pl-s1">        [<span class="pl-s"><span class="pl-pds">'</span>middleware<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-smi">$middlewareOne</span>],</span>
-<span class="pl-s1">        [<span class="pl-s"><span class="pl-pds">'</span>middleware<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>@MiddlewareTwo<span class="pl-pds">'</span></span>],</span>
+<span class="pl-s1">        [<span class="pl-s"><span class="pl-pds">'</span>middleware<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>ServiceMiddlewareTwo<span class="pl-pds">'</span></span>],</span>
 <span class="pl-s1">        [<span class="pl-s"><span class="pl-pds">'</span>middleware<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>App\MiddlewareThree, <span class="pl-pds">'</span></span><span class="pl-c1">path</span><span class="pl-s"><span class="pl-pds">'</span> =&gt; <span class="pl-pds">'</span></span><span class="pl-k">/</span><span class="pl-c1">admin</span><span class="pl-s"><span class="pl-pds">'</span>],</span></span>
 <span class="pl-s1"><span class="pl-s">        [<span class="pl-pds">'</span></span><span class="pl-c1">middleware</span><span class="pl-s"><span class="pl-pds">'</span> =&gt; [<span class="pl-pds">'</span></span><span class="pl-c1">App\</span><span class="pl-c1">MiddlewareFour</span><span class="pl-s"><span class="pl-pds">'</span>, [$paramOne, $paramTwo]]]</span></span>
 <span class="pl-s1"><span class="pl-s">    ]);</span></span></pre></div>
@@ -145,6 +145,7 @@ Existen cinco formas de registrar middlewares en Tornado Http:</p>
 <ul>
 <li>Métodos HTTP</li>
 <li>Path URL</li>
+<li>Entornos de ejecución</li>
 </ul>
 
 <p><strong>Ejemplos:</strong></p>
@@ -156,8 +157,8 @@ Existen cinco formas de registrar middlewares en Tornado Http:</p>
 
 <p>Tornado Http facilita un trait que puede ser utilizado dentro de sus propias clases middleware.</p>
 
-<p>Cuando Tornado Http detecta que un middleware utiliza <code>ContainerTrait</code> inyecta automáticamente su contenedor de
-dependencias.</p>
+<p>Cuando Tornado Http detecta que un middleware utiliza <code>Container\ContainerTrait</code> inyecta automáticamente su contenedor
+de dependencias.</p>
 
 <p>Podrá acceder al contenedor de dependencias dentro del middleware de la siguiente forma:</p>
 
@@ -172,7 +173,7 @@ dependencias.</p>
 <span class="pl-s1">    }</span></pre></div>
 
 <h3>
-<a id="resumen-de-métodos" class="anchor" href="#resumen-de-m%C3%A9todos" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Resumen de Métodos:</h3>
+<a id="resumen-de-interfacestraitsclases-y-métodos" class="anchor" href="#resumen-de-interfacestraitsclases-y-m%C3%A9todos" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Resumen de Interfaces/Traits/Clases y Métodos:</h3>
 
 <p><strong>DMS\TornadoHttp\TornadoHttp</strong></p>
 
@@ -185,7 +186,7 @@ dependencias.</p>
 </thead>
 <tbody>
 <tr>
-<td>__construct(array = [], ContainerInterface = null)</td>
+<td>__construct(array = [], ContainerInterface = null, ResolverInterface = null, string = 'dev')</td>
 <td>Crea una instancia de Tornado Http</td>
 </tr>
 <tr>
@@ -193,7 +194,7 @@ dependencias.</p>
 <td>Invocación</td>
 </tr>
 <tr>
-<td>add(callable|object|string|array, string = null, array = null, int = null)</td>
+<td>add(callable|object|string|array, string = null, array = null, array = null, int = null)</td>
 <td>Agrega un Middleware a la cola</td>
 </tr>
 <tr>
@@ -213,13 +214,21 @@ dependencias.</p>
 <td>Recupera el contenedor de dependencias asignado</td>
 </tr>
 <tr>
-<td>resolveCallable(callable|string|array)</td>
+<td>setResolver(ResolverInterface)</td>
+<td>Asigna un resolver de middlewares</td>
+</tr>
+<tr>
+<td>setEnvironment(string)</td>
+<td>Asigna el entorno de ejecución</td>
+</tr>
+<tr>
+<td>resolveMiddleware(callable|string|array)</td>
 <td>Resuelve y ejecuta un Middleware</td>
 </tr>
 </tbody>
 </table>
 
-<p><strong>DMS\TornadoHttp\ContainerTrait</strong></p>
+<p><strong>DMS\TornadoHttp\Container\ContainerTrait</strong></p>
 
 <table>
 <thead>
@@ -236,6 +245,103 @@ dependencias.</p>
 <tr>
 <td>getContainer()</td>
 <td>Recupera el contenedor de dependencias asignado</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>DMS\TornadoHttp\Container\InjectContainerInterface</strong></p>
+
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Detalle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>setContainer(ContainerInterface)</td>
+<td>Asigna un contenedor de dependencias</td>
+</tr>
+<tr>
+<td>getContainer()</td>
+<td>Recupera el contenedor de dependencias asignado</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>DMS\TornadoHttp\Middleware\Middleware</strong></p>
+
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Detalle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>setContainer(ContainerInterface)</td>
+<td>Asigna un contenedor de dependencias</td>
+</tr>
+<tr>
+<td>getContainer()</td>
+<td>Recupera el contenedor de dependencias asignado</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>DMS\TornadoHttp\Middleware\MiddlewareInterface</strong></p>
+
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Detalle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>__invoke(RequestInterface, ResponseInterface)</td>
+<td>Invocación</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>DMS\TornadoHttp\Resolver\Resolver</strong></p>
+
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Detalle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>__construct(ContainerInterface = null)</td>
+<td>Crea una instancia del resolver</td>
+</tr>
+<tr>
+<td>solve(callable|object|string|array)</td>
+<td>Resuelve un middleware</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>DMS\TornadoHttp\Resolver\ResolverInterface</strong></p>
+
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Detalle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>solve(callable|object|string|array)</td>
+<td>Resuelve un middleware</td>
 </tr>
 </tbody>
 </table>
