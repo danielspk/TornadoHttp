@@ -92,14 +92,14 @@ ejemplo que le mostrará como puede crear sus propios middlewares y utilizar paq
 con namespace de clase y array. Más adelante se explicará en detalle cada una de estas formas.</p>
 
 <h4>
-<a id="con-un-contenedor-de-dependencias" class="anchor" href="#con-un-contenedor-de-dependencias" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Con un Contenedor de Dependencias</h4>
+<a id="con-un-contenedor-de-servicios" class="anchor" href="#con-un-contenedor-de-servicios" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Con un Contenedor de Servicios</h4>
 
 <div class="highlight highlight-text-html-php"><pre><span class="pl-s1">    <span class="pl-smi">$app</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">DMS\TornadoHttp\</span><span class="pl-c1">TornadoHttp</span>(</span>
 <span class="pl-s1">        [],</span>
 <span class="pl-s1">        <span class="pl-k">new</span> <span class="pl-c1">Container</span>()</span>
 <span class="pl-s1">    );</span></pre></div>
 
-<p>Nota: El contenedor de dependencias a utilizar debe implementar la interface <code>Container Interop</code>. Puede obtener más
+<p>Nota: El contenedor de servicios a utilizar debe implementar la interface <code>Container Interop</code>. Puede obtener más
 información al respecto en el siguiente <a href="https://github.com/container-interop/container-interop">link</a>.</p>
 
 <h4>
@@ -139,7 +139,7 @@ información al respecto en el siguiente <a href="https://github.com/container-i
 </li>
 <li>mediante un <code>callable</code>
 </li>
-<li>mediante un <code>string</code> que hace referencia a un <code>servicio</code> contenido en el Contenedor de Dependencias</li>
+<li>mediante un <code>string</code> que hace referencia a un <code>servicio</code> contenido en el Contenedor de Servicios</li>
 <li>mediante un <code>string</code> que hace referencia a una <code>clase</code>
 </li>
 <li>mediante un <code>array</code>
@@ -168,9 +168,9 @@ información al respecto en el siguiente <a href="https://github.com/container-i
 <p>Tornado Http facilita un trait que puede ser utilizado dentro de sus propios middlewares.</p>
 
 <p>Cuando Tornado Http detecta que un middleware utiliza <code>Container\ContainerTrait</code> inyecta automáticamente el contenedor
-de dependencias registrado en Tornado Http.</p>
+de servicios registrado en Tornado Http.</p>
 
-<p>Se podrá acceder al contenedor de dependencias, dentro del middleware, de la siguiente forma:</p>
+<p>Se podrá acceder al contenedor de servicios, dentro del middleware, de la siguiente forma:</p>
 
 <div class="highlight highlight-text-html-php"><pre><span class="pl-s1">    <span class="pl-k">class</span> <span class="pl-en">ExampleMiddleware</span></span>
 <span class="pl-s1">    {</span>
@@ -232,11 +232,11 @@ de dependencias registrado en Tornado Http.</p>
 </tr>
 <tr>
 <td>setDI(ContainerInterface)</td>
-<td>Asigna un contenedor de dependencias</td>
+<td>Asigna un contenedor de servicios</td>
 </tr>
 <tr>
 <td>getDI()</td>
-<td>Recupera el contenedor de dependencias asignado</td>
+<td>Recupera el contenedor de servicios asignado</td>
 </tr>
 <tr>
 <td>setResolver(ResolverInterface)</td>
@@ -265,11 +265,11 @@ de dependencias registrado en Tornado Http.</p>
 <tbody>
 <tr>
 <td>setContainer(ContainerInterface)</td>
-<td>Asigna un contenedor de dependencias</td>
+<td>Asigna un contenedor de servicios</td>
 </tr>
 <tr>
 <td>getContainer()</td>
-<td>Recupera el contenedor de dependencias asignado</td>
+<td>Recupera el contenedor de servicios asignado</td>
 </tr>
 </tbody>
 </table>
@@ -286,11 +286,11 @@ de dependencias registrado en Tornado Http.</p>
 <tbody>
 <tr>
 <td>setContainer(ContainerInterface)</td>
-<td>Asigna un contenedor de dependencias</td>
+<td>Asigna un contenedor de servicios</td>
 </tr>
 <tr>
 <td>getContainer()</td>
-<td>Recupera el contenedor de dependencias asignado</td>
+<td>Recupera el contenedor de servicios asignado</td>
 </tr>
 </tbody>
 </table>
@@ -307,11 +307,11 @@ de dependencias registrado en Tornado Http.</p>
 <tbody>
 <tr>
 <td>setContainer(ContainerInterface)</td>
-<td>Asigna un contenedor de dependencias</td>
+<td>Asigna un contenedor de servicios</td>
 </tr>
 <tr>
 <td>getContainer()</td>
-<td>Recupera el contenedor de dependencias asignado</td>
+<td>Recupera el contenedor de servicios asignado</td>
 </tr>
 </tbody>
 </table>
