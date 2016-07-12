@@ -104,7 +104,7 @@ final class TornadoHttp
      * @param callable|object|string|array $middleware Middleware
      * @param string $path Path
      * @param array $methods Methods allowed
-     * @param array $environments Environment alowed
+     * @param array $environments Environment allowed
      * @param integer $index Index of the queue
      */
     public function add($middleware, $path = null, $methods = null, $environments = null, $index = null)
