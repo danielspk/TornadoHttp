@@ -44,25 +44,25 @@ Tornado Http puede construirse de varias formas:
 #### Sin parámetros:
 
 ```php
-    $app = new DMS\TornadoHttp\TornadoHttp();
+    $app = new \DMS\TornadoHttp\TornadoHttp();
 ```
 
-#### Con Middlewares
+#### Con una lista de Middlewares
 
 ```php
-    $app = new DMS\TornadoHttp\TornadoHttp([
+    $app = new \DMS\TornadoHttp\TornadoHttp([
         ['middleware' => (new MiddlewareClass)],
         ['middleware' => $middlewareOne],
         ['middleware' => 'ServiceMiddlewareTwo'],
-        ['middleware' => 'App\MiddlewareThree, 'path' => '/admin'],
+        ['middleware' => 'App\MiddlewareThree', 'path' => '/admin'],
         ['middleware' => ['App\MiddlewareFour', [$paramOne, $paramTwo]]]
     ]);
 ```
 
-Nota: Puede ver que hay cinco formas de registrar un Middleware: object, callable, referencia a servicio, string y
-array. Más adelante se explicará en detalle cada una de estas formas.
+Nota: Puede ver que hay cinco formas de registrar un Middleware: object, callable, string referencia a servicio, string
+con namespace de clase y array. Más adelante se explicará en detalle cada una de estas formas.
 
-#### Con Contenedor de Dependencias
+#### Con un Contenedor de Servicios
 
 ```php
     $app = new DMS\TornadoHttp\TornadoHttp(
@@ -71,8 +71,16 @@ array. Más adelante se explicará en detalle cada una de estas formas.
     );
 ```
 
-Nota: El contenedor de dependencias a utilizar debe implementar la interface `Container Interop`. Puede obtener más
+Nota: El contenedor de servicios a utilizar debe implementar la interface `Container Interop`. Puede obtener más
 información al respecto en el siguiente [link](https://github.com/container-interop/container-interop).
+
+#### Con un Resolver de Middleware
+
+Pendiente de documentar...
+
+#### Con un Entorno de Ejecución
+
+Pendiente de documentar...
 
 ### Cola de Middlewares:
 
@@ -85,11 +93,12 @@ Tornado Http permite registrar middlewares de 3 formas distintas:
 
 Pendiente de documentar...
 
-Tornado Http dispone de un método propio que resuelve automáticamente como ejecutar un middleware registrado.
+Tornado Http dispone de una clase propia que resuelve automáticamente como ejecutar un middleware registrado.
+
 Existen cinco formas de registrar middlewares en Tornado Http:
 * mediante una `instancia de clase`
 * mediante un `callable`
-* mediante un `string` que hace referencia a un `servicio`
+* mediante un `string` que hace referencia a un `servicio` contenido en el Contenedor de Servicios
 * mediante un `string` que hace referencia a una `clase`
 * mediante un `array`
 
@@ -98,27 +107,27 @@ Existen cinco formas de registrar middlewares en Tornado Http:
 Pendiente de documentar...
 
 Cada middleware puede ser registrado con los siguientes filtros de ejecución:
-* Métodos HTTP
+* Métodos HTTP permitidos
 * Path URL
-* Entornos de ejecución
+* Entornos de ejecución permitidos
 
 **Ejemplos:**
 
 Pendiente de documentar...
 
-### Trait:
+### Container Trait:
 
-Tornado Http facilita un trait que puede ser utilizado dentro de sus propias clases middleware.
+Tornado Http facilita un trait que puede ser utilizado dentro de sus propios middlewares.
 
-Cuando Tornado Http detecta que un middleware utiliza `Container\ContainerTrait` inyecta automáticamente su contenedor
-de dependencias.
+Cuando Tornado Http detecta que un middleware utiliza `Container\ContainerTrait` inyecta automáticamente el contenedor
+de servicios registrado en Tornado Http.
 
-Podrá acceder al contenedor de dependencias dentro del middleware de la siguiente forma:
+Se podrá acceder al contenedor de servicios, dentro del middleware, de la siguiente forma:
 
 ```php
     class ExampleMiddleware
     {
-        use \DMS\TornadoHttp\ContainerTrait;
+        use \DMS\TornadoHttp\Container\ContainerTrait;
 
         public function getViewEngine()
         {
@@ -126,6 +135,18 @@ Podrá acceder al contenedor de dependencias dentro del middleware de la siguien
         }
     }
 ```
+
+### Inject Container Interface:
+
+Pendiente de documentar...
+
+### Middleware Abstracto:
+
+Pendiente de documentar...
+
+### Middleware Resolver:
+
+Pendiente de documentar...
 
 ### Resumen de Interfaces/Traits/Clases y Métodos:
 
@@ -138,8 +159,8 @@ Podrá acceder al contenedor de dependencias dentro del middleware de la siguien
 | add(callable&#124;object&#124;string&#124;array, string = null, array = null, array = null, int = null) | Agrega un Middleware a la cola |
 | addList(array) | Agrega una lista de Middlewares a la cola |
 | getMiddlewareIndex() | Devuelve el índice actual de la cola de Middlewares |
-| setDI(ContainerInterface) | Asigna un contenedor de dependencias |
-| getDI() | Recupera el contenedor de dependencias asignado |
+| setDI(ContainerInterface) | Asigna un contenedor de servicios |
+| getDI() | Recupera el contenedor de servicios asignado |
 | setResolver(ResolverInterface) | Asigna un resolver de middlewares |
 | setEnvironment(string) | Asigna el entorno de ejecución |
 | resolveMiddleware(callable&#124;string&#124;array) | Resuelve y ejecuta un Middleware |
@@ -148,22 +169,22 @@ Podrá acceder al contenedor de dependencias dentro del middleware de la siguien
 
 | Método | Detalle |
 | ------ | ------- |
-| setContainer(ContainerInterface) | Asigna un contenedor de dependencias |
-| getContainer() | Recupera el contenedor de dependencias asignado |
+| setContainer(ContainerInterface) | Asigna un contenedor de servicios |
+| getContainer() | Recupera el contenedor de servicios asignado |
 
 **DMS\TornadoHttp\Container\InjectContainerInterface**
 
 | Método | Detalle |
 | ------ | ------- |
-| setContainer(ContainerInterface) | Asigna un contenedor de dependencias |
-| getContainer() | Recupera el contenedor de dependencias asignado |
+| setContainer(ContainerInterface) | Asigna un contenedor de servicios |
+| getContainer() | Recupera el contenedor de servicios asignado |
 
 **DMS\TornadoHttp\Middleware\Middleware**
 
 | Método | Detalle |
 | ------ | ------- |
-| setContainer(ContainerInterface) | Asigna un contenedor de dependencias |
-| getContainer() | Recupera el contenedor de dependencias asignado |
+| setContainer(ContainerInterface) | Asigna un contenedor de servicios |
+| getContainer() | Recupera el contenedor de servicios asignado |
 
 **DMS\TornadoHttp\Middleware\MiddlewareInterface**
 
@@ -196,3 +217,4 @@ El proyecto se distribuye bajo la licencia MIT.
 ## Sugerencias y colaboración:
 
 Email: info@daniel.spiridione.com.ar
+

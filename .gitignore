@@ -1,5 +1,5 @@
-resources/
 vendor/
+
 composer.lock
 phpunit.phar
 phpunit.xml
