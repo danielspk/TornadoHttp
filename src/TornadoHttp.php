@@ -100,7 +100,6 @@ final class TornadoHttp
     /**
      * Register one middleware
      *
-     * @todo: validate types params
      * @param callable|object|string|array $middleware Middleware
      * @param string $path Path
      * @param array $methods Methods allowed
@@ -126,7 +125,6 @@ final class TornadoHttp
     /**
      * Register middleware from an array
      *
-     * @todo: validate array format
      * @param array $middlewares Middlewares
      * @throws MiddlewareException
      */
