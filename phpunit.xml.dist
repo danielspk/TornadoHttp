@@ -11,7 +11,14 @@
          bootstrap="test/bootstrap.php">
     <testsuites>
         <testsuite name="Tornado Http Tests">
-            <directory suffix=".php">./test</directory>
+            <directory>./test</directory>
         </testsuite>
     </testsuites>
+
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix="Test.php">/tests/</directory>
+        </whitelist>
+    </filter>
+
 </phpunit>
