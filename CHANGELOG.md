@@ -1,5 +1,10 @@
 # Change Log
 
+## [1.5.1](https://github.com/danielspk/TornadoHttp/releases/tag/v1.5.1) (2017-03-21)
+
+* *Test: fix phpunit v6*
+* *Test: remove support hhvm*
+
 ## [1.5.0](https://github.com/danielspk/TornadoHttp/releases/tag/v1.5.0) (2017-03-21)
 
 * *Core: tornadoHttp: PHP 7 minimum version*
