@@ -11,7 +11,7 @@
          bootstrap="test/bootstrap.php">
     <testsuites>
         <testsuite name="Tornado Http Tests">
-            <directory>./test</directory>
+            <directory suffix=".php">./test</directory>
         </testsuite>
     </testsuites>
 </phpunit>
