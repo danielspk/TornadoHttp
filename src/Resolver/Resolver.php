@@ -11,7 +11,7 @@ use Interop\Container\ContainerInterface;
  * @author Daniel M. Spiridione <info@daniel-spiridione.com.ar>
  * @link http://tornadohttp.com
  * @license https://raw.githubusercontent.com/danielspk/TornadoHttp/master/LICENSE.md MIT License
- * @version 1.4.0
+ * @version 1.5.0
  */
 class Resolver implements ResolverInterface
 {
@@ -37,7 +37,7 @@ class Resolver implements ResolverInterface
      * @return callable Callable
      * @throws MiddlewareException
      */
-    public function solve($middleware)
+    public function solve($middleware) : callable
     {
         if (is_string($middleware)) {
             if ($this->container && $this->container->has($middleware)) {
@@ -67,14 +67,13 @@ class Resolver implements ResolverInterface
      * @param callable $middleware Middleware object
      * @return boolean Use ContainerTrait
      */
-    private function requireContainer(callable $middleware)
+    private function requireContainer(callable $middleware) : bool
     {
         /** @var \DMS\TornadoHttp\Container\InjectContainerInterface $middleware */
 
         $rc = new \ReflectionClass($middleware);
 
         $recursiveReflection = function (\ReflectionClass $class) use(&$recursiveReflection, &$middleware) {
-
             if (
                 in_array('DMS\TornadoHttp\Container\ContainerTrait', $class->getTraitNames()) ||
                 in_array('DMS\TornadoHttp\Container\InjectContainerInterface', $class->getInterfaceNames())

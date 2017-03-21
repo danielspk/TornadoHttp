@@ -11,7 +11,7 @@ use Interop\Container\ContainerInterface;
  * @author Daniel M. Spiridione <info@daniel-spiridione.com.ar>
  * @link http://tornadohttp.com
  * @license https://raw.githubusercontent.com/danielspk/TornadoHttp/master/LICENSE.md MIT License
- * @version 1.4.0
+ * @version 1.5.0
  */
 abstract class Middleware implements MiddlewareInterface, InjectContainerInterface
 {
@@ -24,10 +24,13 @@ abstract class Middleware implements MiddlewareInterface, InjectContainerInterfa
      * Set the Service Container
      *
      * @param ContainerInterface $container Service Container
+     * @return Middleware
      */
-    public function setContainer(ContainerInterface $container)
+    public function setContainer(ContainerInterface $container) : Middleware
     {
         $this->container = $container;
+
+        return $this;
     }
 
     /**
@@ -35,7 +38,7 @@ abstract class Middleware implements MiddlewareInterface, InjectContainerInterfa
      *
      * @return ContainerInterface Service Container
      */
-    public function getContainer()
+    public function getContainer() : ContainerInterface
     {
         return $this->container;
     }
