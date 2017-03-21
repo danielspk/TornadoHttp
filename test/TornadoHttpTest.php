@@ -9,7 +9,7 @@ use Zend\Diactoros\ServerRequestFactory;
 use Zend\ServiceManager\Config;
 use Zend\ServiceManager\ServiceManager;
 
-class TornadoHttpTest extends \PHPUnit_Framework_TestCase
+class TornadoHttpTest extends \PHPUnit\Framework\TestCase
 {
     public function testTornadoHttpInstance()
     {
