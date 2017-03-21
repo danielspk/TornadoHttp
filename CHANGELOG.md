@@ -1,5 +1,9 @@
 # Change Log
 
+## [1.5.0](https://github.com/danielspk/TornadoHttp/releases/tag/v1.5.0) (2017-03-21)
+
+* *Core: tornadoHttp: PHP 7 minimum version*
+
 ## [1.4.1](https://github.com/danielspk/TornadoHttp/releases/tag/v1.4.1) (2016-07-13)
 
 * *Core: tornadoHttp: remove @todo docblock*
