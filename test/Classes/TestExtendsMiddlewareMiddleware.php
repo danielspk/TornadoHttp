@@ -7,7 +7,7 @@ use Psr\Http\Message\ResponseInterface;
 
 class TestExtendsMiddlewareMiddleware extends Middleware
 {
-    public function __invoke(RequestInterface $request, ResponseInterface $response, callable $next)
+    public function __invoke(RequestInterface $request, ResponseInterface $response, callable $next) : ResponseInterface
     {
         return $next($request, $response);
     }

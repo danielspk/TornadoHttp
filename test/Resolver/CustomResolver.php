@@ -5,7 +5,7 @@ use DMS\TornadoHttp\Resolver\ResolverInterface;
 
 class CustomResolver implements ResolverInterface
 {
-    public function solve($middleware)
+    public function solve($middleware) : callable
     {
         return new $middleware;
     }
