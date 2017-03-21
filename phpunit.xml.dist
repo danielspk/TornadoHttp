@@ -9,9 +9,14 @@
          stopOnFailure="false"
          syntaxCheck="false"
          bootstrap="test/bootstrap.php">
+     <filter>
+         <whitelist processUncoveredFilesFromWhitelist="true">
+             <directory suffix=".php">./src</directory>
+         </whitelist>
+     </filter>
     <testsuites>
         <testsuite name="Tornado Http Tests">
-            <directory>./test</directory>
+            <directory suffix=".php">./test</directory>
         </testsuite>
     </testsuites>
 </phpunit>
