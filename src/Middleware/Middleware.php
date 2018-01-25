@@ -48,8 +48,15 @@ abstract class Middleware implements MiddlewareInterface, InjectContainerInterfa
         return $this->container;
     }
 
+    /**
+     * Process
+     *
+     * @param ServerRequestInterface $request Request
+     * @param RequestHandlerInterface $handler Middleware handlers
+     * @return ResponseInterface
+     */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
     {
-        return $handler->process($request);
+        return $handler->handle($request);
     }
 }
