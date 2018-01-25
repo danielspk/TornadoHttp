@@ -164,6 +164,7 @@ Pendiente de documentar...
 | getMiddlewareIndex() : int | Devuelve el índice actual de la cola de Middlewares |
 | setDI(ContainerInterface) : TornadoHttp | Asigna un contenedor de servicios |
 | getDI() : ContainerInterface | Recupera el contenedor de servicios asignado |
+| getResponse() : ResponseInterface | Recupera la respuesta del último middleware ejecutado |
 | setResolver(ResolverInterface) : TornadoHttp | Asigna un resolver de middlewares |
 | setEnvironment(string) : TornadoHttp | Asigna el entorno de ejecución |
 | resolveMiddleware(mixed) : MiddlewareInterface | Resuelve y ejecuta un Middleware |

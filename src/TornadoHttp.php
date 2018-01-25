@@ -177,6 +177,16 @@ final class TornadoHttp implements RequestHandlerInterface
     }
 
     /**
+     * Get the last Response
+     *
+     * @return ResponseInterface Response
+     */
+    public function getResponse() : ResponseInterface
+    {
+        return $this->response;
+    }
+
+    /**
      * Set the Middleware Resolver
      *
      * @param ResolverInterface $resolver Middleware Resolver
