@@ -10,21 +10,21 @@ TORNADO HTTP
 
 ![ScreenShot](http://daniel-spiridione.com.ar/images/proyectos/tornado-php.png)
 
-TORNADO HTTP es un contenedor middleware PSR-7
+TORNADO HTTP es un handler de middlewares [PSR-15](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-15-request-handlers.md)
 
 ## Documentación:
 
 La siguiente documentación le enseñará el uso de Tornado Http. Si lo desea puede descargar una aplicación esqueleto de
 ejemplo que le mostrará como puede crear sus propios middlewares y utilizar paquetes de terceros como Doctrine y Twig:
 
-https://github.com/danielspk/TornadoHttpSkeletonApplication
+https://github.com/danielspk/TornadoHttpSkeletonApplication - *(Solo para la versión 1.x de Tornado Http)*
 
 ### Instalación:
 
 Se recomienda instalar esta librería mediante el uso de Composer de la siguiente forma:
 
 ```
-    php composer.phar require danielspk/tornadohttp:~1.0
+    php composer.phar require danielspk/tornadohttp:~2.0
 ```
 
 Esto instalará Tornado HTTP y creará o actualizará el archivo `composer.json` con la siguiente dependencia:
@@ -32,7 +32,7 @@ Esto instalará Tornado HTTP y creará o actualizará el archivo `composer.json`
 ```
 {
     "require": {
-        "danielspk/tornadohttp": "~1.0"
+        "danielspk/tornadohttp": "~2.0"
     }
 }
 ```
@@ -59,7 +59,7 @@ Tornado Http puede construirse de varias formas:
     ]);
 ```
 
-Nota: Puede ver que hay cinco formas de registrar un Middleware: object, callable, string referencia a servicio, string
+Nota: Puede ver que hay cuatro formas de registrar un Middleware: instancia de MiddlewareInterface, string referencia a servicio, string
 con namespace de clase y array. Más adelante se explicará en detalle cada una de estas formas.
 
 #### Con un Contenedor de Servicios
@@ -95,12 +95,13 @@ Pendiente de documentar...
 
 Tornado Http dispone de una clase propia que resuelve automáticamente como ejecutar un middleware registrado.
 
-Existen cinco formas de registrar middlewares en Tornado Http:
+Existen cuatro formas de registrar middlewares en Tornado Http:
 * mediante una `instancia de clase`
-* mediante un `callable`
 * mediante un `string` que hace referencia a un `servicio` contenido en el Contenedor de Servicios
 * mediante un `string` que hace referencia a una `clase`
 * mediante un `array`
+
+Todos los middlewares deben implementar `\Psr\Http\Server\MiddlewareInterface`.
 
 **Ejemplos:**
 
@@ -125,7 +126,7 @@ de servicios registrado en Tornado Http.
 Se podrá acceder al contenedor de servicios, dentro del middleware, de la siguiente forma:
 
 ```php
-    class ExampleMiddleware
+    class ExampleMiddleware implements \Psr\Http\Server\MiddlewareInterface
     {
         use \DMS\TornadoHttp\Container\ContainerTrait;
 
@@ -133,6 +134,8 @@ Se podrá acceder al contenedor de servicios, dentro del middleware, de la sigui
         {
             return $this->container->get('view_engine');
         }
+
+        // ...
     }
 ```
 
@@ -155,55 +158,49 @@ Pendiente de documentar...
 | Método | Detalle |
 | ------ | ------- |
 | __construct(array = [], ContainerInterface = null, ResolverInterface = null, string = 'dev') | Crea una instancia de Tornado Http |
-| __invoke(RequestInterface, ResponseInterface) | Invocación |
-| add(callable&#124;object&#124;string&#124;array, string = null, array = null, array = null, int = null) | Agrega un Middleware a la cola |
+| handle(ServerRequestInterface) : ResponseInterface | Ejecución de handlers |
+| add(mixed, string = null, array = null, array = null, int = null) | Agrega un Middleware a la cola |
 | addList(array) | Agrega una lista de Middlewares a la cola |
-| getMiddlewareIndex() | Devuelve el índice actual de la cola de Middlewares |
-| setDI(ContainerInterface) | Asigna un contenedor de servicios |
-| getDI() | Recupera el contenedor de servicios asignado |
-| setResolver(ResolverInterface) | Asigna un resolver de middlewares |
-| setEnvironment(string) | Asigna el entorno de ejecución |
-| resolveMiddleware(callable&#124;string&#124;array) | Resuelve y ejecuta un Middleware |
+| getMiddlewareIndex() : int | Devuelve el índice actual de la cola de Middlewares |
+| setDI(ContainerInterface) : TornadoHttp | Asigna un contenedor de servicios |
+| getDI() : ContainerInterface | Recupera el contenedor de servicios asignado |
+| setResolver(ResolverInterface) : TornadoHttp | Asigna un resolver de middlewares |
+| setEnvironment(string) : TornadoHttp | Asigna el entorno de ejecución |
+| resolveMiddleware(mixed) : MiddlewareInterface | Resuelve y ejecuta un Middleware |
 
 **DMS\TornadoHttp\Container\ContainerTrait**
 
 | Método | Detalle |
 | ------ | ------- |
-| setContainer(ContainerInterface) | Asigna un contenedor de servicios |
-| getContainer() | Recupera el contenedor de servicios asignado |
+| setContainer(ContainerInterface) : self | Asigna un contenedor de servicios |
+| getContainer() : ContainerInterface | Recupera el contenedor de servicios asignado |
 
 **DMS\TornadoHttp\Container\InjectContainerInterface**
 
 | Método | Detalle |
 | ------ | ------- |
 | setContainer(ContainerInterface) | Asigna un contenedor de servicios |
-| getContainer() | Recupera el contenedor de servicios asignado |
+| getContainer() : ContainerInterface | Recupera el contenedor de servicios asignado |
 
 **DMS\TornadoHttp\Middleware\Middleware**
 
 | Método | Detalle |
 | ------ | ------- |
-| setContainer(ContainerInterface) | Asigna un contenedor de servicios |
-| getContainer() | Recupera el contenedor de servicios asignado |
-
-**DMS\TornadoHttp\Middleware\MiddlewareInterface**
-
-| Método | Detalle |
-| ------ | ------- |
-| __invoke(RequestInterface, ResponseInterface) | Invocación |
+| setContainer(ContainerInterface) : Middleware | Asigna un contenedor de servicios |
+| getContainer() : ContainerInterface | Recupera el contenedor de servicios asignado |
 
 **DMS\TornadoHttp\Resolver\Resolver**
 
 | Método | Detalle |
 | ------ | ------- |
 | __construct(ContainerInterface = null) | Crea una instancia del resolver |
-| solve(callable&#124;object&#124;string&#124;array) | Resuelve un middleware |
+| solve(MiddlewareInterface&#124;string&#124;array) : MiddlewareInterface | Resuelve un middleware |
 
 **DMS\TornadoHttp\Resolver\ResolverInterface**
 
 | Método | Detalle |
 | ------ | ------- |
-| solve(callable&#124;object&#124;string&#124;array) | Resuelve un middleware |
+| solve(MiddlewareInterface&#124;string&#124;array) : MiddlewareInterface | Resuelve un middleware |
 
 ## Inspiracion:
 
@@ -217,4 +214,3 @@ El proyecto se distribuye bajo la licencia MIT.
 ## Sugerencias y colaboración:
 
 Email: info@daniel.spiridione.com.ar
-

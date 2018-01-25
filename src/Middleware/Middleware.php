@@ -1,8 +1,13 @@
 <?php
+
 namespace DMS\TornadoHttp\Middleware;
 
 use DMS\TornadoHttp\Container\InjectContainerInterface;
 use Interop\Container\ContainerInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 /**
  * Middleware abstract class
@@ -11,7 +16,7 @@ use Interop\Container\ContainerInterface;
  * @author Daniel M. Spiridione <info@daniel-spiridione.com.ar>
  * @link http://tornadohttp.com
  * @license https://raw.githubusercontent.com/danielspk/TornadoHttp/master/LICENSE.md MIT License
- * @version 1.5.0
+ * @version 2.0.0
  */
 abstract class Middleware implements MiddlewareInterface, InjectContainerInterface
 {
@@ -41,5 +46,10 @@ abstract class Middleware implements MiddlewareInterface, InjectContainerInterfa
     public function getContainer() : ContainerInterface
     {
         return $this->container;
+    }
+
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+    {
+        return $handler->process($request);
     }
 }
