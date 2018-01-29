@@ -1,12 +1,16 @@
 <?php
+
 namespace DMS\TornadoHttp;
 
 use DMS\TornadoHttp\Exception\MiddlewareException;
 use DMS\TornadoHttp\Resolver\Resolver;
 use DMS\TornadoHttp\Resolver\ResolverInterface;
 use Interop\Container\ContainerInterface;
-use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+use Zend\Diactoros\Response;
 
 /**
  * Main class
@@ -15,14 +19,14 @@ use Psr\Http\Message\ResponseInterface;
  * @author Daniel M. Spiridione <info@daniel-spiridione.com.ar>
  * @link http://tornadohttp.com
  * @license https://raw.githubusercontent.com/danielspk/TornadoHttp/master/LICENSE.md MIT License
- * @version 1.5.0
+ * @version 2.0.0
  */
-final class TornadoHttp
+final class TornadoHttp implements RequestHandlerInterface
 {
     /**
      * Version
      */
-    const VERSION = '1.5.0';
+    const VERSION = '2.0.0';
 
     /**
      * @var \SplQueue Middleware queue
@@ -45,6 +49,11 @@ final class TornadoHttp
     private $environment;
 
     /**
+     * @var ResponseInterface Current Response
+     */
+    private $response;
+
+    /**
      * Constructor
      *
      * @param array $middlewares Middlewares
@@ -57,24 +66,23 @@ final class TornadoHttp
         ContainerInterface $container = null,
         ResolverInterface $resolver = null,
         string $environment = 'dev'
-    )
-    {
+    ) {
         $this->middlewares = new \SplQueue();
         $this->container = $container;
         $this->resolver = $resolver;
         $this->environment = $environment;
+        $this->response = (new Response())->withStatus(404);
 
         $this->addList($middlewares);
     }
 
     /**
-     * Invocation
+     * Handle
      *
-     * @param RequestInterface $request Request
-     * @param ResponseInterface $response Response
+     * @param ServerRequestInterface $request Request
      * @return ResponseInterface
      */
-    public function __invoke(RequestInterface $request, ResponseInterface $response) : ResponseInterface
+    public function handle(ServerRequestInterface $request) : ResponseInterface
     {
         if (!$this->middlewares->isEmpty()) {
             $mdw = $this->middlewares->dequeue();
@@ -84,22 +92,23 @@ final class TornadoHttp
                 (isset($mdw['path']) && preg_match($mdw['path'], $request->getUri()->getPath()) !== 1) ||
                 (isset($mdw['env']) && !in_array($this->environment, $mdw['env']))
             ) {
-                $next = $this->emptyNext();
-            } else {
-                $next = $this->resolveMiddleware($mdw['middleware']);
+                return $this->handle($request);
             }
 
-        } else {
-            $next = $this->finishNext();
+            $next = $this->resolveMiddleware($mdw['middleware']);
+
+            $this->response = $next->process($request, $this);
+
+            return $this->response;
         }
 
-        return $next($request, $response, $this);
+        return $this->response;
     }
 
     /**
      * Register one middleware
      *
-     * @param callable|object|string|array $middleware Middleware
+     * @param mixed $middleware Middleware
      * @param string $path Path
      * @param array $methods Methods allowed
      * @param array $environments Environment allowed
@@ -111,7 +120,7 @@ final class TornadoHttp
             'middleware' => $middleware,
             'path'       => $path,
             'methods'    => $methods,
-            'env'        => $environments
+            'env'        => $environments,
         ];
 
         if ($index !== null && $this->middlewares->offsetExists($index)) {
@@ -168,6 +177,16 @@ final class TornadoHttp
     }
 
     /**
+     * Get the last Response
+     *
+     * @return ResponseInterface Response
+     */
+    public function getResponse() : ResponseInterface
+    {
+        return $this->response;
+    }
+
+    /**
      * Set the Middleware Resolver
      *
      * @param ResolverInterface $resolver Middleware Resolver
@@ -194,41 +213,17 @@ final class TornadoHttp
     }
 
     /**
-     * Solve and/or returns an callable or instance class
+     * Solve and/or returns an MiddlewareInterface
      *
-     * @param callable|string|array $middleware Middleware
-     * @return callable Callable or instance class
+     * @param mixed $middleware Middleware
+     * @return MiddlewareInterface Middleware
      */
-    public function resolveMiddleware($middleware) : callable
+    public function resolveMiddleware($middleware) : MiddlewareInterface
     {
         if (!$this->resolver) {
             $this->resolver = new Resolver($this->container);
         }
 
         return $this->resolver->solve($middleware);
-    }
-
-    /**
-     * Return an empty next callable
-     *
-     * @return callable Next callable
-     */
-    private function emptyNext() : callable
-    {
-        return function(RequestInterface $request, ResponseInterface $response, callable $next) {
-            return $next($request, $response);
-        };
-    }
-
-    /**
-     * Return an finish next callable
-     *
-     * @return callable Next callable
-     */
-    private function finishNext() : callable
-    {
-        return function(RequestInterface $request, ResponseInterface $response, callable $next) {
-            return $response;
-        };
     }
 }

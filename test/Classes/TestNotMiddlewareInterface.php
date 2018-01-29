@@ -1,6 +1,7 @@
 <?php
+
 namespace Test\Classes;
 
-class TestNotCallableMiddleware
+class TestNotMiddlewareInterface
 {
 }

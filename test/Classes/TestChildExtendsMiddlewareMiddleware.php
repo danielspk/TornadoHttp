@@ -1,13 +1,15 @@
 <?php
+
 namespace Test\Classes;
 
-use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 class TestChildExtendsMiddlewareMiddleware extends TestExtendsMiddlewareMiddleware
 {
-    public function __invoke(RequestInterface $request, ResponseInterface $response, callable $next) : ResponseInterface
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
     {
-        return $next($request, $response);
+        return $handler->handle($request);
     }
 }
