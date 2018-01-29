@@ -627,6 +627,7 @@ class TornadoHttpTest extends \PHPUnit\Framework\TestCase
             ['middleware' => 'Test\Classes\TestChildExtendsMiddlewareMiddleware'],
             ['middleware' => 'Test\Classes\TestChildTraitMiddleware'],
             ['middleware' => 'Test\Classes\TestExtendsMiddlewareMiddleware'],
+            ['middleware' => 'Test\Classes\TestExtendsMiddlewareNotOverrideProcessMiddleware'],
             ['middleware' => 'Test\Classes\TestMiddleware'],
             ['middleware' => ['Test\Classes\TestParamMiddleware', [1, 2]]],
             ['middleware' => 'Test\Classes\TestTraitMiddleware'],
