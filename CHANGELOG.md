@@ -1,5 +1,9 @@
 # Change Log
 
+## [2.0.0](https://github.com/danielspk/TornadoHttp/releases/tag/v2.0.0) (2018-xx-xx)
+
+* *Core: migrate to PSR-15*
+
 ## [1.5.2](https://github.com/danielspk/TornadoHttp/releases/tag/v1.5.2) (2017-03-21)
 
 * *Test: fix coverage*

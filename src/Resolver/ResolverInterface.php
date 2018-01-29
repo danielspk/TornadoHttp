@@ -1,5 +1,8 @@
 <?php
+
 namespace DMS\TornadoHttp\Resolver;
+
+use Psr\Http\Server\MiddlewareInterface;
 
 /**
  * Middleware Resolver interface
@@ -8,15 +11,15 @@ namespace DMS\TornadoHttp\Resolver;
  * @author Daniel M. Spiridione <info@daniel-spiridione.com.ar>
  * @link http://tornadohttp.com
  * @license https://raw.githubusercontent.com/danielspk/TornadoHttp/master/LICENSE.md MIT License
- * @version 1.5.0
+ * @version 2.0.0
  */
 interface ResolverInterface
 {
     /**
-     * Solve and/or returns an callable
+     * Solve and/or returns an MiddlewareInterface
      *
-     * @param callable|object|string|array $middleware Middleware
-     * @return callable Callable
+     * @param MiddlewareInterface|string|array $middleware Middleware
+     * @return MiddlewareInterface
      */
-    public function solve($middleware) : callable;
+    public function solve($middleware) : MiddlewareInterface;
 }

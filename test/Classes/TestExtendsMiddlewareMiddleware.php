@@ -1,14 +1,16 @@
 <?php
+
 namespace Test\Classes;
 
 use DMS\TornadoHttp\Middleware\Middleware;
-use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 class TestExtendsMiddlewareMiddleware extends Middleware
 {
-    public function __invoke(RequestInterface $request, ResponseInterface $response, callable $next) : ResponseInterface
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
     {
-        return $next($request, $response);
+        return $handler->handle($request);
     }
 }
