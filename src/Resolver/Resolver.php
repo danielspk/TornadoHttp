@@ -13,7 +13,7 @@ use Psr\Http\Server\MiddlewareInterface;
  * @author Daniel M. Spiridione <info@daniel-spiridione.com.ar>
  * @link http://tornadohttp.com
  * @license https://raw.githubusercontent.com/danielspk/TornadoHttp/master/LICENSE.md MIT License
- * @version 2.0.0
+ * @version 2.1.0
  */
 class Resolver implements ResolverInterface
 {
@@ -36,6 +36,7 @@ class Resolver implements ResolverInterface
      * Solve and/or returns an MiddlewareInterface
      *
      * @param MiddlewareInterface|string|array $middleware Middleware
+     * @throws \ReflectionException
      * @throws MiddlewareException
      * @return MiddlewareInterface
      */
@@ -67,6 +68,7 @@ class Resolver implements ResolverInterface
      * Check if the middleware implements ContainerTrait or InjectContainerInterface
      *
      * @param MiddlewareInterface $middleware Middleware
+     * @throws \ReflectionException
      * @return boolean Use ContainerTrait
      */
     private function requireContainer(MiddlewareInterface $middleware) : bool

@@ -1,6 +1,11 @@
 # Change Log
 
-## [2.0.0](https://github.com/danielspk/TornadoHttp/releases/tag/v2.0.0) (2018-xx-xx)
+## [2.1.0](https://github.com/danielspk/TornadoHttp/releases/tag/v2.1.0) (2018-06-04)
+
+* *Core: add globalAttributes*
+* *Core: editing PhpDocBlock*
+
+## [2.0.0](https://github.com/danielspk/TornadoHttp/releases/tag/v2.0.0) (2018-01-29)
 
 * *Core: migrate to PSR-15*
 
