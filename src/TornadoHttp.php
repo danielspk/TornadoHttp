@@ -19,14 +19,19 @@ use Zend\Diactoros\Response;
  * @author Daniel M. Spiridione <info@daniel-spiridione.com.ar>
  * @link http://tornadohttp.com
  * @license https://raw.githubusercontent.com/danielspk/TornadoHttp/master/LICENSE.md MIT License
- * @version 2.0.0
+ * @version 2.1.0
  */
 final class TornadoHttp implements RequestHandlerInterface
 {
     /**
      * Version
      */
-    const VERSION = '2.0.0';
+    const VERSION = '2.1.0';
+
+    /**
+     * @var array Global Attributes
+     */
+    public $globalAttributes;
 
     /**
      * @var \SplQueue Middleware queue
@@ -80,6 +85,7 @@ final class TornadoHttp implements RequestHandlerInterface
      * Handle
      *
      * @param ServerRequestInterface $request Request
+     * @throws MiddlewareException
      * @return ResponseInterface
      */
     public function handle(ServerRequestInterface $request) : ResponseInterface
@@ -134,7 +140,6 @@ final class TornadoHttp implements RequestHandlerInterface
      * Register middleware from an array
      *
      * @param array $middlewares Middlewares
-     * @throws MiddlewareException
      */
     public function addList(array $middlewares)
     {
@@ -216,6 +221,7 @@ final class TornadoHttp implements RequestHandlerInterface
      * Solve and/or returns an MiddlewareInterface
      *
      * @param mixed $middleware Middleware
+     * @throws MiddlewareException
      * @return MiddlewareInterface Middleware
      */
     public function resolveMiddleware($middleware) : MiddlewareInterface

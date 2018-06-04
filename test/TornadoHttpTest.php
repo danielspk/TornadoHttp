@@ -146,6 +146,17 @@ class TornadoHttpTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf('\DMS\TornadoHttp\TornadoHttp', $tornadoHttp);
     }
 
+    public function testGlobalAttributes()
+    {
+        $tornadoHttp = new TornadoHttp();
+
+        $tornadoHttp->globalAttributes['exampleA'] = 123;
+        $tornadoHttp->globalAttributes['exampleB'] = 'value';
+
+        $this->assertSame(123, $tornadoHttp->globalAttributes['exampleA']);
+        $this->assertSame('value', $tornadoHttp->globalAttributes['exampleB']);
+    }
+
     public function testDefaultResponse()
     {
         $tornadoHttp = new TornadoHttp();

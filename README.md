@@ -157,6 +157,7 @@ Pendiente de documentar...
 
 | Método | Detalle |
 | ------ | ------- |
+| $globalAttributes : array | Propiedad pública para registrar atributos globales entre middlewares |
 | __construct(array = [], ContainerInterface = null, ResolverInterface = null, string = 'dev') | Crea una instancia de Tornado Http |
 | handle(ServerRequestInterface) : ResponseInterface | Ejecución de handlers |
 | add(mixed, string = null, array = null, array = null, int = null) | Agrega un Middleware a la cola |
@@ -214,4 +215,4 @@ El proyecto se distribuye bajo la licencia MIT.
 
 ## Sugerencias y colaboración:
 
-Email: info@daniel.spiridione.com.ar
+Daniel Spiridione - http://daniel-spiridione.com.ar
