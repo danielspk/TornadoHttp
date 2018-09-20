@@ -19,14 +19,14 @@ use Zend\Diactoros\Response;
  * @author Daniel M. Spiridione <info@daniel-spiridione.com.ar>
  * @link http://tornadohttp.com
  * @license https://raw.githubusercontent.com/danielspk/TornadoHttp/master/LICENSE.md MIT License
- * @version 2.1.2
+ * @version 2.1.3
  */
 final class TornadoHttp implements RequestHandlerInterface
 {
     /**
      * Version
      */
-    const VERSION = '2.1.2';
+    const VERSION = '2.1.3';
 
     /**
      * @var array Global Attributes
