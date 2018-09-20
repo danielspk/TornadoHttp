@@ -11,7 +11,7 @@ use Psr\Http\Server\MiddlewareInterface;
  * @author Daniel M. Spiridione <info@daniel-spiridione.com.ar>
  * @link http://tornadohttp.com
  * @license https://raw.githubusercontent.com/danielspk/TornadoHttp/master/LICENSE.md MIT License
- * @version 2.1.0
+ * @version 2.1.1
  */
 interface ResolverInterface
 {
