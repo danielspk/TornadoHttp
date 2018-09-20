@@ -1,5 +1,9 @@
 # Change Log
 
+## [2.1.1](https://github.com/danielspk/TornadoHttp/releases/tag/v2.1.1) (2018-09-20)
+
+* *Test: change satooshi/php-coveralls to php-coveralls/php-coveralls*
+
 ## [2.1.0](https://github.com/danielspk/TornadoHttp/releases/tag/v2.1.0) (2018-06-04)
 
 * *Core: add globalAttributes*
