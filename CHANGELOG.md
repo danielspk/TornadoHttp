@@ -1,5 +1,9 @@
 # Change Log
 
+## [2.1.3](https://github.com/danielspk/TornadoHttp/releases/tag/v2.1.3) (2018-09-20)
+
+* *Test: edit config travis.yml*
+
 ## [2.1.2](https://github.com/danielspk/TornadoHttp/releases/tag/v2.1.2) (2018-09-20)
 
 * *Test: fix to change satooshi/php-coveralls to php-coveralls/php-coveralls*
