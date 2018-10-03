@@ -24,7 +24,7 @@ https://github.com/danielspk/TornadoHttpSkeletonApplication - *(Solo para la ver
 Se recomienda instalar esta librería mediante el uso de Composer de la siguiente forma:
 
 ```
-    php composer.phar require danielspk/tornadohttp:~2.0
+    php composer.phar require danielspk/tornadohttp:~3.0
 ```
 
 Esto instalará Tornado HTTP y creará o actualizará el archivo `composer.json` con la siguiente dependencia:
@@ -32,7 +32,7 @@ Esto instalará Tornado HTTP y creará o actualizará el archivo `composer.json`
 ```
 {
     "require": {
-        "danielspk/tornadohttp": "~2.0"
+        "danielspk/tornadohttp": "~3.0"
     }
 }
 ```
@@ -158,13 +158,14 @@ Pendiente de documentar...
 | Método | Detalle |
 | ------ | ------- |
 | $globalAttributes : array | Propiedad pública para registrar atributos globales entre middlewares |
-| __construct(array = [], ContainerInterface = null, ResolverInterface = null, string = 'dev') | Crea una instancia de Tornado Http |
+| __construct(array = [], ResponseInterface = null, ContainerInterface = null, ResolverInterface = null, string = 'dev') | Crea una instancia de Tornado Http |
 | handle(ServerRequestInterface) : ResponseInterface | Ejecución de handlers |
 | add(mixed, string = null, array = null, array = null, int = null) | Agrega un Middleware a la cola |
 | addList(array) | Agrega una lista de Middlewares a la cola |
 | getMiddlewareIndex() : int | Devuelve el índice actual de la cola de Middlewares |
 | setDI(ContainerInterface) : TornadoHttp | Asigna un contenedor de servicios |
 | getDI() : ContainerInterface | Recupera el contenedor de servicios asignado |
+| setResponse(ResponseInterface) : TornadoHttp | Asigna una respuesta por defecto |
 | getResponse() : ResponseInterface | Recupera la respuesta del último middleware ejecutado |
 | setResolver(ResolverInterface) : TornadoHttp | Asigna un resolver de middlewares |
 | setEnvironment(string) : TornadoHttp | Asigna el entorno de ejecución |

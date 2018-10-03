@@ -1,5 +1,11 @@
 # Change Log
 
+## [3.0.0](https://github.com/danielspk/TornadoHttp/releases/tag/v3.0.0) (201x-xx-xx)
+
+* *Core: PHP 7.2 version*
+* *Core: remove auto default response*
+* *Core: set initial response*
+
 ## [2.1.3](https://github.com/danielspk/TornadoHttp/releases/tag/v2.1.3) (2018-09-20)
 
 * *Test: edit config travis.yml*
