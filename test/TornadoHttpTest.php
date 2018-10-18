@@ -183,6 +183,18 @@ class TornadoHttpTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('value', $tornadoHttp->globalAttributes['exampleB']);
     }
 
+    /**
+     * @expectedException \DMS\TornadoHttp\Exception\MiddlewareException
+     */
+    public function testEmptyResponse()
+    {
+        $tornadoHttp = new TornadoHttp();
+
+        $request = ServerRequestFactory::fromGlobals();
+
+        $response = $tornadoHttp->handle($request);
+    }
+
     public function testDefaultResponse()
     {
         $response = new EmptyResponse();
