@@ -305,4 +305,4 @@ El proyecto se distribuye bajo la licencia MIT.
 
 ## Sugerencias y colaboración:
 
-Daniel Spiridione - http://daniel-spiridione.com.ar
+Daniel Spiridione - http://daniel-spiridione.com.ar 
