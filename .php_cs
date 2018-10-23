@@ -2,7 +2,7 @@
 
 $finder = PhpCsFixer\Finder::create()
     ->exclude('build')
-    ->exclude('tests')
+    ->exclude('test')
     ->in(__DIR__);
 
 return PhpCsFixer\Config::create()

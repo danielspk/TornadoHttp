@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace DMS\TornadoHttp;
 
 use DMS\TornadoHttp\Exception\MiddlewareException;
@@ -10,7 +12,6 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Zend\Diactoros\Response;
 
 /**
  * Main class
@@ -19,19 +20,14 @@ use Zend\Diactoros\Response;
  * @author Daniel M. Spiridione <info@daniel-spiridione.com.ar>
  * @link http://tornadohttp.com
  * @license https://raw.githubusercontent.com/danielspk/TornadoHttp/master/LICENSE.md MIT License
- * @version 2.1.3
+ * @version 3.0.0
  */
 final class TornadoHttp implements RequestHandlerInterface
 {
     /**
      * Version
      */
-    const VERSION = '2.1.3';
-
-    /**
-     * @var array Global Attributes
-     */
-    public $globalAttributes;
+    public const VERSION = '3.0.0';
 
     /**
      * @var \SplQueue Middleware queue
@@ -59,24 +55,31 @@ final class TornadoHttp implements RequestHandlerInterface
     private $response;
 
     /**
+     * @var mixed Handler Context
+     */
+    private $context;
+
+    /**
      * Constructor
      *
      * @param array $middlewares Middlewares
+     * @param ResponseInterface $response Response
      * @param ContainerInterface $container Service Container
      * @param ResolverInterface $resolver Middleware Resolver
      * @param string $environment Environment
      */
     public function __construct(
         array $middlewares = [],
+        ResponseInterface $response = null,
         ContainerInterface $container = null,
         ResolverInterface $resolver = null,
         string $environment = 'dev'
     ) {
         $this->middlewares = new \SplQueue();
+        $this->response = $response;
         $this->container = $container;
         $this->resolver = $resolver;
         $this->environment = $environment;
-        $this->response = (new Response())->withStatus(404);
 
         $this->addList($middlewares);
     }
@@ -108,6 +111,10 @@ final class TornadoHttp implements RequestHandlerInterface
             return $this->response;
         }
 
+        if (!$this->response) {
+            throw new MiddlewareException('Empty response');
+        }
+
         return $this->response;
     }
 
@@ -120,7 +127,7 @@ final class TornadoHttp implements RequestHandlerInterface
      * @param array $environments Environment allowed
      * @param integer $index Index of the queue
      */
-    public function add($middleware, string $path = null, array $methods = null, array $environments = null, int $index = null)
+    public function add($middleware, ?string $path = null, ?array $methods = null, ?array $environments = null, ?int $index = null) : void
     {
         $mdw = [
             'middleware' => $middleware,
@@ -141,7 +148,7 @@ final class TornadoHttp implements RequestHandlerInterface
      *
      * @param array $middlewares Middlewares
      */
-    public function addList(array $middlewares)
+    public function addList(array $middlewares) : void
     {
         foreach ($middlewares as $middleware) {
             $this->middlewares->enqueue($middleware);
@@ -174,21 +181,57 @@ final class TornadoHttp implements RequestHandlerInterface
     /**
      * Get the Service Container
      *
-     * @return ContainerInterface Service Container
+     * @return ContainerInterface|null Service Container
      */
-    public function getDI() : ContainerInterface
+    public function getDI() : ?ContainerInterface
     {
         return $this->container;
     }
 
     /**
+     * Set the default Response
+     *
+     * @param ResponseInterface $response Response
+     * @return TornadoHttp
+     */
+    public function setResponse(ResponseInterface $response) : TornadoHttp
+    {
+        $this->response = $response;
+
+        return $this;
+    }
+
+    /**
      * Get the last Response
      *
-     * @return ResponseInterface Response
+     * @return ResponseInterface|null Response
      */
-    public function getResponse() : ResponseInterface
+    public function getResponse() : ?ResponseInterface
     {
         return $this->response;
+    }
+
+    /**
+     * Set the Context
+     *
+     * @param mixed $context Context
+     * @return TornadoHttp
+     */
+    public function setContext($context) : TornadoHttp
+    {
+        $this->context = $context;
+
+        return $this;
+    }
+
+    /**
+     * Get the Context
+     *
+     * @return mixed|null Context
+     */
+    public function getContext()
+    {
+        return $this->context;
     }
 
     /**
