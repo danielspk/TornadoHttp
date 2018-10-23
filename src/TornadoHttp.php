@@ -30,11 +30,6 @@ final class TornadoHttp implements RequestHandlerInterface
     public const VERSION = '3.0.0';
 
     /**
-     * @var array Global Attributes
-     */
-    public $globalAttributes;
-
-    /**
      * @var \SplQueue Middleware queue
      */
     private $middlewares;
@@ -58,6 +53,11 @@ final class TornadoHttp implements RequestHandlerInterface
      * @var ResponseInterface Current Response
      */
     private $response;
+
+    /**
+     * @var mixed Handler Context
+     */
+    private $context;
 
     /**
      * Constructor
@@ -209,6 +209,29 @@ final class TornadoHttp implements RequestHandlerInterface
     public function getResponse() : ?ResponseInterface
     {
         return $this->response;
+    }
+
+    /**
+     * Set the Context
+     *
+     * @param mixed $context Context
+     * @return TornadoHttp
+     */
+    public function setContext($context) : TornadoHttp
+    {
+        $this->context = $context;
+
+        return $this;
+    }
+
+    /**
+     * Get the Context
+     *
+     * @return mixed|null Context
+     */
+    public function getContext()
+    {
+        return $this->context;
     }
 
     /**
