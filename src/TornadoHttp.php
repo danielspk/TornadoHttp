@@ -20,14 +20,14 @@ use Psr\Http\Server\RequestHandlerInterface;
  * @author Daniel M. Spiridione <info@daniel-spiridione.com.ar>
  * @link http://tornadohttp.com
  * @license https://raw.githubusercontent.com/danielspk/TornadoHttp/master/LICENSE.md MIT License
- * @version 3.0.0
+ * @version 3.0.1
  */
 final class TornadoHttp implements RequestHandlerInterface
 {
     /**
      * Version
      */
-    public const VERSION = '3.0.0';
+    public const VERSION = '3.0.1';
 
     /**
      * @var \SplQueue Middleware queue
