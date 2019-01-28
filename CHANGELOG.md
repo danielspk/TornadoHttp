@@ -1,6 +1,10 @@
 # Change Log
 
-## [3.0.0](https://github.com/danielspk/TornadoHttp/releases/tag/v3.0.0) (201x-xx-xx)
+## [3.0.1](https://github.com/danielspk/TornadoHttp/releases/tag/v3.0.1) (2019-01-28)
+
+* *Core: fix PHPDoc*
+
+## [3.0.0](https://github.com/danielspk/TornadoHttp/releases/tag/v3.0.0) (2018-10-23)
 
 * *Core: PHP 7.2 version*
 * *Core: add handler context*
