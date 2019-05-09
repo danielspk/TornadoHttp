@@ -21,7 +21,6 @@ use Zend\ServiceManager\ServiceManager;
  * Tests.
  *
  * @internal
- * @coversNothing
  */
 final class TornadoHttpTest extends TestCase
 {
