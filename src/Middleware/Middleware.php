@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace DMS\TornadoHttp\Middleware;
 
@@ -12,13 +12,15 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
 /**
- * Middleware abstract class
+ * Middleware abstract class.
  *
- * @package TORNADO-HTTP
  * @author Daniel M. Spiridione <info@daniel-spiridione.com.ar>
- * @link http://tornadohttp.com
+ *
+ * @see http://tornadohttp.com
+ *
  * @license https://raw.githubusercontent.com/danielspk/TornadoHttp/master/LICENSE.md MIT License
- * @version 3.0.1
+ *
+ * @version 3.1.0
  */
 abstract class Middleware implements MiddlewareInterface, InjectContainerInterface
 {
@@ -28,12 +30,13 @@ abstract class Middleware implements MiddlewareInterface, InjectContainerInterfa
     protected $container;
 
     /**
-     * Set the Service Container
+     * Set the Service Container.
      *
      * @param ContainerInterface $container Service Container
+     *
      * @return $this
      */
-    public function setContainer(ContainerInterface $container) : Middleware
+    public function setContainer(ContainerInterface $container): self
     {
         $this->container = $container;
 
@@ -41,23 +44,24 @@ abstract class Middleware implements MiddlewareInterface, InjectContainerInterfa
     }
 
     /**
-     * Get the Service Container
+     * Get the Service Container.
      *
      * @return ContainerInterface Service Container
      */
-    public function getContainer() : ContainerInterface
+    public function getContainer(): ContainerInterface
     {
         return $this->container;
     }
 
     /**
-     * Process
+     * Process.
      *
-     * @param ServerRequestInterface $request Request
+     * @param ServerRequestInterface  $request Request
      * @param RequestHandlerInterface $handler Middleware handlers
+     *
      * @return ResponseInterface
      */
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         return $handler->handle($request);
     }

@@ -1,31 +1,35 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace DMS\TornadoHttp\Resolver;
 
 use DMS\TornadoHttp\Exception\MiddlewareException;
 use Interop\Container\ContainerInterface;
 use Psr\Http\Server\MiddlewareInterface;
+use ReflectionClass;
+use ReflectionException;
 
 /**
- * Middleware Resolver class
+ * Middleware Resolver class.
  *
- * @package TORNADO-HTTP
  * @author Daniel M. Spiridione <info@daniel-spiridione.com.ar>
- * @link http://tornadohttp.com
+ *
+ * @see http://tornadohttp.com
+ *
  * @license https://raw.githubusercontent.com/danielspk/TornadoHttp/master/LICENSE.md MIT License
- * @version 3.0.1
+ *
+ * @version 3.1.0
  */
 class Resolver implements ResolverInterface
 {
     /**
-     * @var ContainerInterface Service Container
+     * @var null|ContainerInterface Service Container
      */
     private $container;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param ContainerInterface $container
      */
@@ -35,23 +39,25 @@ class Resolver implements ResolverInterface
     }
 
     /**
-     * Solve and/or returns an MiddlewareInterface
+     * Solve and/or returns an MiddlewareInterface.
      *
-     * @param MiddlewareInterface|string|array $middleware Middleware
-     * @throws \ReflectionException
+     * @param array|MiddlewareInterface|string $middleware Middleware
+     *
+     * @throws ReflectionException
      * @throws MiddlewareException
+     *
      * @return MiddlewareInterface
      */
-    public function solve($middleware) : MiddlewareInterface
+    public function solve($middleware): MiddlewareInterface
     {
-        if (is_string($middleware)) {
+        if (\is_string($middleware)) {
             if ($this->container && $this->container->has($middleware)) {
                 $middleware = $this->container->get($middleware);
             } else {
-                $middleware = new $middleware;
+                $middleware = new $middleware();
             }
-        } elseif (is_array($middleware)) {
-            $class = new \ReflectionClass($middleware[0]);
+        } elseif (\is_array($middleware)) {
+            $class = new ReflectionClass($middleware[0]);
             $middleware = $class->newInstanceArgs($middleware[1]);
         }
 
@@ -67,27 +73,27 @@ class Resolver implements ResolverInterface
     }
 
     /**
-     * Check if the middleware implements ContainerTrait or InjectContainerInterface
+     * Check if the middleware implements ContainerTrait or InjectContainerInterface.
      *
      * @param MiddlewareInterface $middleware Middleware
-     * @throws \ReflectionException
-     * @return boolean Use ContainerTrait
+     *
+     * @throws ReflectionException
+     *
+     * @return bool
      */
-    private function requireContainer(MiddlewareInterface $middleware) : bool
+    private function requireContainer(MiddlewareInterface $middleware): bool
     {
-        /** @var \DMS\TornadoHttp\Container\InjectContainerInterface $middleware */
-
         $rc = new \ReflectionClass($middleware);
 
-        $recursiveReflection = function (\ReflectionClass $class) use (&$recursiveReflection, &$middleware) {
+        $recursiveReflection = function (ReflectionClass $class) use (&$recursiveReflection) {
             if (
-                in_array('DMS\TornadoHttp\Container\ContainerTrait', $class->getTraitNames()) ||
-                in_array('DMS\TornadoHttp\Container\InjectContainerInterface', $class->getInterfaceNames())
+                \in_array('DMS\TornadoHttp\Container\ContainerTrait', $class->getTraitNames(), true) ||
+                \in_array('DMS\TornadoHttp\Container\InjectContainerInterface', $class->getInterfaceNames(), true)
             ) {
                 return true;
             }
 
-            if ($class->getParentClass() !== false) {
+            if (false !== $class->getParentClass()) {
                 return $recursiveReflection($class->getParentClass());
             }
 

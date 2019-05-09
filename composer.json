@@ -3,7 +3,7 @@
     "description": "Middleware Container PSR-15",
     "type": "library",
     "keywords": [
-        "tornado http", "tornado", "http", "middleware", "container",
+        "tornado-http", "tornado", "http", "middleware", "container",
         "psr-15", "psr15", "rest", "php", "dms", "danielspk"
     ],
     "homepage": "http://tornadohttp.com/",
@@ -13,7 +13,7 @@
             "name": "Daniel M. Spiridione",
             "email": "info@daniel-spiridione.com.ar",
             "homepage": "http://daniel-spiridione.com.ar/",
-            "role": "Developer"
+            "role": "Lead Developer"
         }
     ],
     "support": {
