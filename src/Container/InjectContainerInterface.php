@@ -1,33 +1,35 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace DMS\TornadoHttp\Container;
 
 use Interop\Container\ContainerInterface;
 
 /**
- * Interface to register Service Container
+ * Interface to register Service Container.
  *
- * @package TORNADO-HTTP
  * @author Daniel M. Spiridione <info@daniel-spiridione.com.ar>
- * @link http://tornadohttp.com
+ *
+ * @see http://tornadohttp.com
+ *
  * @license https://raw.githubusercontent.com/danielspk/TornadoHttp/master/LICENSE.md MIT License
- * @version 3.0.1
+ *
+ * @version 3.1.0
  */
 interface InjectContainerInterface
 {
     /**
-     * Set the Service Container
+     * Set the Service Container.
      *
      * @param ContainerInterface $container Service Container
      */
     public function setContainer(ContainerInterface $container);
 
     /**
-     * Get the Service Container
+     * Get the Service Container.
      *
      * @return ContainerInterface Service Container
      */
-    public function getContainer() : ContainerInterface;
+    public function getContainer(): ContainerInterface;
 }

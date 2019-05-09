@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Test\Classes;
 
@@ -11,11 +11,10 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class TestStatus200Middleware implements MiddlewareInterface
 {
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $response = $handler->handle($request);
-        $response = $response->withStatus(200);
 
-        return $response;
+        return $response->withStatus(200);
     }
 }
