@@ -1,5 +1,9 @@
 # Change Log
 
+## [3.1.1](https://github.com/danielspk/TornadoHttp/releases/tag/v3.1.1) (2019-05-09)
+
+* *Test: fix coverage*
+
 ## [3.1.0](https://github.com/danielspk/TornadoHttp/releases/tag/v3.1.0) (2019-05-09)
 
 * *Core: remove unused $middleware in Resolver*
