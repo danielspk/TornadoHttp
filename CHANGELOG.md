@@ -1,5 +1,14 @@
 # Change Log
 
+## [3.1.0](https://github.com/danielspk/TornadoHttp/releases/tag/v3.1.0) (2019-05-09)
+
+* *Core: remove unused $middleware in Resolver*
+* *Core: editing PhpDocBlock*
+* *Core: yoda style*
+* *Core: slash in native functions*
+* *Core: strict in in_array functions*
+* *Core: use namespaces native class*
+
 ## [3.0.1](https://github.com/danielspk/TornadoHttp/releases/tag/v3.0.1) (2019-01-28)
 
 * *Core: fix PHPDoc*

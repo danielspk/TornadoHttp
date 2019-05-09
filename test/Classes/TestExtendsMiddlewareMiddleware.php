@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Test\Classes;
 
@@ -11,7 +11,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class TestExtendsMiddlewareMiddleware extends Middleware
 {
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         return $handler->handle($request);
     }

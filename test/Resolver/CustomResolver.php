@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Test\Resolver;
 
@@ -9,8 +9,8 @@ use Psr\Http\Server\MiddlewareInterface;
 
 class CustomResolver implements ResolverInterface
 {
-    public function solve($middleware) : MiddlewareInterface
+    public function solve($middleware): MiddlewareInterface
     {
-        return new $middleware;
+        return new $middleware();
     }
 }

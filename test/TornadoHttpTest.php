@@ -1,10 +1,11 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Test;
 
 use DMS\TornadoHttp\TornadoHttp;
+use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -16,24 +17,30 @@ use Zend\Diactoros\Response\TextResponse;
 use Zend\Diactoros\ServerRequestFactory;
 use Zend\ServiceManager\ServiceManager;
 
-class TornadoHttpTest extends \PHPUnit\Framework\TestCase
+/**
+ * Tests.
+ *
+ * @internal
+ * @coversNothing
+ */
+final class TornadoHttpTest extends TestCase
 {
-    public function testRequestHandlerInterfaceInstance()
+    public function testRequestHandlerInterfaceInstance(): void
     {
         $tornadoHttp = new TornadoHttp();
         $this->assertInstanceOf('\Psr\Http\Server\RequestHandlerInterface', $tornadoHttp);
     }
 
-    public function testTornadoHttpInstance()
+    public function testTornadoHttpInstance(): void
     {
         $tornadoHttp = new TornadoHttp();
         $this->assertInstanceOf('\DMS\TornadoHttp\TornadoHttp', $tornadoHttp);
     }
 
-    public function testEmptyConstruct()
+    public function testEmptyConstruct(): void
     {
-        $middleware = (new class implements MiddlewareInterface {
-            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+        $middleware = (new class() implements MiddlewareInterface {
+            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
             {
                 return new Response();
             }
@@ -45,17 +52,17 @@ class TornadoHttpTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf('\DMS\TornadoHttp\TornadoHttp', $tornadoHttp);
     }
 
-    public function testConstructMiddleware()
+    public function testConstructMiddleware(): void
     {
-        $middleware1 = (new class implements MiddlewareInterface {
-            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+        $middleware1 = (new class() implements MiddlewareInterface {
+            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
             {
                 return new Response();
             }
         });
 
-        $middleware2 = (new class implements MiddlewareInterface {
-            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+        $middleware2 = (new class() implements MiddlewareInterface {
+            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
             {
                 return new Response();
             }
@@ -69,10 +76,10 @@ class TornadoHttpTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf('\DMS\TornadoHttp\TornadoHttp', $tornadoHttp);
     }
 
-    public function testConstructMiddlewareExtend()
+    public function testConstructMiddlewareExtend(): void
     {
-        $middleware = (new class implements MiddlewareInterface {
-            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+        $middleware = (new class() implements MiddlewareInterface {
+            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
             {
                 return new Response();
             }
@@ -81,19 +88,19 @@ class TornadoHttpTest extends \PHPUnit\Framework\TestCase
         $tornadoHttp = new TornadoHttp([
             [
                 'middleware' => $middleware,
-                'path'       => '/',
-                'methods'    => ['GET', 'POST'],
-                'env'        => ['local', 'dev'],
+                'path' => '/',
+                'methods' => ['GET', 'POST'],
+                'env' => ['local', 'dev'],
             ],
         ]);
 
         $this->assertInstanceOf('\DMS\TornadoHttp\TornadoHttp', $tornadoHttp);
     }
 
-    public function testConstructResponse()
+    public function testConstructResponse(): void
     {
-        $middleware = (new class implements MiddlewareInterface {
-            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+        $middleware = (new class() implements MiddlewareInterface {
+            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
             {
                 return new Response();
             }
@@ -109,10 +116,10 @@ class TornadoHttpTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf('\DMS\TornadoHttp\TornadoHttp', $tornadoHttp);
     }
 
-    public function testConstructContainer()
+    public function testConstructContainer(): void
     {
-        $middleware = (new class implements MiddlewareInterface {
-            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+        $middleware = (new class() implements MiddlewareInterface {
+            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
             {
                 return new Response();
             }
@@ -129,10 +136,10 @@ class TornadoHttpTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf('\DMS\TornadoHttp\TornadoHttp', $tornadoHttp);
     }
 
-    public function testConstructorResolver()
+    public function testConstructorResolver(): void
     {
-        $middleware = (new class implements MiddlewareInterface {
-            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+        $middleware = (new class() implements MiddlewareInterface {
+            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
             {
                 return new Response();
             }
@@ -150,10 +157,10 @@ class TornadoHttpTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf('\DMS\TornadoHttp\TornadoHttp', $tornadoHttp);
     }
 
-    public function testConstructorEnvironment()
+    public function testConstructorEnvironment(): void
     {
-        $middleware = (new class implements MiddlewareInterface {
-            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+        $middleware = (new class() implements MiddlewareInterface {
+            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
             {
                 return new Response();
             }
@@ -172,13 +179,13 @@ class TornadoHttpTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf('\DMS\TornadoHttp\TornadoHttp', $tornadoHttp);
     }
 
-    public function testHandlerContext()
+    public function testHandlerContext(): void
     {
         $tornadoHttp = new TornadoHttp();
 
         $setContext = [
             'exampleA' => 123,
-            'exampleB' => 'value'
+            'exampleB' => 'value',
         ];
 
         $tornadoHttp->setContext($setContext);
@@ -192,7 +199,7 @@ class TornadoHttpTest extends \PHPUnit\Framework\TestCase
     /**
      * @expectedException \DMS\TornadoHttp\Exception\MiddlewareException
      */
-    public function testEmptyResponse()
+    public function testEmptyResponse(): void
     {
         $tornadoHttp = new TornadoHttp();
 
@@ -201,7 +208,7 @@ class TornadoHttpTest extends \PHPUnit\Framework\TestCase
         $response = $tornadoHttp->handle($request);
     }
 
-    public function testDefaultResponse()
+    public function testDefaultResponse(): void
     {
         $response = new EmptyResponse();
 
@@ -215,27 +222,26 @@ class TornadoHttpTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(204, $response->getStatusCode());
     }
 
-    public function testMiddlewarePath()
+    public function testMiddlewarePath(): void
     {
-        $middleware = (new class implements MiddlewareInterface {
-            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+        $middleware = (new class() implements MiddlewareInterface {
+            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
             {
                 $response = new Response();
-                $response = $response->withStatus(201);
 
-                return $response;
+                return $response->withStatus(201);
             }
         });
 
         $tornadoHttp = new TornadoHttp([
             [
                 'middleware' => $middleware,
-                'path'       => '/example/',
+                'path' => '/example/',
             ],
         ]);
 
         $request = ServerRequestFactory::fromGlobals();
-        $uri     = $request->getUri()->withPath('/example');
+        $uri = $request->getUri()->withPath('/example');
         $request = $request->withUri($uri);
 
         $response = $tornadoHttp->handle($request);
@@ -243,15 +249,14 @@ class TornadoHttpTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(201, $response->getStatusCode());
     }
 
-    public function testMiddlewareIgnorePath()
+    public function testMiddlewareIgnorePath(): void
     {
-        $middleware = (new class implements MiddlewareInterface {
-            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+        $middleware = (new class() implements MiddlewareInterface {
+            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
             {
                 $response = new Response();
-                $response = $response->withStatus(204);
 
-                return $response;
+                return $response->withStatus(204);
             }
         });
 
@@ -259,14 +264,14 @@ class TornadoHttpTest extends \PHPUnit\Framework\TestCase
             [
                 [
                     'middleware' => $middleware,
-                    'path'       => '/deleteExample/',
-                ]
+                    'path' => '/deleteExample/',
+                ],
             ],
             new TextResponse('')
         );
 
         $request = ServerRequestFactory::fromGlobals();
-        $uri     = $request->getUri()->withPath('/otherExample');
+        $uri = $request->getUri()->withPath('/otherExample');
         $request = $request->withUri($uri);
 
         $response = $tornadoHttp->handle($request);
@@ -274,25 +279,23 @@ class TornadoHttpTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(200, $response->getStatusCode());
     }
 
-    public function testMiddlewareOneIgnorePath()
+    public function testMiddlewareOneIgnorePath(): void
     {
-        $middleware1 = (new class implements MiddlewareInterface {
-            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+        $middleware1 = (new class() implements MiddlewareInterface {
+            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
             {
                 $response = $handler->handle($request);
-                $response = $response->withStatus(201);
 
-                return $response;
+                return $response->withStatus(201);
             }
         });
 
-        $middleware2 = (new class implements MiddlewareInterface {
-            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+        $middleware2 = (new class() implements MiddlewareInterface {
+            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
             {
                 $response = $handler->handle($request);
-                $response = $response->withStatus(500);
 
-                return $response;
+                return $response->withStatus(500);
             }
         });
 
@@ -300,18 +303,18 @@ class TornadoHttpTest extends \PHPUnit\Framework\TestCase
             [
                 [
                     'middleware' => $middleware1,
-                    'path'       => '/example/',
+                    'path' => '/example/',
                 ],
                 [
                     'middleware' => $middleware2,
-                    'path'       => '/error/',
+                    'path' => '/error/',
                 ],
             ],
             new TextResponse('')
         );
 
         $request = ServerRequestFactory::fromGlobals();
-        $uri     = $request->getUri()->withPath('/example');
+        $uri = $request->getUri()->withPath('/example');
         $request = $request->withUri($uri);
 
         $response = $tornadoHttp->handle($request);
@@ -319,15 +322,14 @@ class TornadoHttpTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(201, $response->getStatusCode());
     }
 
-    public function testMiddlewareMethod()
+    public function testMiddlewareMethod(): void
     {
-        $middleware = (new class implements MiddlewareInterface {
-            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+        $middleware = (new class() implements MiddlewareInterface {
+            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
             {
                 $response = $handler->handle($request);
-                $response = $response->withStatus(201);
 
-                return $response;
+                return $response->withStatus(201);
             }
         });
 
@@ -335,7 +337,7 @@ class TornadoHttpTest extends \PHPUnit\Framework\TestCase
             [
                 [
                     'middleware' => $middleware,
-                    'methods'    => ['GET', 'POST'],
+                    'methods' => ['GET', 'POST'],
                 ],
             ],
             new TextResponse('')
@@ -349,25 +351,23 @@ class TornadoHttpTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(201, $response->getStatusCode());
     }
 
-    public function testEmptyMiddlewareMethod()
+    public function testEmptyMiddlewareMethod(): void
     {
-        $middleware1 = (new class implements MiddlewareInterface {
-            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+        $middleware1 = (new class() implements MiddlewareInterface {
+            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
             {
                 $response = $handler->handle($request);
-                $response = $response->withStatus(204);
 
-                return $response;
+                return $response->withStatus(204);
             }
         });
 
-        $middleware2 = (new class implements MiddlewareInterface {
-            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+        $middleware2 = (new class() implements MiddlewareInterface {
+            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
             {
                 $response = $handler->handle($request);
-                $response = $response->withStatus(201);
 
-                return $response;
+                return $response->withStatus(201);
             }
         });
 
@@ -375,11 +375,11 @@ class TornadoHttpTest extends \PHPUnit\Framework\TestCase
             [
                 [
                     'middleware' => $middleware1,
-                    'methods'    => ['DELETE'],
+                    'methods' => ['DELETE'],
                 ],
                 [
                     'middleware' => $middleware2,
-                    'methods'    => ['POST'],
+                    'methods' => ['POST'],
                 ],
             ],
             new TextResponse('')
@@ -393,22 +393,21 @@ class TornadoHttpTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(201, $response->getStatusCode());
     }
 
-    public function testMiddlewareEnvironment()
+    public function testMiddlewareEnvironment(): void
     {
-        $middleware = (new class implements MiddlewareInterface {
-            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+        $middleware = (new class() implements MiddlewareInterface {
+            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
             {
                 $response = $handler->handle($request);
-                $response = $response->withStatus(201);
 
-                return $response;
+                return $response->withStatus(201);
             }
         });
 
         $tornadoHttp = new TornadoHttp([
             [
                 'middleware' => $middleware,
-                'env'        => ['local'],
+                'env' => ['local'],
             ],
         ]);
         $tornadoHttp->setResponse(new TextResponse(''));
@@ -422,36 +421,34 @@ class TornadoHttpTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(201, $response->getStatusCode());
     }
 
-    public function testEmptyMiddlewareEnvironment()
+    public function testEmptyMiddlewareEnvironment(): void
     {
-        $middleware1 = (new class implements MiddlewareInterface {
-            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+        $middleware1 = (new class() implements MiddlewareInterface {
+            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
             {
                 $response = $handler->handle($request);
-                $response = $response->withStatus(201);
 
-                return $response;
+                return $response->withStatus(201);
             }
         });
 
-        $middleware2 = (new class implements MiddlewareInterface {
-            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+        $middleware2 = (new class() implements MiddlewareInterface {
+            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
             {
                 $response = $handler->handle($request);
-                $response = $response->withStatus(500);
 
-                return $response;
+                return $response->withStatus(500);
             }
         });
 
         $tornadoHttp = new TornadoHttp([
             [
                 'middleware' => $middleware1,
-                'env'        => ['dev', 'local'],
+                'env' => ['dev', 'local'],
             ],
             [
                 'middleware' => $middleware2,
-                'env'        => ['prod'],
+                'env' => ['prod'],
             ],
         ]);
         $tornadoHttp->setResponse(new TextResponse(''));
@@ -465,17 +462,17 @@ class TornadoHttpTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(201, $response->getStatusCode());
     }
 
-    public function testResponseMiddleware()
+    public function testResponseMiddleware(): void
     {
-        $middleware1 = (new class implements MiddlewareInterface {
-            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+        $middleware1 = (new class() implements MiddlewareInterface {
+            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
             {
                 return $handler->handle($request);
             }
         });
 
-        $middleware2 = (new class implements MiddlewareInterface {
-            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+        $middleware2 = (new class() implements MiddlewareInterface {
+            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
             {
                 $response = $handler->handle($request);
 
@@ -494,10 +491,10 @@ class TornadoHttpTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf('\Psr\Http\Message\ResponseInterface', $response);
     }
 
-    public function testResponseTextAndStatus()
+    public function testResponseTextAndStatus(): void
     {
-        $middleware = (new class implements MiddlewareInterface {
-            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+        $middleware = (new class() implements MiddlewareInterface {
+            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
             {
                 $response = $handler->handle($request);
                 $response = $response->withStatus(201);
@@ -518,10 +515,10 @@ class TornadoHttpTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('Hello TornadoHTTP', (string) $response->getBody());
     }
 
-    public function testAddMiddlewareExistIndex()
+    public function testAddMiddlewareExistIndex(): void
     {
-        $middleware0 = (new class implements MiddlewareInterface {
-            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+        $middleware0 = (new class() implements MiddlewareInterface {
+            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
             {
                 $response = $handler->getResponse();
                 $response->getBody()->write('A');
@@ -530,8 +527,8 @@ class TornadoHttpTest extends \PHPUnit\Framework\TestCase
             }
         });
 
-        $middleware1 = (new class implements MiddlewareInterface {
-            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+        $middleware1 = (new class() implements MiddlewareInterface {
+            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
             {
                 $response = $handler->getResponse();
                 $response->getBody()->write('B');
@@ -552,7 +549,7 @@ class TornadoHttpTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('AB', (string) $response->getBody());
     }
 
-    public function testGetMiddlewareIndex()
+    public function testGetMiddlewareIndex(): void
     {
         $tornadoHttp = new TornadoHttp();
         $tornadoHttp->setResponse(new TextResponse(''));
@@ -564,7 +561,7 @@ class TornadoHttpTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(0, $middlewares);
     }
 
-    public function testSetGetResponse()
+    public function testSetGetResponse(): void
     {
         $tornadoHttp = new TornadoHttp();
         $tornadoHttp->setResponse(new TextResponse(''));
@@ -574,7 +571,7 @@ class TornadoHttpTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf('\Psr\Http\Message\ResponseInterface', $response);
     }
 
-    public function testSetGetDI()
+    public function testSetGetDI(): void
     {
         $tornadoHttp = new TornadoHttp();
         $tornadoHttp->setDI(new ServiceManager());
@@ -584,15 +581,14 @@ class TornadoHttpTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf('\Interop\Container\ContainerInterface', $container);
     }
 
-    public function testSetEnvironment()
+    public function testSetEnvironment(): void
     {
-        $middleware = (new class implements MiddlewareInterface {
-            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+        $middleware = (new class() implements MiddlewareInterface {
+            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
             {
                 $response = $handler->handle($request);
-                $response = $response->withStatus(201);
 
-                return $response;
+                return $response->withStatus(201);
             }
         });
 
@@ -600,12 +596,11 @@ class TornadoHttpTest extends \PHPUnit\Framework\TestCase
             [
                 [
                     'middleware' => $middleware,
-                    'env'        => ['production'],
+                    'env' => ['production'],
                 ],
             ],
             new TextResponse('')
         );
-        
         $tornadoHttp->setEnvironment('production');
 
         $request = ServerRequestFactory::fromGlobals();
@@ -615,7 +610,7 @@ class TornadoHttpTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(201, $response->getStatusCode());
     }
 
-    public function testSetResolver()
+    public function testSetResolver(): void
     {
         $tornadoHttp = new TornadoHttp();
         $tornadoHttp->setResolver(new CustomResolver());
@@ -625,7 +620,7 @@ class TornadoHttpTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf('\Test\Classes\TestMiddleware', $middleware);
     }
 
-    public function testResolveString()
+    public function testResolveString(): void
     {
         $tornadoHttp = new TornadoHttp();
 
@@ -634,7 +629,7 @@ class TornadoHttpTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf('\Test\Classes\TestMiddleware', $middleware);
     }
 
-    public function testResolveStringService()
+    public function testResolveStringService(): void
     {
         $tornadoHttp = new TornadoHttp();
         $tornadoHttp->setDI(
@@ -652,7 +647,7 @@ class TornadoHttpTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf('\Test\Classes\TestMiddleware', $middleware);
     }
 
-    public function testResolveArray()
+    public function testResolveArray(): void
     {
         $tornadoHttp = new TornadoHttp();
 
@@ -661,7 +656,7 @@ class TornadoHttpTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf('\Test\Classes\TestParamMiddleware', $middleware);
     }
 
-    public function testResolveContainerTrait()
+    public function testResolveContainerTrait(): void
     {
         $tornadoHttp = new TornadoHttp();
         $tornadoHttp->setDI(new ServiceManager());
@@ -671,7 +666,7 @@ class TornadoHttpTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf('\Interop\Container\ContainerInterface', $middleware->getContainer());
     }
 
-    public function testResolveChildContainerTrait()
+    public function testResolveChildContainerTrait(): void
     {
         $tornadoHttp = new TornadoHttp();
         $tornadoHttp->setDI(new ServiceManager());
@@ -681,7 +676,7 @@ class TornadoHttpTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf('\Interop\Container\ContainerInterface', $middleware->getContainer());
     }
 
-    public function testResolveInjectContainerInterface()
+    public function testResolveInjectContainerInterface(): void
     {
         $tornadoHttp = new TornadoHttp();
         $tornadoHttp->setDI(new ServiceManager());
@@ -691,7 +686,7 @@ class TornadoHttpTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf('\Interop\Container\ContainerInterface', $middleware->getContainer());
     }
 
-    public function testResolveChildInjectContainerInterface()
+    public function testResolveChildInjectContainerInterface(): void
     {
         $tornadoHttp = new TornadoHttp();
         $tornadoHttp->setDI(new ServiceManager());
@@ -704,14 +699,14 @@ class TornadoHttpTest extends \PHPUnit\Framework\TestCase
     /**
      * @expectedException \DMS\TornadoHttp\Exception\MiddlewareException
      */
-    public function testMiddlewareException()
+    public function testMiddlewareException(): void
     {
         $tornadoHttp = new TornadoHttp();
 
         $tornadoHttp->resolveMiddleware('\Test\Classes\TestNotMiddlewareInterface');
     }
 
-    public function testAllTestMiddlewares()
+    public function testAllTestMiddlewares(): void
     {
         $tornadoHttp = new TornadoHttp(
             [
