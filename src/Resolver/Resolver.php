@@ -19,7 +19,7 @@ use ReflectionException;
  *
  * @license https://raw.githubusercontent.com/danielspk/TornadoHttp/master/LICENSE.md MIT License
  *
- * @version 3.1.0
+ * @version 3.1.1
  */
 class Resolver implements ResolverInterface
 {
