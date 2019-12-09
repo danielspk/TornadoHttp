@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace DMS\TornadoHttp\Resolver;
 
 use DMS\TornadoHttp\Exception\MiddlewareException;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use ReflectionClass;
 use ReflectionException;
@@ -19,7 +19,7 @@ use ReflectionException;
  *
  * @license https://raw.githubusercontent.com/danielspk/TornadoHttp/master/LICENSE.md MIT License
  *
- * @version 3.2.0
+ * @version 3.2.1
  */
 class Resolver implements ResolverInterface
 {
