@@ -1,4 +1,8 @@
-# Change Log
+# ChangeLog
+
+## [3.2.0](https://github.com/danielspk/TornadoHttp/releases/tag/v3.2.0) (2019-12-09)
+
+* *Core: change container-interop to psr/container*
 
 ## [3.1.1](https://github.com/danielspk/TornadoHttp/releases/tag/v3.1.1) (2019-05-09)
 

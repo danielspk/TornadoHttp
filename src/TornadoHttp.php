@@ -23,14 +23,14 @@ use SplQueue;
  *
  * @license https://raw.githubusercontent.com/danielspk/TornadoHttp/master/LICENSE.md MIT License
  *
- * @version 3.1.1
+ * @version 3.2.0
  */
 final class TornadoHttp implements RequestHandlerInterface
 {
     /**
      * Version.
      */
-    public const VERSION = '3.1.1';
+    public const VERSION = '3.2.0';
 
     /**
      * @var SplQueue Middleware queue
