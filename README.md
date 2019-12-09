@@ -84,8 +84,7 @@ Más adelante se explicará en detalle cada una de estas formas.
     );
 ```
 
-Nota: El contenedor de servicios a utilizar debe implementar la interface `Container Interop`. Puede obtener más
-información al respecto en el siguiente [link](https://github.com/container-interop/container-interop).
+Nota: El contenedor de servicios a utilizar debe respetar el estándar [PSR-11](https://www.php-fig.org/psr/psr-11/).
 
 #### Con un Resolver de Middleware personalizado
 

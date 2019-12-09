@@ -195,11 +195,10 @@ final class TornadoHttpTest extends TestCase
         $this->assertSame('value', $getContext['exampleB']);
     }
 
-    /**
-     * @expectedException \DMS\TornadoHttp\Exception\MiddlewareException
-     */
     public function testEmptyResponse(): void
     {
+        $this->expectException(\DMS\TornadoHttp\Exception\MiddlewareException::class);
+
         $tornadoHttp = new TornadoHttp();
 
         $request = ServerRequestFactory::fromGlobals();
@@ -695,11 +694,10 @@ final class TornadoHttpTest extends TestCase
         $this->assertInstanceOf('\Interop\Container\ContainerInterface', $middleware->getContainer());
     }
 
-    /**
-     * @expectedException \DMS\TornadoHttp\Exception\MiddlewareException
-     */
     public function testMiddlewareException(): void
     {
+        $this->expectException(\DMS\TornadoHttp\Exception\MiddlewareException::class);
+
         $tornadoHttp = new TornadoHttp();
 
         $tornadoHttp->resolveMiddleware('\Test\Classes\TestNotMiddlewareInterface');
