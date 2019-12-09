@@ -576,7 +576,7 @@ final class TornadoHttpTest extends TestCase
 
         $container = $tornadoHttp->getDI();
 
-        $this->assertInstanceOf('\Interop\Container\ContainerInterface', $container);
+        $this->assertInstanceOf('\Psr\Container\ContainerInterface', $container);
     }
 
     public function testSetEnvironment(): void
@@ -661,7 +661,7 @@ final class TornadoHttpTest extends TestCase
 
         $middleware = $tornadoHttp->resolveMiddleware('Test\Classes\TestTraitMiddleware');
 
-        $this->assertInstanceOf('\Interop\Container\ContainerInterface', $middleware->getContainer());
+        $this->assertInstanceOf('\Psr\Container\ContainerInterface', $middleware->getContainer());
     }
 
     public function testResolveChildContainerTrait(): void
@@ -671,7 +671,7 @@ final class TornadoHttpTest extends TestCase
 
         $middleware = $tornadoHttp->resolveMiddleware('Test\Classes\TestChildTraitMiddleware');
 
-        $this->assertInstanceOf('\Interop\Container\ContainerInterface', $middleware->getContainer());
+        $this->assertInstanceOf('\Psr\Container\ContainerInterface', $middleware->getContainer());
     }
 
     public function testResolveInjectContainerInterface(): void
@@ -681,7 +681,7 @@ final class TornadoHttpTest extends TestCase
 
         $middleware = $tornadoHttp->resolveMiddleware('Test\Classes\TestExtendsMiddlewareMiddleware');
 
-        $this->assertInstanceOf('\Interop\Container\ContainerInterface', $middleware->getContainer());
+        $this->assertInstanceOf('\Psr\Container\ContainerInterface', $middleware->getContainer());
     }
 
     public function testResolveChildInjectContainerInterface(): void
@@ -691,7 +691,7 @@ final class TornadoHttpTest extends TestCase
 
         $middleware = $tornadoHttp->resolveMiddleware('Test\Classes\TestChildExtendsMiddlewareMiddleware');
 
-        $this->assertInstanceOf('\Interop\Container\ContainerInterface', $middleware->getContainer());
+        $this->assertInstanceOf('\Psr\Container\ContainerInterface', $middleware->getContainer());
     }
 
     public function testMiddlewareException(): void

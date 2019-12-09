@@ -15,7 +15,7 @@ use Exception;
  *
  * @license https://raw.githubusercontent.com/danielspk/TornadoHttp/master/LICENSE.md MIT License
  *
- * @version 3.2.0
+ * @version 3.2.1
  */
 class MiddlewareException extends Exception
 {
