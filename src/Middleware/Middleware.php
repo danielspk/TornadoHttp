@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace DMS\TornadoHttp\Middleware;
 
 use DMS\TornadoHttp\Container\InjectContainerInterface;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -20,7 +20,7 @@ use Psr\Http\Server\RequestHandlerInterface;
  *
  * @license https://raw.githubusercontent.com/danielspk/TornadoHttp/master/LICENSE.md MIT License
  *
- * @version 3.2.0
+ * @version 3.2.1
  */
 abstract class Middleware implements MiddlewareInterface, InjectContainerInterface
 {

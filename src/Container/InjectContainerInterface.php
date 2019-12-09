@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace DMS\TornadoHttp\Container;
 
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 /**
  * Interface to register Service Container.
@@ -15,7 +15,7 @@ use Interop\Container\ContainerInterface;
  *
  * @license https://raw.githubusercontent.com/danielspk/TornadoHttp/master/LICENSE.md MIT License
  *
- * @version 3.2.0
+ * @version 3.2.1
  */
 interface InjectContainerInterface
 {

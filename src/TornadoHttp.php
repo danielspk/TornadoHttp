@@ -7,7 +7,7 @@ namespace DMS\TornadoHttp;
 use DMS\TornadoHttp\Exception\MiddlewareException;
 use DMS\TornadoHttp\Resolver\Resolver;
 use DMS\TornadoHttp\Resolver\ResolverInterface;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -23,14 +23,14 @@ use SplQueue;
  *
  * @license https://raw.githubusercontent.com/danielspk/TornadoHttp/master/LICENSE.md MIT License
  *
- * @version 3.2.0
+ * @version 3.2.1
  */
 final class TornadoHttp implements RequestHandlerInterface
 {
     /**
      * Version.
      */
-    public const VERSION = '3.2.0';
+    public const VERSION = '3.2.1';
 
     /**
      * @var SplQueue Middleware queue
