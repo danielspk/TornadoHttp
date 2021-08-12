@@ -4,36 +4,49 @@ declare(strict_types=1);
 
 namespace Test;
 
+use DMS\TornadoHttp\Container\InjectContainerInterface;
+use DMS\TornadoHttp\Exception\MiddlewareException;
 use DMS\TornadoHttp\TornadoHttp;
+use Laminas\Diactoros\Response;
+use Laminas\Diactoros\Response\EmptyResponse;
+use Laminas\Diactoros\Response\TextResponse;
+use Laminas\Diactoros\ServerRequestFactory;
+use Laminas\ServiceManager\ServiceManager;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Test\Resolver\CustomResolver;
-use Zend\Diactoros\Response;
-use Zend\Diactoros\Response\EmptyResponse;
-use Zend\Diactoros\Response\TextResponse;
-use Zend\Diactoros\ServerRequestFactory;
-use Zend\ServiceManager\ServiceManager;
+use Test\Classes\TestMiddleware;
+use Test\Classes\TestParamMiddleware;
+use Psr\Container\ContainerInterface;
+use Test\Classes\TestTraitMiddleware;
+use Test\Classes\TestChildTraitMiddleware;
+use Test\Classes\TestExtendsMiddlewareMiddleware;
+use Test\Classes\TestChildExtendsMiddlewareMiddleware;
+use Test\Classes\TestNotMiddlewareInterface;
+use Test\Classes\TestExtendsMiddlewareNotOverrideProcessMiddleware;
+use Test\Classes\TestStatus200Middleware;
 
 /**
  * Tests.
  *
  * @internal
+ * @coversNothing
  */
 final class TornadoHttpTest extends TestCase
 {
     public function testRequestHandlerInterfaceInstance(): void
     {
         $tornadoHttp = new TornadoHttp();
-        $this->assertInstanceOf('\Psr\Http\Server\RequestHandlerInterface', $tornadoHttp);
+        $this->assertInstanceOf(RequestHandlerInterface::class, $tornadoHttp);
     }
 
     public function testTornadoHttpInstance(): void
     {
         $tornadoHttp = new TornadoHttp();
-        $this->assertInstanceOf('\DMS\TornadoHttp\TornadoHttp', $tornadoHttp);
+        $this->assertInstanceOf(TornadoHttp::class, $tornadoHttp);
     }
 
     public function testEmptyConstruct(): void
@@ -48,7 +61,7 @@ final class TornadoHttpTest extends TestCase
         $tornadoHttp = new TornadoHttp();
         $tornadoHttp->add($middleware);
 
-        $this->assertInstanceOf('\DMS\TornadoHttp\TornadoHttp', $tornadoHttp);
+        $this->assertInstanceOf(TornadoHttp::class, $tornadoHttp);
     }
 
     public function testConstructMiddleware(): void
@@ -72,7 +85,7 @@ final class TornadoHttpTest extends TestCase
             ['middleware' => $middleware2],
         ]);
 
-        $this->assertInstanceOf('\DMS\TornadoHttp\TornadoHttp', $tornadoHttp);
+        $this->assertInstanceOf(TornadoHttp::class, $tornadoHttp);
     }
 
     public function testConstructMiddlewareExtend(): void
@@ -93,7 +106,7 @@ final class TornadoHttpTest extends TestCase
             ],
         ]);
 
-        $this->assertInstanceOf('\DMS\TornadoHttp\TornadoHttp', $tornadoHttp);
+        $this->assertInstanceOf(TornadoHttp::class, $tornadoHttp);
     }
 
     public function testConstructResponse(): void
@@ -112,7 +125,7 @@ final class TornadoHttpTest extends TestCase
             new EmptyResponse()
         );
 
-        $this->assertInstanceOf('\DMS\TornadoHttp\TornadoHttp', $tornadoHttp);
+        $this->assertInstanceOf(TornadoHttp::class, $tornadoHttp);
     }
 
     public function testConstructContainer(): void
@@ -132,7 +145,7 @@ final class TornadoHttpTest extends TestCase
             new ServiceManager()
         );
 
-        $this->assertInstanceOf('\DMS\TornadoHttp\TornadoHttp', $tornadoHttp);
+        $this->assertInstanceOf(TornadoHttp::class, $tornadoHttp);
     }
 
     public function testConstructorResolver(): void
@@ -153,7 +166,7 @@ final class TornadoHttpTest extends TestCase
             new CustomResolver()
         );
 
-        $this->assertInstanceOf('\DMS\TornadoHttp\TornadoHttp', $tornadoHttp);
+        $this->assertInstanceOf(TornadoHttp::class, $tornadoHttp);
     }
 
     public function testConstructorEnvironment(): void
@@ -175,7 +188,7 @@ final class TornadoHttpTest extends TestCase
             'development'
         );
 
-        $this->assertInstanceOf('\DMS\TornadoHttp\TornadoHttp', $tornadoHttp);
+        $this->assertInstanceOf(TornadoHttp::class, $tornadoHttp);
     }
 
     public function testHandlerContext(): void
@@ -197,13 +210,13 @@ final class TornadoHttpTest extends TestCase
 
     public function testEmptyResponse(): void
     {
-        $this->expectException(\DMS\TornadoHttp\Exception\MiddlewareException::class);
+        $this->expectException(MiddlewareException::class);
 
         $tornadoHttp = new TornadoHttp();
 
         $request = ServerRequestFactory::fromGlobals();
 
-        $response = $tornadoHttp->handle($request);
+        $tornadoHttp->handle($request);
     }
 
     public function testDefaultResponse(): void
@@ -486,7 +499,7 @@ final class TornadoHttpTest extends TestCase
 
         $response = $tornadoHttp->handle(ServerRequestFactory::fromGlobals());
 
-        $this->assertInstanceOf('\Psr\Http\Message\ResponseInterface', $response);
+        $this->assertInstanceOf(ResponseInterface::class, $response);
     }
 
     public function testResponseTextAndStatus(): void
@@ -518,8 +531,9 @@ final class TornadoHttpTest extends TestCase
         $middleware0 = (new class() implements MiddlewareInterface {
             public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
             {
+                /** @var TornadoHttp $handler */
                 $response = $handler->getResponse();
-                $response->getBody()->write('A');
+                $response?->getBody()->write('A');
 
                 return $handler->handle($request);
             }
@@ -528,8 +542,9 @@ final class TornadoHttpTest extends TestCase
         $middleware1 = (new class() implements MiddlewareInterface {
             public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
             {
+                /** @var TornadoHttp $handler */
                 $response = $handler->getResponse();
-                $response->getBody()->write('B');
+                $response?->getBody()->write('B');
 
                 return $handler->handle($request);
             }
@@ -551,8 +566,8 @@ final class TornadoHttpTest extends TestCase
     {
         $tornadoHttp = new TornadoHttp();
         $tornadoHttp->setResponse(new TextResponse(''));
-        $tornadoHttp->add('\Test\Classes\TestMiddleware');
-        $tornadoHttp->add('\Test\Classes\TestParamMiddleware');
+        $tornadoHttp->add(TestMiddleware::class);
+        $tornadoHttp->add(TestParamMiddleware::class);
 
         $middlewares = $tornadoHttp->getMiddlewareIndex();
 
@@ -566,7 +581,7 @@ final class TornadoHttpTest extends TestCase
 
         $response = $tornadoHttp->getResponse();
 
-        $this->assertInstanceOf('\Psr\Http\Message\ResponseInterface', $response);
+        $this->assertInstanceOf(ResponseInterface::class, $response);
     }
 
     public function testSetGetDI(): void
@@ -576,7 +591,7 @@ final class TornadoHttpTest extends TestCase
 
         $container = $tornadoHttp->getDI();
 
-        $this->assertInstanceOf('\Psr\Container\ContainerInterface', $container);
+        $this->assertInstanceOf(ContainerInterface::class, $container);
     }
 
     public function testSetEnvironment(): void
@@ -613,18 +628,18 @@ final class TornadoHttpTest extends TestCase
         $tornadoHttp = new TornadoHttp();
         $tornadoHttp->setResolver(new CustomResolver());
 
-        $middleware = $tornadoHttp->resolveMiddleware('Test\Classes\TestMiddleware');
+        $middleware = $tornadoHttp->resolveMiddleware(TestMiddleware::class);
 
-        $this->assertInstanceOf('\Test\Classes\TestMiddleware', $middleware);
+        $this->assertInstanceOf(TestMiddleware::class, $middleware);
     }
 
     public function testResolveString(): void
     {
         $tornadoHttp = new TornadoHttp();
 
-        $middleware = $tornadoHttp->resolveMiddleware('Test\Classes\TestMiddleware');
+        $middleware = $tornadoHttp->resolveMiddleware(TestMiddleware::class);
 
-        $this->assertInstanceOf('\Test\Classes\TestMiddleware', $middleware);
+        $this->assertInstanceOf(TestMiddleware::class, $middleware);
     }
 
     public function testResolveStringService(): void
@@ -634,7 +649,7 @@ final class TornadoHttpTest extends TestCase
             new ServiceManager(
                 [
                     'invokables' => [
-                        'TestMiddleware' => '\Test\Classes\TestMiddleware',
+                        'TestMiddleware' => TestMiddleware::class,
                     ],
                 ]
             )
@@ -642,16 +657,16 @@ final class TornadoHttpTest extends TestCase
 
         $middleware = $tornadoHttp->resolveMiddleware('TestMiddleware');
 
-        $this->assertInstanceOf('\Test\Classes\TestMiddleware', $middleware);
+        $this->assertInstanceOf(TestMiddleware::class, $middleware);
     }
 
     public function testResolveArray(): void
     {
         $tornadoHttp = new TornadoHttp();
 
-        $middleware = $tornadoHttp->resolveMiddleware(['Test\Classes\TestParamMiddleware', [1, 2]]);
+        $middleware = $tornadoHttp->resolveMiddleware([TestParamMiddleware::class, [1]]);
 
-        $this->assertInstanceOf('\Test\Classes\TestParamMiddleware', $middleware);
+        $this->assertInstanceOf(TestParamMiddleware::class, $middleware);
     }
 
     public function testResolveContainerTrait(): void
@@ -659,9 +674,10 @@ final class TornadoHttpTest extends TestCase
         $tornadoHttp = new TornadoHttp();
         $tornadoHttp->setDI(new ServiceManager());
 
-        $middleware = $tornadoHttp->resolveMiddleware('Test\Classes\TestTraitMiddleware');
+        /** @var InjectContainerInterface $middleware */
+        $middleware = $tornadoHttp->resolveMiddleware(TestTraitMiddleware::class);
 
-        $this->assertInstanceOf('\Psr\Container\ContainerInterface', $middleware->getContainer());
+        $this->assertInstanceOf(ContainerInterface::class, $middleware->getContainer());
     }
 
     public function testResolveChildContainerTrait(): void
@@ -669,9 +685,10 @@ final class TornadoHttpTest extends TestCase
         $tornadoHttp = new TornadoHttp();
         $tornadoHttp->setDI(new ServiceManager());
 
-        $middleware = $tornadoHttp->resolveMiddleware('Test\Classes\TestChildTraitMiddleware');
+        /** @var InjectContainerInterface $middleware */
+        $middleware = $tornadoHttp->resolveMiddleware(TestChildTraitMiddleware::class);
 
-        $this->assertInstanceOf('\Psr\Container\ContainerInterface', $middleware->getContainer());
+        $this->assertInstanceOf(ContainerInterface::class, $middleware->getContainer());
     }
 
     public function testResolveInjectContainerInterface(): void
@@ -679,9 +696,10 @@ final class TornadoHttpTest extends TestCase
         $tornadoHttp = new TornadoHttp();
         $tornadoHttp->setDI(new ServiceManager());
 
-        $middleware = $tornadoHttp->resolveMiddleware('Test\Classes\TestExtendsMiddlewareMiddleware');
+        /** @var InjectContainerInterface $middleware */
+        $middleware = $tornadoHttp->resolveMiddleware(TestExtendsMiddlewareMiddleware::class);
 
-        $this->assertInstanceOf('\Psr\Container\ContainerInterface', $middleware->getContainer());
+        $this->assertInstanceOf(ContainerInterface::class, $middleware->getContainer());
     }
 
     public function testResolveChildInjectContainerInterface(): void
@@ -689,32 +707,33 @@ final class TornadoHttpTest extends TestCase
         $tornadoHttp = new TornadoHttp();
         $tornadoHttp->setDI(new ServiceManager());
 
-        $middleware = $tornadoHttp->resolveMiddleware('Test\Classes\TestChildExtendsMiddlewareMiddleware');
+        /** @var InjectContainerInterface $middleware */
+        $middleware = $tornadoHttp->resolveMiddleware(TestChildExtendsMiddlewareMiddleware::class);
 
-        $this->assertInstanceOf('\Psr\Container\ContainerInterface', $middleware->getContainer());
+        $this->assertInstanceOf(ContainerInterface::class, $middleware->getContainer());
     }
 
     public function testMiddlewareException(): void
     {
-        $this->expectException(\DMS\TornadoHttp\Exception\MiddlewareException::class);
+        $this->expectException(MiddlewareException::class);
 
         $tornadoHttp = new TornadoHttp();
 
-        $tornadoHttp->resolveMiddleware('\Test\Classes\TestNotMiddlewareInterface');
+        $tornadoHttp->resolveMiddleware(TestNotMiddlewareInterface::class);
     }
 
     public function testAllTestMiddlewares(): void
     {
         $tornadoHttp = new TornadoHttp(
             [
-                ['middleware' => 'Test\Classes\TestChildExtendsMiddlewareMiddleware'],
-                ['middleware' => 'Test\Classes\TestChildTraitMiddleware'],
-                ['middleware' => 'Test\Classes\TestExtendsMiddlewareMiddleware'],
-                ['middleware' => 'Test\Classes\TestExtendsMiddlewareNotOverrideProcessMiddleware'],
-                ['middleware' => 'Test\Classes\TestMiddleware'],
-                ['middleware' => ['Test\Classes\TestParamMiddleware', [1, 2]]],
-                ['middleware' => 'Test\Classes\TestTraitMiddleware'],
-                ['middleware' => 'Test\Classes\TestStatus200Middleware'],
+                ['middleware' => TestChildExtendsMiddlewareMiddleware::class],
+                ['middleware' => TestChildTraitMiddleware::class],
+                ['middleware' => TestExtendsMiddlewareMiddleware::class],
+                ['middleware' => TestExtendsMiddlewareNotOverrideProcessMiddleware::class],
+                ['middleware' => TestMiddleware::class],
+                ['middleware' => [TestParamMiddleware::class, [1]]],
+                ['middleware' => TestTraitMiddleware::class],
+                ['middleware' => TestStatus200Middleware::class],
             ],
             new TextResponse('')
         );
@@ -722,6 +741,6 @@ final class TornadoHttpTest extends TestCase
         $response = $tornadoHttp->handle(ServerRequestFactory::fromGlobals());
 
         $this->assertSame(200, $response->getStatusCode());
-        $this->assertInstanceOf('\Psr\Http\Message\ResponseInterface', $response);
+        $this->assertInstanceOf(ResponseInterface::class, $response);
     }
 }

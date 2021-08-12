@@ -6,7 +6,7 @@ TORNADO HTTP
 [![Latest Stable Version](https://poser.pugx.org/danielspk/TornadoHttp/v/stable.svg)](https://packagist.org/packages/danielspk/TornadoHttp)
 [![Total Downloads](https://poser.pugx.org/danielspk/TornadoHttp/downloads.svg)](https://packagist.org/packages/danielspk/TornadoHttp)
 [![License](https://poser.pugx.org/danielspk/TornadoHttp/license.svg)](https://packagist.org/packages/danielspk/TornadoHttp)
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/3d14197b-406f-4a2d-acae-8372104870a0/mini.png)](https://insight.sensiolabs.com/projects/3d14197b-406f-4a2d-acae-8372104870a0)
+[![SensioLabsInsight](https://insight.symfony.com/projects/3d14197b-406f-4a2d-acae-8372104870a0/mini.png)](https://insight.symfony.com/projects/3d14197b-406f-4a2d-acae-8372104870a0)
 
 ![ScreenShot](http://daniel-spiridione.com.ar/images/proyectos/tornado-php.png)
 
@@ -14,17 +14,14 @@ TORNADO HTTP es un handler de middlewares [PSR-15](https://github.com/php-fig/fi
 
 ## Documentación:
 
-La siguiente documentación le enseñará el uso de Tornado Http. Si lo desea puede descargar una aplicación esqueleto de
-ejemplo que le mostrará como puede crear sus propios middlewares y utilizar paquetes de terceros como Doctrine y Twig:
-
-https://github.com/danielspk/TornadoHttpSkeletonApplication - *(DEPRECATED: Sólo para la versión 1.x de Tornado Http)*
+La siguiente documentación le enseñará el uso de Tornado Http.
 
 ### Instalación:
 
 Se recomienda instalar esta librería mediante el uso de Composer de la siguiente forma:
 
 ```
-    php composer.phar require danielspk/tornadohttp:~3.0
+    php composer.phar require danielspk/tornadohttp:~4.0
 ```
 
 Esto instalará Tornado HTTP y creará o actualizará el archivo `composer.json` con la siguiente dependencia:
@@ -32,7 +29,7 @@ Esto instalará Tornado HTTP y creará o actualizará el archivo `composer.json`
 ```
 {
     "require": {
-        "danielspk/tornadohttp": "~3.0"
+        "danielspk/tornadohttp": "~4.0"
     }
 }
 ```
@@ -56,7 +53,7 @@ Tornado Http puede construirse de varias formas:
             ['middleware' => $middlewareOne],
             ['middleware' => 'ServiceMiddlewareTwo'],
             ['middleware' => 'App\MiddlewareThree', 'path' => '/admin'],
-            ['middleware' => ['App\MiddlewareFour', [$paramOne, $paramTwo]]]
+            ['middleware' => ['App\MiddlewareFour', [$paramOne, $paramTwo]]],
         ]
     );
 ```
@@ -79,7 +76,7 @@ Más adelante se explicará en detalle cada una de estas formas.
 ```php
     $app = new DMS\TornadoHttp\TornadoHttp(
         [],
-        new DefaultResponse()
+        new DefaultResponse(),
         new Container()
     );
 ```
@@ -97,7 +94,7 @@ Nota: El contenedor de servicios a utilizar debe respetar el estándar [PSR-11](
 
     $app = new DMS\TornadoHttp\TornadoHttp(
         [],
-        new DefaultResponse()
+        new DefaultResponse(),
         new Container(),
         new $resolver()
     );
@@ -108,7 +105,7 @@ Nota: El contenedor de servicios a utilizar debe respetar el estándar [PSR-11](
 ```php
     $app = new DMS\TornadoHttp\TornadoHttp(
         [],
-        new DefaultResponse()
+        new DefaultResponse(),
         new Container(),
         null,
         'development'
@@ -186,13 +183,13 @@ Cada middleware puede ser registrado con los siguientes filtros de ejecución op
             [
                 'middleware' => (new MiddlewareTimeExecutionClass),
                 'path'       => '/admin',
-                'env'        => ['develop']
+                'env'        => ['develop'],
             ],
             [
                 'middleware' => (new MiddlewareLogClass),
-                'methods'    => ['POST', 'PUT']
-                'env'        => ['production', 'develop']
-            ]
+                'methods'    => ['POST', 'PUT'],
+                'env'        => ['production', 'develop'],
+            ],
         ]
     );
 ```
@@ -231,8 +228,8 @@ para registrar middlewares.
     class CustomResolver implements ResolverInterface {
         public function solve(string $middlewareClass) : MiddlewareInterface {
             return new $middlewareClass();
-        };
-    };
+        }
+    }
 
     $app = new DMS\TornadoHttp\TornadoHttp();
     $app->setResolver(new CustomResolver());
@@ -293,7 +290,7 @@ para registrar middlewares.
 | ------ | ------- |
 | solve(MiddlewareInterface&#124;string&#124;array) : MiddlewareInterface | Resuelve un middleware |
 
-## Inspiracion:
+## Inspiración:
 
 - [Relay](http://relayphp.com/)
 - [Zend Stratigility](https://github.com/zendframework/zend-stratigility)
@@ -304,4 +301,4 @@ El proyecto se distribuye bajo la licencia MIT.
 
 ## Sugerencias y colaboración:
 
-Daniel Spiridione - http://daniel-spiridione.com.ar
+Daniel Spiridione - <http://daniel-spiridione.com.ar>
