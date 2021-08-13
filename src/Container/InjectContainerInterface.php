@@ -8,14 +8,6 @@ use Psr\Container\ContainerInterface;
 
 /**
  * Interface to register Service Container.
- *
- * @author Daniel M. Spiridione <info@daniel-spiridione.com.ar>
- *
- * @see http://tornadohttp.com
- *
- * @license https://raw.githubusercontent.com/danielspk/TornadoHttp/master/LICENSE.md MIT License
- *
- * @version 3.2.1
  */
 interface InjectContainerInterface
 {
@@ -24,7 +16,7 @@ interface InjectContainerInterface
      *
      * @param ContainerInterface $container Service Container
      */
-    public function setContainer(ContainerInterface $container);
+    public function setContainer(ContainerInterface $container): self;
 
     /**
      * Get the Service Container.

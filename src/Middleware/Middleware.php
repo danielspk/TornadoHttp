@@ -13,21 +13,13 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 /**
  * Middleware abstract class.
- *
- * @author Daniel M. Spiridione <info@daniel-spiridione.com.ar>
- *
- * @see http://tornadohttp.com
- *
- * @license https://raw.githubusercontent.com/danielspk/TornadoHttp/master/LICENSE.md MIT License
- *
- * @version 3.2.1
  */
 abstract class Middleware implements MiddlewareInterface, InjectContainerInterface
 {
     /**
      * @var ContainerInterface Service Container
      */
-    protected $container;
+    protected ContainerInterface $container;
 
     /**
      * Set the Service Container.
@@ -58,8 +50,6 @@ abstract class Middleware implements MiddlewareInterface, InjectContainerInterfa
      *
      * @param ServerRequestInterface  $request Request
      * @param RequestHandlerInterface $handler Middleware handlers
-     *
-     * @return ResponseInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {

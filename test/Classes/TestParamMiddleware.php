@@ -11,8 +11,9 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class TestParamMiddleware implements MiddlewareInterface
 {
-    public function __construct($array)
-    {
+    public function __construct(
+        public int $number
+    ) {
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface

@@ -9,7 +9,7 @@ use Psr\Http\Server\MiddlewareInterface;
 
 class CustomResolver implements ResolverInterface
 {
-    public function solve($middleware): MiddlewareInterface
+    public function solve(mixed $middleware): MiddlewareInterface
     {
         return new $middleware();
     }
