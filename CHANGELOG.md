@@ -1,5 +1,13 @@
 # ChangeLog
 
+## [4.0.0](https://github.com/danielspk/TornadoHttp/releases/tag/v4.0.0) (2021-08-13)
+
+* *Core: PHP 8.0 version*
+* *Core: Remove TornadoHttp::VERSION constant*
+* *Core: Change PHPDoc*
+* *Core: Change README*
+* *Core: Change LICENSE*
+
 ## [3.2.1](https://github.com/danielspk/TornadoHttp/releases/tag/v3.2.1) (2019-12-09)
 
 * *Fix: change container-interop to psr/container*
@@ -18,7 +26,7 @@
 * *Core: editing PhpDocBlock*
 * *Core: yoda style*
 * *Core: slash in native functions*
-* *Core: strict in in_array functions*
+* *Core: strict in is_array functions*
 * *Core: use namespaces native class*
 
 ## [3.0.1](https://github.com/danielspk/TornadoHttp/releases/tag/v3.0.1) (2019-01-28)
@@ -95,7 +103,7 @@
 
 ## [1.3.6](https://github.com/danielspk/TornadoHttp/releases/tag/v1.3.6) (2016-06-03)
 
-* *Source: adds new website and license in dockblock*
+* *Source: adds new website and license in docblock*
 * *License: edit license text*
 
 ## [1.3.5](https://github.com/danielspk/TornadoHttp/releases/tag/v1.3.5) (2016-05-30)

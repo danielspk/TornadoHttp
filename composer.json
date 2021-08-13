@@ -2,37 +2,40 @@
     "name": "danielspk/tornadohttp",
     "description": "Middleware Container PSR-15",
     "type": "library",
+    "license": "MIT",
+    "homepage": "https://github.com/danielspk/TornadoHttp/",
     "keywords": [
         "tornado-http", "tornado", "http", "middleware", "container",
         "psr-15", "psr15", "rest", "php", "dms", "danielspk"
     ],
-    "homepage": "http://tornadohttp.com/",
-    "license": "MIT",
+    "config": {
+        "process-timeout": 0
+    },
     "authors": [
         {
             "name": "Daniel M. Spiridione",
-            "email": "info@daniel-spiridione.com.ar",
+            "email": "daniel.spiridione@gmail.com",
             "homepage": "http://daniel-spiridione.com.ar/",
             "role": "Lead Developer"
         }
     ],
     "support": {
-        "email": "info@daniel-spiridione.com.ar",
+        "email": "daniel.spiridione@gmail.com",
         "issues": "https://github.com/danielspk/TornadoHttp/issues",
-        "wiki": "http://tornado-php.com/documentacion/",
+        "wiki": "https://github.com/danielspk/TornadoHttp/wiki",
         "source": "https://github.com/danielspk/TornadoHttp"
     },
     "require": {
-        "php": ">=7.2.0",
-        "psr/container": "~1.0",
-        "psr/http-message": "~1.0",
+        "php": ">=8.0.0",
+        "psr/container": "^1.0",
+        "psr/http-message": "^1.0",
         "psr/http-server-handler": "^1.0",
         "psr/http-server-middleware": "^1.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "*",
-        "zendframework/zend-diactoros": "~2.0",
-        "zendframework/zend-servicemanager": "~3.0"
+        "laminas/laminas-diactoros": "^2.6",
+        "laminas/laminas-servicemanager": "^3.6",
+        "phpunit/phpunit": "^9.5"
     },
     "autoload": {
         "psr-4": {
@@ -43,5 +46,12 @@
         "psr-4": {
             "Test\\": "test/"
         }
+    },
+    "scripts": {
+        "docker-php-cli": "docker run --rm --interactive --tty -v $(pwd):/usr/src/tornadohttp php:8.0-cli bash",
+        "php-cs-fixer": "php php-cs-fixer-v3.phar fix --dry-run --diff",
+        "phpmd": "php phpmd.phar src text phpmd.xml",
+        "phpstan": "php phpstan.phar analyse src test --level 8",
+        "phpunit": "phpunit --colors=always"
     }
 }
