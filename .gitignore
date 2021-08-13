@@ -1,4 +1,9 @@
 vendor/
 
-.php_cs.cache
+.php-cs-fixer.cache
 .phpunit.result.cache
+
+composer.phar
+php-cs-fixer-v3.phar
+phpmd.phar
+phpstan.phar

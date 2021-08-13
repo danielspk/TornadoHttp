@@ -2,12 +2,15 @@
     "name": "danielspk/tornadohttp",
     "description": "Middleware Container PSR-15",
     "type": "library",
+    "license": "MIT",
+    "homepage": "https://github.com/danielspk/TornadoHttp/",
     "keywords": [
         "tornado-http", "tornado", "http", "middleware", "container",
         "psr-15", "psr15", "rest", "php", "dms", "danielspk"
     ],
-    "homepage": "https://github.com/danielspk/TornadoHttp/",
-    "license": "MIT",
+    "config": {
+        "process-timeout": 0
+    },
     "authors": [
         {
             "name": "Daniel M. Spiridione",
@@ -43,5 +46,12 @@
         "psr-4": {
             "Test\\": "test/"
         }
+    },
+    "scripts": {
+        "docker-php-cli": "docker run --rm --interactive --tty -v $(pwd):/usr/src/tornadohttp php:8.0-cli bash",
+        "php-cs-fixer": "php php-cs-fixer-v3.phar fix --dry-run --diff",
+        "phpmd": "php phpmd.phar src text phpmd.xml",
+        "phpstan": "php phpstan.phar analyse src test --level 8",
+        "phpunit": "phpunit --colors=always"
     }
 }

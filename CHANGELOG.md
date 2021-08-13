@@ -1,6 +1,6 @@
 # ChangeLog
 
-## [4.0.0](https://github.com/danielspk/TornadoHttp/releases/tag/v4.0.0) (2021-07-22)
+## [4.0.0](https://github.com/danielspk/TornadoHttp/releases/tag/v4.0.0) (2021-08-13)
 
 * *Core: PHP 8.0 version*
 * *Core: Remove TornadoHttp::VERSION constant*
