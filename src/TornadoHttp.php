@@ -7,6 +7,7 @@ namespace DMS\TornadoHttp;
 use DMS\TornadoHttp\Exception\MiddlewareException;
 use DMS\TornadoHttp\Resolver\Resolver;
 use DMS\TornadoHttp\Resolver\ResolverInterface;
+use Exception;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -56,7 +57,7 @@ final class TornadoHttp implements RequestHandlerInterface
      *
      * @param ServerRequestInterface $request Request
      *
-     * @throws MiddlewareException
+     * @throws Exception
      */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
