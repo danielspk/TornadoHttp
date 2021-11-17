@@ -1,5 +1,9 @@
 # ChangeLog
 
+## [4.0.1](https://github.com/danielspk/TornadoHttp/releases/tag/v4.0.1) (2021-11-17)
+
+* *Core: Edit PHPDoc in TornadoHttp::handle method*
+
 ## [4.0.0](https://github.com/danielspk/TornadoHttp/releases/tag/v4.0.0) (2021-08-13)
 
 * *Core: PHP 8.0 version*
